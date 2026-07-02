@@ -10,6 +10,7 @@ import { TopicsStep } from '@/pages/onboarding/TopicsStep';
 import { PromptsStep } from '@/pages/onboarding/PromptsStep';
 import { WritingSampleStep } from '@/pages/onboarding/WritingSampleStep';
 import { PaymentStep } from '@/pages/onboarding/PaymentStep';
+import { TrackStep } from '@/pages/onboarding/TrackStep';
 import { DashboardHome } from '@/pages/DashboardHome';
 import { VisibilityListPage } from '@/pages/visibility/VisibilityListPage';
 import { VisibilityDetailPage } from '@/pages/visibility/VisibilityDetailPage';
