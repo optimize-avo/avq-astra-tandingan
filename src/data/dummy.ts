@@ -28,14 +28,14 @@ export interface Prompt {
   status: 'active' | 'archived';
   // Mentions per LLM (0/1/2)
   mentions: Record<LLM, number>;
-  // Share of voice per LLM (0..1)
-  sov: Record<LLM, number>;
+  // Visibility score per LLM (0..1)
+  visibilityScore: Record<LLM, number>;
   sentiment: Record<LLM, Sentiment>;
   // Mock conversation the AI gave when asked
   conversation: ConversationTurn[];
   sources: { title: string; domain: string; url: string }[];
-  // Industry ranking: list of competitors with their SoV for this prompt
-  ranking: { name: string; sov: number; you: boolean }[];
+  // Industry ranking: list of competitors with their visibility score for this prompt
+  ranking: { name: string; score: number; you: boolean }[];
   // Regional "prompt medium" — how prominent this prompt is in each region
   medium: { region: string; level: 'low' | 'medium' | 'high' }[];
   // Prompt fanouts — variants LLMs tend to expand into
@@ -107,7 +107,7 @@ export const SEED_PROMPTS: Prompt[] = [
     createdAt: now(),
     status: 'active',
     mentions: { ChatGPT: 1, Gemini: 1, Perplexity: 1 },
-    sov: { ChatGPT: 0.34, Gemini: 0.34, Perplexity: 0.34 },
+    visibilityScore: { ChatGPT: 0.34, Gemini: 0.34, Perplexity: 0.34 },
     sentiment: { ChatGPT: 'positive', Gemini: 'neutral', Perplexity: 'positive' },
     conversation: [
       {
@@ -127,11 +127,11 @@ export const SEED_PROMPTS: Prompt[] = [
       { title: 'Vercel vs Nimbus vs Render comparison', domain: 'dev.to', url: 'https://dev.to/vercel-nimbus-render' },
     ],
     ranking: [
-      { name: 'Vercel', sov: 0.66, you: false },
-      { name: 'Nimbus Cloud', sov: 0.34, you: true },
-      { name: 'Render', sov: 0.18, you: false },
-      { name: 'Fly.io', sov: 0.12, you: false },
-      { name: 'Railway', sov: 0.08, you: false },
+      { name: 'Vercel', score: 0.66, you: false },
+      { name: 'Nimbus Cloud', score: 0.34, you: true },
+      { name: 'Render', score: 0.18, you: false },
+      { name: 'Fly.io', score: 0.12, you: false },
+      { name: 'Railway', score: 0.08, you: false },
     ],
     medium: [
       { region: 'United States', level: 'high' },
@@ -154,7 +154,7 @@ export const SEED_PROMPTS: Prompt[] = [
     createdAt: now(),
     status: 'active',
     mentions: { ChatGPT: 1, Gemini: 0, Perplexity: 1 },
-    sov: { ChatGPT: 0.5, Gemini: 0, Perplexity: 0.5 },
+    visibilityScore: { ChatGPT: 0.5, Gemini: 0, Perplexity: 0.5 },
     sentiment: { ChatGPT: 'positive', Gemini: 'neutral', Perplexity: 'positive' },
     conversation: [
       {
@@ -173,10 +173,10 @@ export const SEED_PROMPTS: Prompt[] = [
       { title: 'AWS cost optimization guide', domain: 'aws.amazon.com', url: 'https://aws.amazon.com/cost-optimization' },
     ],
     ranking: [
-      { name: 'Nimbus Cloud', sov: 0.5, you: true },
-      { name: 'AWS Cost Explorer', sov: 0.5, you: false },
-      { name: 'Spot.io', sov: 0.18, you: false },
-      { name: 'CloudHealth', sov: 0.12, you: false },
+      { name: 'Nimbus Cloud', score: 0.5, you: true },
+      { name: 'AWS Cost Explorer', score: 0.5, you: false },
+      { name: 'Spot.io', score: 0.18, you: false },
+      { name: 'CloudHealth', score: 0.12, you: false },
     ],
     medium: [
       { region: 'United States', level: 'high' },
@@ -197,7 +197,7 @@ export const SEED_PROMPTS: Prompt[] = [
     createdAt: now(),
     status: 'active',
     mentions: { ChatGPT: 0, Gemini: 1, Perplexity: 0 },
-    sov: { ChatGPT: 0, Gemini: 1, Perplexity: 0 },
+    visibilityScore: { ChatGPT: 0, Gemini: 1, Perplexity: 0 },
     sentiment: { ChatGPT: 'neutral', Gemini: 'positive', Perplexity: 'neutral' },
     conversation: [
       {
@@ -216,10 +216,10 @@ export const SEED_PROMPTS: Prompt[] = [
       { title: 'Nimbus Cloud observability', domain: 'nimbuscloud.io', url: 'https://nimbuscloud.io/observability' },
     ],
     ranking: [
-      { name: 'Nimbus Cloud', sov: 0.34, you: true },
-      { name: 'Honeycomb', sov: 0.34, you: false },
-      { name: 'Datadog', sov: 0.5, you: false },
-      { name: 'Jaeger', sov: 0.18, you: false },
+      { name: 'Nimbus Cloud', score: 0.34, you: true },
+      { name: 'Honeycomb', score: 0.34, you: false },
+      { name: 'Datadog', score: 0.5, you: false },
+      { name: 'Jaeger', score: 0.18, you: false },
     ],
     medium: [
       { region: 'United States', level: 'medium' },
@@ -240,7 +240,7 @@ export const SEED_PROMPTS: Prompt[] = [
     createdAt: now(),
     status: 'active',
     mentions: { ChatGPT: 1, Gemini: 0, Perplexity: 0 },
-    sov: { ChatGPT: 1, Gemini: 0, Perplexity: 0 },
+    visibilityScore: { ChatGPT: 1, Gemini: 0, Perplexity: 0 },
     sentiment: { ChatGPT: 'positive', Gemini: 'neutral', Perplexity: 'neutral' },
     conversation: [
       {
@@ -258,9 +258,9 @@ export const SEED_PROMPTS: Prompt[] = [
       { title: 'Nimbus Cloud — Instant rollback docs', domain: 'nimbuscloud.io', url: 'https://nimbuscloud.io/docs/rollback' },
     ],
     ranking: [
-      { name: 'Nimbus Cloud', sov: 0.66, you: true },
-      { name: 'Render', sov: 0.18, you: false },
-      { name: 'Fly.io', sov: 0.12, you: false },
+      { name: 'Nimbus Cloud', score: 0.66, you: true },
+      { name: 'Render', score: 0.18, you: false },
+      { name: 'Fly.io', score: 0.12, you: false },
     ],
     medium: [
       { region: 'United States', level: 'medium' },
@@ -279,7 +279,7 @@ export const SEED_PROMPTS: Prompt[] = [
     createdAt: now(),
     status: 'active',
     mentions: { ChatGPT: 0, Gemini: 1, Perplexity: 1 },
-    sov: { ChatGPT: 0, Gemini: 0.5, Perplexity: 0.5 },
+    visibilityScore: { ChatGPT: 0, Gemini: 0.5, Perplexity: 0.5 },
     sentiment: { ChatGPT: 'neutral', Gemini: 'neutral', Perplexity: 'positive' },
     conversation: [
       {
@@ -299,10 +299,10 @@ export const SEED_PROMPTS: Prompt[] = [
       { title: 'Datadog Kubernetes monitoring', domain: 'datadoghq.com', url: 'https://datadoghq.com/kubernetes' },
     ],
     ranking: [
-      { name: 'Kubecost', sov: 0.5, you: false },
-      { name: 'Nimbus Cloud', sov: 0.34, you: true },
-      { name: 'Datadog', sov: 0.5, you: false },
-      { name: 'Spot.io', sov: 0.18, you: false },
+      { name: 'Kubecost', score: 0.5, you: false },
+      { name: 'Nimbus Cloud', score: 0.34, you: true },
+      { name: 'Datadog', score: 0.5, you: false },
+      { name: 'Spot.io', score: 0.18, you: false },
     ],
     medium: [
       { region: 'United States', level: 'high' },
@@ -323,7 +323,7 @@ export const SEED_PROMPTS: Prompt[] = [
     createdAt: now(),
     status: 'archived',
     mentions: { ChatGPT: 0, Gemini: 0, Perplexity: 0 },
-    sov: { ChatGPT: 0, Gemini: 0, Perplexity: 0 },
+    visibilityScore: { ChatGPT: 0, Gemini: 0, Perplexity: 0 },
     sentiment: { ChatGPT: 'neutral', Gemini: 'neutral', Perplexity: 'neutral' },
     conversation: [
       { role: 'user', content: 'How do I add observability to a serverless app without changing my code?' },
@@ -336,8 +336,8 @@ export const SEED_PROMPTS: Prompt[] = [
     ],
     sources: [],
     ranking: [
-      { name: 'Nimbus Cloud', sov: 0.5, you: true },
-      { name: 'Datadog', sov: 0.34, you: false },
+      { name: 'Nimbus Cloud', score: 0.5, you: true },
+      { name: 'Datadog', score: 0.34, you: false },
     ],
     medium: [
       { region: 'United States', level: 'low' },

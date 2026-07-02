@@ -56,7 +56,7 @@ export function VisibilityListPage() {
 
   const [filterTopic, setFilterTopic] = useState<string>('all');
   const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'archived'>('active');
-  const [sort, setSort] = useState<'newest' | 'sov' | 'mentions'>('newest');
+  const [sort, setSort] = useState<'newest' | 'score' | 'mentions'>('newest');
   const [showAdd, setShowAdd] = useState(false);
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
   const [newFocusName, setNewFocusName] = useState('');
@@ -76,7 +76,7 @@ export function VisibilityListPage() {
   const sorted = useMemo(() => {
     const copy = [...filtered];
     if (sort === 'newest') copy.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
-    if (sort === 'sov') copy.sort((a, b) => (b.sov.ChatGPT + b.sov.Gemini + b.sov.Perplexity) - (a.sov.ChatGPT + a.sov.Gemini + a.sov.Perplexity));
+    if (sort === 'score') copy.sort((a, b) => (b.visibilityScore.ChatGPT + b.visibilityScore.Gemini + b.visibilityScore.Perplexity) - (a.visibilityScore.ChatGPT + a.visibilityScore.Gemini + a.visibilityScore.Perplexity));
     if (sort === 'mentions') copy.sort((a, b) => (b.mentions.ChatGPT + b.mentions.Gemini + b.mentions.Perplexity) - (a.mentions.ChatGPT + a.mentions.Gemini + a.mentions.Perplexity));
     return copy;
   }, [filtered, sort]);
@@ -102,8 +102,8 @@ export function VisibilityListPage() {
   const active = prompts.filter((p) => p.status === 'active').length;
   const archived = prompts.filter((p) => p.status === 'archived').length;
   const totalMentions = prompts.reduce((s, p) => s + p.mentions.ChatGPT + p.mentions.Gemini + p.mentions.Perplexity, 0);
-  const avgSov = prompts.length
-    ? Math.round((prompts.reduce((s, p) => s + (p.sov.ChatGPT + p.sov.Gemini + p.sov.Perplexity) / 3, 0) / prompts.length) * 100)
+  const avgScore = prompts.length
+    ? Math.round((prompts.reduce((s, p) => s + (p.visibilityScore.ChatGPT + p.visibilityScore.Gemini + p.visibilityScore.Perplexity) / 3, 0) / prompts.length) * 100)
     : 0;
 
   const focusItems = [
@@ -131,7 +131,7 @@ export function VisibilityListPage() {
               <span className="text-text-muted"> · </span>
               <span className="text-text-bright font-semibold">{totalMentions}</span> mentions
               <span className="text-text-muted"> · </span>
-              <span className="text-avo-teal font-semibold">{avgSov}%</span> avg SoV
+              <span className="text-avo-teal font-semibold">{avgScore}%</span> avg Visibility Score
               {archived > 0 && (
                 <>
                   <span className="text-text-muted"> · </span>
@@ -340,14 +340,14 @@ export function VisibilityListPage() {
             <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-navy-elevated/50 hover:bg-navy-elevated border border-navy-edge text-xs">
               <ArrowUpDown className="w-3 h-3 text-text-muted" />
               <span className="text-text-bright font-display font-semibold">
-                {sort === 'newest' ? 'Newest' : sort === 'sov' ? 'Highest SoV' : 'Most mentions'}
+                {sort === 'newest' ? 'Newest' : sort === 'score' ? 'Highest score' : 'Most mentions'}
               </span>
               <ChevronDown className="w-3 h-3 text-text-muted" />
             </div>
           }
           items={[
             { id: 'newest', label: 'Newest' },
-            { id: 'sov', label: 'Highest SoV' },
+            { id: 'score', label: 'Highest score' },
             { id: 'mentions', label: 'Most mentions' },
           ]}
         />
@@ -420,7 +420,7 @@ export function VisibilityListPage() {
                 {!isCollapsed && (
                   <div className="border-t border-navy-edge/40">
                     {items.map((p, i) => {
-                      const avgS = Math.round(((p.sov.ChatGPT + p.sov.Gemini + p.sov.Perplexity) / 3) * 100);
+                      const avgS = Math.round(((p.visibilityScore.ChatGPT + p.visibilityScore.Gemini + p.visibilityScore.Perplexity) / 3) * 100);
                       const totalM = p.mentions.ChatGPT + p.mentions.Gemini + p.mentions.Perplexity;
                       return (
                         <Link
@@ -456,7 +456,7 @@ export function VisibilityListPage() {
                             {p.text}
                           </span>
 
-                          {/* SoV bar + % — compact */}
+                          {/* Visibility Score bar + % — compact */}
                           <div className="hidden sm:flex items-center gap-2 w-40 shrink-0">
                             <div className="flex-1 h-1 rounded-full bg-navy-deep overflow-hidden">
                               <div

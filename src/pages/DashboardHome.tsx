@@ -8,14 +8,14 @@ export function DashboardHome() {
   const prompts = useApp((s) => s.prompts);
   const company = useApp((s) => s.company);
   const totalMentions = prompts.reduce((s, p) => s + p.mentions.ChatGPT + p.mentions.Gemini + p.mentions.Perplexity, 0);
-  const avgSov = prompts.length
-    ? Math.round((prompts.reduce((s, p) => s + (p.sov.ChatGPT + p.sov.Gemini + p.sov.Perplexity) / 3, 0) / prompts.length) * 100)
+  const avgScore = prompts.length
+    ? Math.round((prompts.reduce((s, p) => s + (p.visibilityScore.ChatGPT + p.visibilityScore.Gemini + p.visibilityScore.Perplexity) / 3, 0) / prompts.length) * 100)
     : 0;
 
   // Dummy trend
   const trend = Array.from({ length: 14 }).map((_, i) => ({
     d: `D${i + 1}`,
-    sov: Math.round((0.18 + Math.sin(i / 2) * 0.08 + (i / 30)) * 100) / 100,
+    score: Math.round((0.18 + Math.sin(i / 2) * 0.08 + (i / 30)) * 100) / 100,
     mentions: 8 + Math.round(Math.cos(i / 3) * 4 + i / 2),
   }));
 
@@ -29,8 +29,8 @@ export function DashboardHome() {
 
       <div className="grid grid-cols-4 gap-3 mb-6">
         <Card>
-          <div className="mono-label">Overall SoV</div>
-          <div className="font-display font-bold text-3xl text-avo-teal mt-1">{avgSov}%</div>
+          <div className="mono-label">Overall Visibility Score</div>
+          <div className="font-display font-bold text-3xl text-avo-teal mt-1">{avgScore}%</div>
           <div className="text-[10px] text-status-success mt-1 font-mono">+4.2% vs last week</div>
         </Card>
         <Card>
@@ -54,7 +54,7 @@ export function DashboardHome() {
         <Card elevated>
           <div className="flex items-center justify-between mb-3">
             <div>
-              <div className="mono-label">Share of voice · last 14 days</div>
+              <div className="mono-label">Visibility score · last 14 days</div>
               <div className="text-xs text-text-muted">Average across all 3 LLMs</div>
             </div>
           </div>
@@ -67,7 +67,7 @@ export function DashboardHome() {
                   contentStyle={{ background: '#0C182C', border: '1px solid #334766', borderRadius: 8, fontSize: 11 }}
                   formatter={(v: any) => `${Math.round((v as number) * 100)}%`}
                 />
-                <Line type="monotone" dataKey="sov" stroke="#00C2B8" strokeWidth={2.5} dot={false} />
+                <Line type="monotone" dataKey="score" stroke="#00C2B8" strokeWidth={2.5} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -85,7 +85,7 @@ export function DashboardHome() {
               .filter((p) => p.status === 'active')
               .slice(0, 4)
               .map((p) => {
-                const sov = Math.round(((p.sov.ChatGPT + p.sov.Gemini + p.sov.Perplexity) / 3) * 100);
+                const score = Math.round(((p.visibilityScore.ChatGPT + p.visibilityScore.Gemini + p.visibilityScore.Perplexity) / 3) * 100);
                 return (
                   <Link
                     key={p.id}
@@ -94,7 +94,7 @@ export function DashboardHome() {
                   >
                     <Eye className="w-3.5 h-3.5 text-text-muted shrink-0" />
                     <span className="text-xs text-text-bright truncate flex-1 group-hover:text-avo-teal">{p.text}</span>
-                    <span className="font-display font-bold text-sm text-avo-teal">{sov}%</span>
+                    <span className="font-display font-bold text-sm text-avo-teal">{score}%</span>
                   </Link>
                 );
               })}

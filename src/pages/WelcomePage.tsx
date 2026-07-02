@@ -79,11 +79,11 @@ export function WelcomePage() {
                 <div className="pill bg-avo-teal/15 text-avo-teal border border-avo-teal/30">Last 7 days</div>
               </div>
               {[
-                { name: 'Your brand', sov: 0.34, you: true },
-                { name: 'Competitor A', sov: 0.26, you: false },
-                { name: 'Competitor B', sov: 0.18, you: false },
-                { name: 'Competitor C', sov: 0.12, you: false },
-                { name: 'Others', sov: 0.10, you: false },
+                { name: 'Your brand', score: 0.34, you: true },
+                { name: 'Competitor A', score: 0.26, you: false },
+                { name: 'Competitor B', score: 0.18, you: false },
+                { name: 'Competitor C', score: 0.12, you: false },
+                { name: 'Others', score: 0.10, you: false },
               ].map((r) => (
                 <div key={r.name} className="flex items-center gap-3">
                   <div className={`w-2 h-2 rounded-full ${r.you ? 'bg-avo-teal' : 'bg-text-muted'}`} />
@@ -91,11 +91,11 @@ export function WelcomePage() {
                   <div className="flex-1 h-2 rounded-full bg-navy-deep overflow-hidden">
                     <div
                       className={`h-full rounded-full ${r.you ? 'bg-gradient-to-r from-avo-teal to-pillar-manifest' : 'bg-navy-edge'}`}
-                      style={{ width: `${r.sov * 100}%` }}
+                      style={{ width: `${r.score * 100}%` }}
                     />
                   </div>
                   <div className={`text-xs font-mono w-12 text-right ${r.you ? 'text-avo-teal font-semibold' : 'text-text-muted'}`}>
-                    {Math.round(r.sov * 100)}%
+                    {Math.round(r.score * 100)}%
                   </div>
                 </div>
               ))}

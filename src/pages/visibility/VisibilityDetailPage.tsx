@@ -2,8 +2,8 @@ import { Link, useParams } from 'react-router-dom';
 import { useApp } from '@/store/app';
 import { PageHeader, Card, Pill } from '@/components/ui';
 import { LLMS, LLM } from '@/data/dummy';
-import { ArrowLeft, MessageSquare, FileText, Globe, Archive, ArchiveRestore, Sparkles, ExternalLink, X, Target } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
+import { ArrowLeft, MessageSquare, FileText, Globe, Archive, ArchiveRestore, Sparkles, ExternalLink, X, Target, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { LLMIcon } from '@/components/llm-icons';
@@ -19,6 +19,47 @@ const LLM_COLOR: Record<LLM, string> = {
   Gemini: '#F8B400',
   Perplexity: '#FF6A5E',
 };
+
+function VisibilityGauge({ value, size = 140 }: { value: number; size?: number }) {
+  const radius = size / 2 - 12;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (value / 100) * circumference;
+  const color = value >= 70 ? '#00C2B8' : value >= 40 ? '#F8B400' : '#FF6A5E';
+  return (
+    <div className="relative" style={{ width: size, height: size }}>
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="transform -rotate-90">
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke="#1F2D44"
+          strokeWidth="10"
+          fill="none"
+        />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke={color}
+          strokeWidth="10"
+          fill="none"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+          style={{ transition: 'stroke-dashoffset 600ms ease' }}
+        />
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="text-center">
+          <div className="font-display font-bold text-3xl text-text-bright leading-none tabular-nums">
+            {value}
+          </div>
+          <div className="text-[10px] font-mono text-text-muted mt-0.5">out of 100</div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function VisibilityDetailPage() {
   const { id } = useParams();
@@ -37,13 +78,16 @@ export function VisibilityDetailPage() {
     );
   }
 
-  const avgSov = Math.round(((prompt.sov.ChatGPT + prompt.sov.Gemini + prompt.sov.Perplexity) / 3) * 100);
-  const mentionedCompetitors = prompt.ranking.filter((r) => !r.you && r.sov > 0).map((r) => r.name);
+  const avgScore = Math.round(((prompt.visibilityScore.ChatGPT + prompt.visibilityScore.Gemini + prompt.visibilityScore.Perplexity) / 3) * 100);
+  const mentionedCompetitors = prompt.ranking.filter((r) => !r.you && r.score > 0).map((r) => r.name);
   const sentimentCounts = ['positive', 'neutral', 'negative'].map((s) => ({
     name: s,
     value: LLMS.filter((l) => prompt.sentiment[l] === s).length,
   }));
   const topic = topics.find((t) => t.id === prompt.topicId);
+
+  // Mocked score delta vs last week
+  const scoreDelta = +12;
 
   return (
     <div className="px-8 py-8 max-w-6xl mx-auto">
@@ -51,11 +95,12 @@ export function VisibilityDetailPage() {
         <ArrowLeft className="w-3 h-3" /> All prompts
       </Link>
 
-      {/* Hero */}
-      <Card elevated className="mb-6">
-        <div className="flex items-start justify-between gap-4">
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2 mb-2">
+      {/* Hero — prominent Visibility Score */}
+      <Card elevated className="mb-6 overflow-hidden">
+        <div className="flex items-stretch gap-6">
+          {/* Left: prompt context */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-3">
               {topic && (
                 <Pill tone="teal">
                   <Target className="w-3 h-3" /> {topic.name}
@@ -63,38 +108,52 @@ export function VisibilityDetailPage() {
               )}
               <Pill tone={prompt.status === 'active' ? 'success' : 'muted'}>{prompt.status}</Pill>
             </div>
-            <h1 className="font-display font-bold text-xl text-text-bright leading-snug">
+            <h1 className="font-display font-bold text-2xl text-text-bright leading-snug mb-4">
               "{prompt.text}"
             </h1>
-            <div className="flex items-center gap-3 mt-4 flex-wrap">
-              {LLMS.map((l) => (
-                <div
-                  key={l}
-                  className={clsx(
-                    'flex items-center gap-2 px-2.5 py-1.5 rounded-md border',
-                    prompt.mentions[l] > 0
-                      ? l === 'ChatGPT'
-                        ? 'bg-avo-teal/10 border-avo-teal/30 text-avo-teal'
-                        : l === 'Gemini'
-                          ? 'bg-gold-base/10 border-gold-base/30 text-gold-base'
-                          : 'bg-vs-rose/10 border-vs-rose/30 text-vs-rose'
-                      : 'bg-navy-deep border-navy-edge text-text-disabled'
-                  )}
-                >
-                  <LLMIcon llm={l} size={14} />
-                  <span className="text-xs font-display font-semibold">{l}</span>
-                  <span className="text-xs font-mono opacity-80">· {prompt.mentions[l]}</span>
-                </div>
-              ))}
+
+            {/* LLM presence */}
+            <div className="flex items-center gap-2 flex-wrap">
+              {LLMS.map((l) => {
+                const sc = Math.round(prompt.visibilityScore[l] * 100);
+                return (
+                  <div
+                    key={l}
+                    className={clsx(
+                      'flex items-center gap-1.5 px-2 py-1 rounded-md border text-xs',
+                      prompt.mentions[l] > 0
+                        ? l === 'ChatGPT'
+                          ? 'bg-avo-teal/10 border-avo-teal/30 text-avo-teal'
+                          : l === 'Gemini'
+                            ? 'bg-gold-base/10 border-gold-base/30 text-gold-base'
+                            : 'bg-vs-rose/10 border-vs-rose/30 text-vs-rose'
+                        : 'bg-navy-deep border-navy-edge text-text-disabled'
+                    )}
+                  >
+                    <LLMIcon llm={l} size={12} />
+                    <span className="font-display font-semibold">{l}</span>
+                    <span className="font-mono opacity-80">{sc}%</span>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
-          <div className="text-right shrink-0">
-            <div className="mono-label">Share of voice</div>
-            <div className="font-display font-bold text-5xl text-avo-teal leading-none mt-1">
-              {avgSov}<span className="text-2xl text-text-muted">%</span>
+          {/* Right: circular gauge + score */}
+          <div className="shrink-0 flex flex-col items-center justify-center pl-6 border-l border-navy-edge/50" style={{ minWidth: 220 }}>
+            <div className="mono-label mb-2">Visibility Score</div>
+            <VisibilityGauge value={avgScore} />
+            <div className="flex items-center gap-1.5 mt-2 text-xs">
+              {scoreDelta > 0 ? (
+                <Pill tone="success"><TrendingUp className="w-3 h-3" /> +{scoreDelta}%</Pill>
+              ) : scoreDelta < 0 ? (
+                <Pill tone="rose"><TrendingDown className="w-3 h-3" /> {scoreDelta}%</Pill>
+              ) : (
+                <Pill tone="muted"><Minus className="w-3 h-3" /> 0%</Pill>
+              )}
+              <span className="text-text-muted">vs last week</span>
             </div>
-            <div className="text-[11px] text-text-muted mt-1">across {LLMS.length} LLMs</div>
+            <div className="text-[10px] text-text-muted mt-1.5">across {LLMS.length} LLMs</div>
           </div>
         </div>
 
@@ -122,7 +181,7 @@ export function VisibilityDetailPage() {
             </div>
             <div className="grid sm:grid-cols-3 gap-3">
               {LLMS.map((l) => {
-                const sov = Math.round(prompt.sov[l] * 100);
+                const score = Math.round(prompt.visibilityScore[l] * 100);
                 return (
                   <div key={l} className="rounded-lg border border-navy-edge bg-navy-deep/40 p-3">
                     <div className="flex items-center justify-between mb-2">
@@ -135,7 +194,7 @@ export function VisibilityDetailPage() {
                       </Pill>
                     </div>
                     <div className="font-display font-bold text-2xl text-text-bright">
-                      {sov}<span className="text-sm text-text-muted">%</span>
+                      {score}<span className="text-sm text-text-muted">%</span>
                     </div>
                     <div className="text-[10px] text-text-muted mt-0.5">
                       {prompt.mentions[l]} mention{prompt.mentions[l] === 1 ? '' : 's'}
@@ -143,7 +202,7 @@ export function VisibilityDetailPage() {
                     <div className="h-1 rounded-full bg-navy-deep overflow-hidden mt-2">
                       <div
                         className="h-full rounded-full"
-                        style={{ width: `${sov}%`, background: LLM_COLOR[l] }}
+                        style={{ width: `${score}%`, background: LLM_COLOR[l] }}
                       />
                     </div>
                   </div>
@@ -160,10 +219,10 @@ export function VisibilityDetailPage() {
             </div>
             <div className="divide-y divide-navy-edge/40">
               {[...prompt.ranking]
-                .sort((a, b) => b.sov - a.sov)
+                .sort((a, b) => b.score - a.score)
                 .map((r, idx) => {
                   const rank = idx + 1;
-                  const pct = Math.round(r.sov * 100);
+                  const pct = Math.round(r.score * 100);
                   return (
                     <div
                       key={r.name}
@@ -292,7 +351,6 @@ export function VisibilityDetailPage() {
                       <Cell key={s.name} fill={SENTIMENT_COLOR[s.name]} />
                     ))}
                   </Pie>
-                  <Tooltip contentStyle={{ background: '#0C182C', border: '1px solid #334766', borderRadius: 8, fontSize: 11 }} />
                 </PieChart>
               </ResponsiveContainer>
             </div>
