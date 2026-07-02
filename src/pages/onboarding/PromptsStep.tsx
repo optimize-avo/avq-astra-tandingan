@@ -136,13 +136,7 @@ export function PromptsStep() {
               return { tid, text: rest.join('::') };
             });
 
-            // Wipe existing prompts that came from seed if they share text with new picks (avoid duplicates)
-            const existingTexts = new Set(toAdd.map((a) => a.text));
-            toAdd.forEach(({ tid, text }) => {
-              if (!prompts.some((p) => p.text === text)) {
-                addPrompt(text, tid);
-              }
-            });
+            toAdd.forEach(({ tid, text }) => addPrompt(text, tid));
             nav('/onboarding/writing-sample');
           }}
           className="btn btn-primary"
