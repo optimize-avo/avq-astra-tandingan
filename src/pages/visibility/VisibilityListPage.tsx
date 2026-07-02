@@ -597,7 +597,7 @@ function NewFocusPopover({
       align="left"
       width={360}
       trigger={
-        <button className="flex items-center gap-1 px-2 py-1 rounded-md text-xs text-text-muted hover:text-avo-teal hover:bg-avo-teal/8 transition-colors">
+        <button data-new-focus-btn className="flex items-center gap-1 px-2 py-1 rounded-md text-xs text-text-muted hover:text-avo-teal hover:bg-avo-teal/8 transition-colors">
           <Plus className="w-3 h-3" /> new focus
         </button>
       }
