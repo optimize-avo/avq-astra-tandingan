@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import { X, Sparkles, Pencil } from 'lucide-react';
+import { X, Sparkles, Pencil, Plus } from 'lucide-react';
 import clsx from 'clsx';
 
 export interface SuggestionItem {
