@@ -120,7 +120,6 @@ export function VisibilityListPage() {
 
   const active = prompts.filter((p) => p.status === 'active').length;
   const archived = prompts.filter((p) => p.status === 'archived').length;
-  const totalMentions = prompts.reduce((s, p) => s + p.mentions.ChatGPT + p.mentions.Gemini + p.mentions.Perplexity, 0);
   const avgScore = prompts.length
     ? Math.round((prompts.reduce((s, p) => s + (p.visibilityScore.ChatGPT + p.visibilityScore.Gemini + p.visibilityScore.Perplexity) / 3, 0) / prompts.length) * 100)
     : 0;
