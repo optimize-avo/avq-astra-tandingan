@@ -90,13 +90,10 @@ export function PaymentStep() {
       <div className="flex justify-between pt-4">
         <button onClick={() => nav('/onboarding/writing-sample')} className="btn btn-ghost">← Back</button>
         <button
-          onClick={() => {
-            complete();
-            nav('/dashboard/visibility');
-          }}
+          onClick={() => nav('/onboarding/track')}
           className="btn btn-primary"
         >
-          Enter dashboard <ArrowRight className="w-4 h-4" />
+          Continue <ArrowRight className="w-4 h-4" />
         </button>
       </div>
     </div>
