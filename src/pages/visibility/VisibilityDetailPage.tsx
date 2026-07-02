@@ -388,6 +388,54 @@ export function VisibilityDetailPage() {
             </div>
           </Card>
 
+          {/* Sources inline */}
+          <Card>
+            <div className="flex items-center justify-between mb-3">
+              <div className="mono-label">Web sources cited</div>
+              <div className="text-[11px] text-text-muted">{prompt.sources.length} source{prompt.sources.length === 1 ? '' : 's'}</div>
+            </div>
+            {prompt.sources.length === 0 ? (
+              <p className="text-sm text-text-muted">No sources cited yet.</p>
+            ) : (
+              <div className="space-y-2">
+                {prompt.sources.map((s, i) => (
+                  <a
+                    key={i}
+                    href={s.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-3 p-3 rounded-lg bg-navy-deep/40 border border-navy-edge hover:border-avo-teal/40 transition-colors group"
+                  >
+                    <div className="w-9 h-9 rounded-md bg-navy-elevated flex items-center justify-center shrink-0">
+                      <FileText className="w-4 h-4 text-avo-teal" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm text-text-bright group-hover:text-avo-teal truncate">{s.title}</div>
+                      <div className="text-xs text-text-muted font-mono">{s.domain}</div>
+                    </div>
+                    <ExternalLink className="w-4 h-4 text-text-muted group-hover:text-avo-teal shrink-0" />
+                  </a>
+                ))}
+              </div>
+            )}
+          </Card>
+
+          {/* Fanouts inline */}
+          <Card>
+            <div className="flex items-center justify-between mb-3">
+              <div className="mono-label">Prompt idea</div>
+              <div className="text-[11px] text-text-muted">Ideas you can expand into</div>
+            </div>
+            <div className="space-y-2">
+              {prompt.fanouts.map((f, i) => (
+                <div key={i} className="flex items-center gap-3 p-3 rounded-lg bg-navy-deep/40 border border-navy-edge">
+                  <Sparkles className="w-4 h-4 text-pillar-manifest shrink-0" />
+                  <span className="text-sm text-text-bright flex-1">{f}</span>
+                  <Pill tone="muted">+ Track</Pill>
+                </div>
+              ))}
+            </div>
+          </Card>
         </div>
       </div>
 
