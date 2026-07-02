@@ -213,9 +213,6 @@ export function VisibilityListPage() {
               <LayersIcon className="w-3 h-3" /> By focus
             </button>
           </div>
-          <span className="text-[10px] text-text-muted font-mono">
-            {filtered.length}/{prompts.length}
-          </span>
         </div>
 
         <div className="ml-auto flex items-center gap-2">
