@@ -33,6 +33,7 @@ export default function App() {
         <Route path="prompts" element={<PromptsStep />} />
         <Route path="writing-sample" element={<WritingSampleStep />} />
         <Route path="payment" element={<PaymentStep />} />
+        <Route path="track" element={<TrackStep />} />
       </Route>
 
       <Route path="/dashboard" element={<AppShell />}>
