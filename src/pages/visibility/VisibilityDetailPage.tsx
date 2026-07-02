@@ -410,7 +410,6 @@ export function VisibilityDetailPage() {
             </div>
           </Card>
 
-          {/* Mentioned competitors */}
         </div>
       </div>
 
