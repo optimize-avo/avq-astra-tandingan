@@ -2,10 +2,10 @@ import { Link, useParams } from 'react-router-dom';
 import { useApp } from '@/store/app';
 import { PageHeader, Card, Pill } from '@/components/ui';
 import { LLMS, LLM } from '@/data/dummy';
-import { ArrowLeft, MessageSquare, FileText, Globe, Archive, ArchiveRestore, Sparkles, ExternalLink, X, Target, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { ArrowLeft, MessageSquare, FileText, Archive, ArchiveRestore, Sparkles, ExternalLink, X, Target, TrendingUp, TrendingDown, Minus, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { LLMIcon } from '@/components/llm-icons';
 
 const SENTIMENT_COLOR: Record<string, string> = {
