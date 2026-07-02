@@ -3,7 +3,7 @@ import { useApp } from '@/store/app';
 import { PageHeader, Card, Pill } from '@/components/ui';
 import { LLMS, LLM } from '@/data/dummy';
 import { ArrowLeft, MessageSquare, FileText, Archive, ArchiveRestore, Sparkles, ExternalLink, X, Target, TrendingUp, TrendingDown, Minus, Plus, ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
-import { Popover } from '@/components/ui';
+import { Popover } from '@/components/Popover';
 import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import clsx from 'clsx';
 import { useState, useEffect, useMemo } from 'react';
