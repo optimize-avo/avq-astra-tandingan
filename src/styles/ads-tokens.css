@@ -1,0 +1,70 @@
+/* ═══════════════════════════════════════════════════════════
+   ADS v3 — Avonetiq Design System Tokens (port from astra)
+   Canonical source: avq-astra/src/styles/ads-tokens.css
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  /* Surface — Navy Stack */
+  --ads-navy-base: #0C182C;
+  --ads-navy-deep: #111d32;
+  --ads-navy-light: #152238;
+  --ads-navy-surface: #1a2a42;
+  --ads-navy-elevated: #213352;
+  --ads-navy-edge: #334766;
+
+  /* Avo Teal */
+  --ads-avo-glow: rgba(0, 194, 184, 0.15);
+  --ads-avo-subdued: #00897B;
+  --ads-avo-teal: #00C2B8;
+  --ads-avo-hover: #2dd4bf;
+  --ads-avo-edge: #004D49;
+
+  /* Gold */
+  --ads-gold-deep: rgba(248, 180, 0, 0.15);
+  --ads-gold-ochre: #B8860B;
+  --ads-gold-base: #F8B400;
+  --ads-gold-hover: #FFCA28;
+  --ads-gold-edge: #7A5200;
+
+  /* Pillars */
+  --ads-pillar-optimize: #00C2B8;
+  --ads-pillar-manifest: #7000FF;
+  --ads-pillar-generative: #F8B400;
+
+  /* Status */
+  --ads-status-error: #E3170A;
+  --ads-status-success: #059669;
+  --ads-status-warning: #D97706;
+
+  /* VS band */
+  --ads-vs-rose: #FF6A5E;
+
+  /* Text */
+  --ads-text-bright: #E2E8F0;
+  --ads-text-primary: #CBD5E1;
+  --ads-text-secondary: #94A3B8;
+  --ads-text-muted: #64748b;
+  --ads-text-disabled: #475569;
+
+  /* Gradients */
+  --ads-grad-violet-600: #7c3aed;
+  --ads-grad-violet-500: #8b5cf6;
+  --ads-grad-purple-500: #a855f7;
+
+  /* Scores */
+  --ads-score-high: #00C2B8;
+  --ads-score-mid: #F8B400;
+  --ads-score-low: #E3170A;
+
+  /* Typography */
+  --ads-font-display: 'Space Grotesk', system-ui, sans-serif;
+  --ads-font-body: 'Manrope', system-ui, sans-serif;
+  --ads-font-mono: 'DM Mono', monospace;
+
+  /* Radius */
+  --ads-r-sm: 6px;
+  --ads-r-md: 8px;
+  --ads-r-lg: 12px;
+  --ads-r-xl: 16px;
+  --ads-r-pill: 9999px;
+}
