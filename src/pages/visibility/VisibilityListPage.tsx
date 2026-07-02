@@ -74,6 +74,16 @@ export function VisibilityListPage() {
   const [pickedFocuses, setPickedFocuses] = useState<Set<string>>(new Set());
   const [generatingFocus, setGeneratingFocus] = useState(false);
 
+  // Listen for "add new focus" trigger from AddModal
+  useEffect(() => {
+    const handler = () => {
+      const btn = document.querySelector('[data-new-focus-btn]') as HTMLButtonElement;
+      btn?.click();
+    };
+    window.addEventListener('avq:open-new-focus', handler);
+    return () => window.removeEventListener('avq:open-new-focus', handler);
+  }, []);
+
   const filtered = useMemo(() => {
     return prompts.filter((p) => {
       if (filterTopic !== 'all' && p.topicId !== filterTopic) return false;
