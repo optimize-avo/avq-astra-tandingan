@@ -337,10 +337,11 @@ function FlatTableView({
   return (
     <div className="card !p-0 overflow-hidden">
       {/* Column headers */}
-      <div className="grid grid-cols-[1fr_120px_140px_80px_24px] gap-3 items-center px-3 py-2 bg-navy-deep/60 border-b border-navy-edge/60 text-[10px] uppercase tracking-wider font-mono text-text-muted">
+      <div className="grid grid-cols-[1fr_140px_120px_56px_56px_24px] gap-3 items-center px-3 py-2 bg-navy-deep/60 border-b border-navy-edge/60 text-[10px] uppercase tracking-wider font-mono text-text-muted">
         <div>Prompt</div>
         <div>Focus</div>
         <div>LLM presence</div>
+        <div className="text-center">Mentions</div>
         <div className="text-right">Score</div>
         <div />
       </div>
@@ -354,7 +355,7 @@ function FlatTableView({
             key={p.id}
             to={`/dashboard/visibility/${p.id}`}
             className={clsx(
-              'grid grid-cols-[1fr_120px_140px_80px_24px] gap-3 items-center px-3 py-2 hover:bg-navy-elevated/40 transition-colors group',
+              'grid grid-cols-[1fr_140px_120px_56px_56px_24px] gap-3 items-center px-3 py-2 hover:bg-navy-elevated/40 transition-colors group',
               i > 0 && 'border-t border-navy-edge/30'
             )}
           >
@@ -369,18 +370,18 @@ function FlatTableView({
             {/* Focus label */}
             <div className="min-w-0">
               {topic ? (
-                <span className="inline-flex items-center gap-1 text-[11px] text-text-secondary truncate">
+                <span className="inline-flex items-center gap-1 text-[11px] text-text-secondary truncate min-w-0">
                   <span className="w-1 h-3 rounded-full bg-gradient-to-b from-avo-teal to-pillar-manifest shrink-0" />
-                  {topic.name}
+                  <span className="truncate">{topic.name}</span>
                 </span>
               ) : (
                 <span className="text-[11px] text-text-muted">—</span>
               )}
             </div>
 
-            {/* LLM icons + mentions */}
+            {/* LLM icons */}
             <div className="flex items-center gap-1.5">
-              {LLMS.map((l) => (
+              {LLMS.slice(0, 3).map((l) => (
                 <div
                   key={l}
                   title={`${l}: ${p.mentions[l]}`}
@@ -396,21 +397,40 @@ function FlatTableView({
                   <LLMIcon llm={l} size={11} />
                 </div>
               ))}
-              <span className="text-[10px] font-mono text-text-muted ml-auto">{totalM}</span>
+              {LLMS.length > 3 && (
+                <Popover
+                  align="right"
+                  trigger={
+                    <span className="px-1.5 h-5 rounded bg-navy-elevated text-[10px] font-mono text-text-muted hover:text-avo-teal hover:bg-avo-teal/10 cursor-pointer inline-flex items-center">
+                      +{LLMS.length - 3}
+                    </span>
+                  }
+                >
+                  {() => (
+                    <div className="p-2 space-y-1">
+                      <div className="text-[10px] mono-label mb-1">Other LLMs</div>
+                      {LLMS.slice(3).map((l) => (
+                        <div key={l} className="flex items-center gap-1.5 text-xs text-text-secondary">
+                          <LLMIcon llm={l} size={11} /> {l}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </Popover>
+              )}
+            </div>
+
+            {/* Mentions */}
+            <div className="text-center text-[11px] font-mono text-text-muted">
+              {totalM}<span className="text-text-disabled">/3</span>
             </div>
 
             {/* Score */}
-            <div className="flex items-center gap-1.5 justify-end">
-              <div className="flex-1 max-w-[60px] h-1 rounded-full bg-navy-deep overflow-hidden">
-                <div
-                  className={clsx(
-                    'h-full rounded-full',
-                    avgS >= 70 ? 'bg-avo-teal' : avgS >= 40 ? 'bg-gold-base' : 'bg-vs-rose'
-                  )}
-                  style={{ width: `${avgS}%` }}
-                />
-              </div>
-              <span className="text-[11px] font-mono font-semibold text-avo-teal w-8 text-right">{avgS}%</span>
+            <div className={clsx(
+              'text-right text-[11px] font-mono font-semibold tabular-nums',
+              avgS >= 70 ? 'text-avo-teal' : avgS >= 40 ? 'text-gold-base' : 'text-vs-rose'
+            )}>
+              {avgS}<span className="text-text-muted">%</span>
             </div>
 
             <ChevronRight className="w-3.5 h-3.5 text-text-muted group-hover:text-avo-teal justify-self-end" />
