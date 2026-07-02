@@ -177,7 +177,9 @@ export function VisibilityDetailPage() {
           <Card>
             <div className="flex items-center justify-between mb-3">
               <div className="mono-label">Performance by LLM</div>
-              <div className="text-[11px] text-text-muted">How each AI mentions you</div>
+              <button onClick={() => console.log('Add LLM')} className="btn btn-ghost !text-xs">
+                <Plus className="w-3.5 h-3.5" /> Add LLM
+              </button>
             </div>
             <div className="grid sm:grid-cols-3 gap-3">
               {LLMS.map((l) => {
