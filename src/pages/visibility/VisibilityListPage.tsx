@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useApp } from '@/store/app';
 import { Pill } from '@/components/ui';
 import { LLMS, LLM, Prompt } from '@/data/dummy';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AddModal, SuggestionItem } from '@/components/AddModal';
 import { LLMIcon } from '@/components/llm-icons';
 import { Popover, Dropdown } from '@/components/Popover';
