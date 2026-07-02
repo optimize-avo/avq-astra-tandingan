@@ -426,7 +426,9 @@ function FlatTableView({
               'text-right text-[11px] font-mono font-semibold tabular-nums',
               avgS >= 70 ? 'text-avo-teal' : avgS >= 40 ? 'text-gold-base' : 'text-vs-rose'
             )}>
-              {avgS}<span className="text-text-muted">%</span>
+              {avgS}<span className={clsx(
+                avgS >= 70 ? 'text-avo-teal' : avgS >= 40 ? 'text-gold-base' : 'text-vs-rose'
+              )}>%</span>
             </div>
 
             <ChevronRight className="w-3.5 h-3.5 text-text-muted group-hover:text-avo-teal justify-self-end" />
