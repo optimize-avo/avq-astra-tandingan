@@ -148,25 +148,23 @@ export function VisibilityListPage() {
             <div className="mono-label">Visibility</div>
             <span className="text-text-muted">·</span>
             <span className="text-xs text-text-muted font-mono">
-              <span className="text-text-bright font-semibold">{active}</span> active
-              <span className="text-text-muted"> · </span>
-              <span className="text-text-bright font-semibold">{totalMentions}</span> mentions
-              <span className="text-text-muted"> · </span>
-              <span className="text-avo-teal font-semibold">{avgScore}%</span> avg score
               {archived > 0 && (
                 <>
-                  <span className="text-text-muted"> · </span>
                   <span className="text-text-muted">{archived} archived</span>
+                  <span className="text-text-muted"> · </span>
                 </>
               )}
+              <span className="text-avo-teal font-semibold">{avgScore}%</span> avg score
             </span>
           </div>
           <h1 className="font-display font-bold text-xl text-text-bright">Prompt tracking</h1>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <button onClick={() => setShowAdd(true)} className="btn btn-primary !text-xs">
-            <Plus className="w-3.5 h-3.5" /> Add prompt
-          </button>
+          {filterStatus !== 'archived' && active > 0 && (
+            <button onClick={() => setFilterStatus('archived')} className="btn btn-ghost !text-xs">
+              <Archive className="w-3.5 h-3.5" /> Archive
+            </button>
+          )}
         </div>
       </div>
 
