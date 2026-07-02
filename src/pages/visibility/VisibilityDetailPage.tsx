@@ -177,16 +177,42 @@ export function VisibilityDetailPage() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 mt-5 pt-5 border-t border-navy-edge/50">
-          <button onClick={() => setShowConv(true)} className="btn btn-primary !text-xs">
-            <MessageSquare className="w-3.5 h-3.5" /> See conversation
-          </button>
-          <Link to="/dashboard/content" className="btn btn-secondary !text-xs">
-            <Sparkles className="w-3.5 h-3.5" /> Create content from this prompt
-          </Link>
-          <button onClick={() => toggle(prompt.id)} className="btn btn-ghost !text-xs">
-            {prompt.status === 'active' ? <><Archive className="w-3.5 h-3.5" /> Archive</> : <><ArchiveRestore className="w-3.5 h-3.5" /> Restore</>}
-          </button>
+        <div className="flex items-center justify-between mt-5 pt-5 border-t border-navy-edge/50">
+          <div className="flex items-center gap-2">
+            <button onClick={() => setShowConv(true)} className="btn btn-primary !text-xs">
+              <MessageSquare className="w-3.5 h-3.5" /> See conversation
+            </button>
+            <Link to="/dashboard/content" className="btn btn-secondary !text-xs">
+              <Sparkles className="w-3.5 h-3.5" /> Create content from this prompt
+            </Link>
+          </div>
+
+          <Popover
+            align="right"
+            trigger={
+              <span className="p-1.5 rounded text-text-muted hover:text-text-bright hover:bg-navy-elevated/50 transition-colors cursor-pointer">
+                <MoreHorizontal className="w-4 h-4" />
+              </span>
+            }
+          >
+            {(close) => (
+              <div className="py-1">
+                <button
+                  onClick={() => { toggle(prompt.id); close(); }}
+                  className={clsx(
+                    'w-full flex items-center gap-2 px-3 py-1.5 text-xs',
+                    prompt.status === 'active'
+                      ? 'text-text-secondary hover:bg-navy-elevated/50 hover:text-vs-rose'
+                      : 'text-text-secondary hover:bg-navy-elevated/50 hover:text-status-success'
+                  )}
+                >
+                  {prompt.status === 'active'
+                    ? <><Archive className="w-3.5 h-3.5" /> Archive prompt</>
+                    : <><ArchiveRestore className="w-3.5 h-3.5" /> Restore prompt</>}
+                </button>
+              </div>
+            )}
+          </Popover>
         </div>
       </Card>
 
