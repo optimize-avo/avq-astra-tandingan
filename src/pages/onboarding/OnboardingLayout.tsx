@@ -10,6 +10,7 @@ const STEPS = [
   { to: 'prompts', label: 'Prompts', icon: MessageSquare },
   { to: 'writing-sample', label: 'Voice', icon: FileText },
   { to: 'payment', label: 'Plan', icon: CreditCard },
+  { to: 'track', label: 'Track', icon: Zap },  // NEW
 ];
 
 export function OnboardingLayout() {
