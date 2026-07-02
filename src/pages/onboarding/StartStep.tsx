@@ -13,10 +13,9 @@ const LANGS = [
 
 export function StartStep() {
   const nav = useNavigate();
-  const company = useApp((s) => s.company);
   const update = useApp((s) => s.updateCompany);
-  const [domain, setDomain] = useState(company.domain);
-  const [language, setLanguage] = useState(company.language);
+  const [domain, setDomain] = useState('');
+  const [language, setLanguage] = useState<'English' | 'Indonesian' | 'Japanese' | 'Korean'>('English');
 
   return (
     <div className="space-y-7">
