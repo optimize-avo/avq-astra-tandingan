@@ -107,7 +107,8 @@ export function PromptsStep() {
             </div>
           </div>
         ))}
-      </div>
+        </div>
+      )}
 
       <div className="card bg-gradient-to-br from-avo-teal/8 to-pillar-manifest/5 border-avo-teal/20">
         <div className="flex items-center gap-3">
