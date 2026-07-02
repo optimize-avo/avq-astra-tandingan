@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '@/store/app';
 import { Check, Sparkles, CreditCard, ArrowRight } from 'lucide-react';
 
 const PLANS = [
