@@ -43,6 +43,7 @@ export const useApp = create<AppState>()(
       prompts: SEED_PROMPTS,
 
       completeOnboarding: () => set({ hasOnboarded: true }),
+      loadSeed: () => set({ company: SEED_COMPANY, prompts: SEED_PROMPTS }),
       resetOnboarding: () => set({ hasOnboarded: false }),
       resetAll: () => set({ hasOnboarded: false, company: SEED_COMPANY, prompts: SEED_PROMPTS }),
 
