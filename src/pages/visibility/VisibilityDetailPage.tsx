@@ -68,6 +68,25 @@ export function VisibilityDetailPage() {
   const toggle = useApp((s) => s.togglePromptStatus);
   const prompt = prompts.find((p) => p.id === id);
   const [showConv, setShowConv] = useState(false);
+  const [page, setPage] = useState(0);
+  const PAGE_SIZE = 10;
+
+  const fullRanking = useMemo(() => {
+    if (!prompt) return [];
+    const base = [...prompt.ranking].sort((a, b) => b.score - a.score);
+    const padding = ['Heroku', 'DigitalOcean', 'Linode', 'Hetzner', 'Cloudflare', 'Netlify', 'Vultr', 'Fastly', 'Akamai', 'GCP Cloud Run'];
+    let i = 0;
+    while (base.length < 15 && i < padding.length) {
+      base.push({ name: padding[i], score: Math.max(0.04, 0.18 - i * 0.02), you: false });
+      i++;
+    }
+    return base;
+  }, [prompt]);
+
+  const totalPages = Math.ceil(fullRanking.length / PAGE_SIZE);
+  const visibleRanking = fullRanking.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
+
+  useEffect(() => { setPage(0); }, [prompt?.id]);
 
   if (!prompt) {
     return (
