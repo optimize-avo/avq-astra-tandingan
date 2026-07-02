@@ -204,51 +204,8 @@ export function VisibilityListPage() {
 
         <div className="w-px h-5 bg-navy-edge/60 mx-1" />
 
-        <Dropdown
-          align="left"
-          width={180}
-          value={filterStatus}
-          onSelect={(v) => setFilterStatus(v as any)}
-          trigger={
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-navy-elevated/50 hover:bg-navy-elevated border border-navy-edge text-xs">
-              <span className={clsx(
-                'w-1.5 h-1.5 rounded-full',
-                filterStatus === 'active' ? 'bg-status-success' : filterStatus === 'archived' ? 'bg-text-muted' : 'bg-avo-teal'
-              )} />
-              <span className="text-text-bright font-display font-semibold capitalize">{filterStatus === 'all' ? 'All status' : filterStatus}</span>
-              <ChevronDown className="w-3 h-3 text-text-muted" />
-            </div>
-          }
-          items={[
-            { id: 'all', label: 'All status', icon: <span className="w-1.5 h-1.5 rounded-full bg-avo-teal" /> },
-            { id: 'active', label: 'Active', icon: <span className="w-1.5 h-1.5 rounded-full bg-status-success" /> },
-            { id: 'archived', label: 'Archived', icon: <span className="w-1.5 h-1.5 rounded-full bg-text-muted" /> },
-          ]}
-        />
-
-        <Dropdown
-          align="left"
-          width={170}
-          value={sort}
-          onSelect={(v) => setSort(v as SortKey)}
-          trigger={
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-navy-elevated/50 hover:bg-navy-elevated border border-navy-edge text-xs">
-              <ArrowUpDown className="w-3 h-3 text-text-muted" />
-              <span className="text-text-bright font-display font-semibold">
-                {sort === 'newest' ? 'Newest' : sort === 'score' ? 'Highest score' : 'Most mentions'}
-              </span>
-              <ChevronDown className="w-3 h-3 text-text-muted" />
-            </div>
-          }
-          items={[
-            { id: 'newest', label: 'Newest' },
-            { id: 'score', label: 'Highest score' },
-            { id: 'mentions', label: 'Most mentions' },
-          ]}
-        />
-
         {/* View toggle (segmented) */}
-        <div className="ml-auto flex items-center gap-2">
+        <div className="flex items-center gap-2">
           <div className="flex items-center bg-navy-deep border border-navy-edge rounded-md p-0.5">
             <button
               onClick={() => setView('all')}
@@ -272,6 +229,51 @@ export function VisibilityListPage() {
           <span className="text-[10px] text-text-muted font-mono">
             {filtered.length}/{prompts.length}
           </span>
+        </div>
+
+        <div className="ml-auto flex items-center gap-2">
+          <Dropdown
+            align="left"
+            width={180}
+            value={filterStatus}
+            onSelect={(v) => setFilterStatus(v as any)}
+            trigger={
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-navy-elevated/50 hover:bg-navy-elevated border border-navy-edge text-xs">
+                <span className={clsx(
+                  'w-1.5 h-1.5 rounded-full',
+                  filterStatus === 'active' ? 'bg-status-success' : filterStatus === 'archived' ? 'bg-text-muted' : 'bg-avo-teal'
+                )} />
+                <span className="text-text-bright font-display font-semibold capitalize">{filterStatus === 'all' ? 'All status' : filterStatus}</span>
+                <ChevronDown className="w-3 h-3 text-text-muted" />
+              </div>
+            }
+            items={[
+              { id: 'all', label: 'All status', icon: <span className="w-1.5 h-1.5 rounded-full bg-avo-teal" /> },
+              { id: 'active', label: 'Active', icon: <span className="w-1.5 h-1.5 rounded-full bg-status-success" /> },
+              { id: 'archived', label: 'Archived', icon: <span className="w-1.5 h-1.5 rounded-full bg-text-muted" /> },
+            ]}
+          />
+
+          <Dropdown
+            align="left"
+            width={170}
+            value={sort}
+            onSelect={(v) => setSort(v as SortKey)}
+            trigger={
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-navy-elevated/50 hover:bg-navy-elevated border border-navy-edge text-xs">
+                <ArrowUpDown className="w-3 h-3 text-text-muted" />
+                <span className="text-text-bright font-display font-semibold">
+                  {sort === 'newest' ? 'Newest' : sort === 'score' ? 'Highest score' : 'Most mentions'}
+                </span>
+                <ChevronDown className="w-3 h-3 text-text-muted" />
+              </div>
+            }
+            items={[
+              { id: 'newest', label: 'Newest' },
+              { id: 'score', label: 'Highest score' },
+              { id: 'mentions', label: 'Most mentions' },
+            ]}
+          />
         </div>
       </div>
 
