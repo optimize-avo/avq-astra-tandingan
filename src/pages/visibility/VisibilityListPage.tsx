@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useApp } from '@/store/app';
-import { PageHeader, Card, Pill } from '@/components/ui';
-import { Plus, Sparkles, Eye, EyeOff, BarChart3, ChevronRight } from 'lucide-react';
-import { LLMS } from '@/data/dummy';
+import { Pill } from '@/components/ui';
+import { LLMS, LLM } from '@/data/dummy';
 import { useMemo, useState } from 'react';
 import { AddModal, SuggestionItem } from '@/components/AddModal';
 import { LLMIcon } from '@/components/llm-icons';
+import { Popover, Dropdown } from '@/components/Popover';
+import { Plus, Sparkles, ChevronRight, ChevronDown, Target, Settings2, Archive, ArchiveRestore, X, Check, Pencil, Search, ArrowUpDown, Tag, MoreHorizontal, Filter } from 'lucide-react';
 import clsx from 'clsx';
 
 const PROMPT_GENERATOR_POOL = [
@@ -17,19 +18,31 @@ const PROMPT_GENERATOR_POOL = [
   'Is {seed} worth it in 2026?',
 ];
 
-function generatePromptSuggestions(seed: string, topicId?: string): Promise<SuggestionItem[]> {
+function generatePromptSuggestions(seed: string, _topicId?: string): Promise<SuggestionItem[]> {
   return new Promise((resolve) => {
     setTimeout(() => {
-      const company = (window as any).__demoCompany || 'your brand';
-      const focus = (window as any).__demoFocusName || 'this topic';
-      const seedPhrase = seed.trim() || `${company} ${focus}`;
-      const result = PROMPT_GENERATOR_POOL.map((t, i) => ({
+      const phrase = seed.trim() || 'your product';
+      resolve(PROMPT_GENERATOR_POOL.map((t, i) => ({
         id: 'gen' + Date.now() + '_' + i,
-        label: t.replace('{seed}', seedPhrase),
-        description: `Tuned for ${focus}`,
-      }));
-      resolve(result);
-    }, 900);
+        label: t.replace('{seed}', phrase),
+        description: 'Tuned to your audience',
+      })));
+    }, 800);
+  });
+}
+
+function generateFocusSuggestions(seed: string): Promise<SuggestionItem[]> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const s = seed.trim() || 'your product';
+      const cap = s.charAt(0).toUpperCase() + s.slice(1);
+      resolve([
+        { id: 'fg' + Date.now() + '_0', label: `${cap} for engineering teams`, description: 'AI-generated' },
+        { id: 'fg' + Date.now() + '_1', label: `Enterprise ${s}`, description: 'AI-generated' },
+        { id: 'fg' + Date.now() + '_2', label: `${cap} best practices`, description: 'AI-generated' },
+        { id: 'fg' + Date.now() + '_3', label: `${cap} for startups`, description: 'AI-generated' },
+      ]);
+    }, 700);
   });
 }
 
@@ -38,12 +51,19 @@ export function VisibilityListPage() {
   const addPrompt = useApp((s) => s.addPrompt);
   const addPrompts = useApp((s) => s.addPrompts);
   const addTopic = useApp((s) => s.addTopic);
+  const removeTopic = useApp((s) => s.removeTopic);
   const topics = useApp((s) => s.company.topics);
 
   const [filterTopic, setFilterTopic] = useState<string>('all');
-  const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'archived'>('all');
+  const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'archived'>('active');
+  const [sort, setSort] = useState<'newest' | 'sov' | 'mentions'>('newest');
   const [showAdd, setShowAdd] = useState(false);
-  const [showAddFocus, setShowAddFocus] = useState(false);
+  const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
+  const [newFocusName, setNewFocusName] = useState('');
+  const [newFocusSeed, setNewFocusSeed] = useState('');
+  const [generatedFocuses, setGeneratedFocuses] = useState<SuggestionItem[]>([]);
+  const [pickedFocuses, setPickedFocuses] = useState<Set<string>>(new Set());
+  const [generatingFocus, setGeneratingFocus] = useState(false);
 
   const filtered = useMemo(() => {
     return prompts.filter((p) => {
@@ -53,291 +73,446 @@ export function VisibilityListPage() {
     });
   }, [prompts, filterTopic, filterStatus]);
 
+  const sorted = useMemo(() => {
+    const copy = [...filtered];
+    if (sort === 'newest') copy.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    if (sort === 'sov') copy.sort((a, b) => (b.sov.ChatGPT + b.sov.Gemini + b.sov.Perplexity) - (a.sov.ChatGPT + a.sov.Gemini + a.sov.Perplexity));
+    if (sort === 'mentions') copy.sort((a, b) => (b.mentions.ChatGPT + b.mentions.Gemini + b.mentions.Perplexity) - (a.mentions.ChatGPT + a.mentions.Gemini + a.mentions.Perplexity));
+    return copy;
+  }, [filtered, sort]);
+
   const grouped = useMemo(() => {
-    const map = new Map<string, typeof prompts>();
-    for (const p of filtered) {
+    const map = new Map<string, typeof sorted>();
+    for (const p of sorted) {
       const arr = map.get(p.topicId) || [];
       arr.push(p);
       map.set(p.topicId, arr);
     }
     return map;
-  }, [filtered]);
+  }, [sorted]);
+
+  const toggleCollapse = (id: string) => {
+    setCollapsed((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
 
   const active = prompts.filter((p) => p.status === 'active').length;
+  const archived = prompts.filter((p) => p.status === 'archived').length;
   const totalMentions = prompts.reduce((s, p) => s + p.mentions.ChatGPT + p.mentions.Gemini + p.mentions.Perplexity, 0);
   const avgSov = prompts.length
     ? Math.round((prompts.reduce((s, p) => s + (p.sov.ChatGPT + p.sov.Gemini + p.sov.Perplexity) / 3, 0) / prompts.length) * 100)
     : 0;
 
+  const focusItems = [
+    { id: 'all', label: 'All focus areas', badge: prompts.length, icon: <Target className="w-3.5 h-3.5" /> },
+    ...topics.map((t) => ({
+      id: t.id,
+      label: t.name,
+      badge: prompts.filter((p) => p.topicId === t.id).length,
+      icon: <Tag className="w-3.5 h-3.5" />,
+    })),
+  ];
+
+  const currentTopicLabel = filterTopic === 'all' ? 'All focus areas' : topics.find((t) => t.id === filterTopic)?.name || 'All';
+
   return (
-    <div className="px-8 py-8 max-w-7xl mx-auto">
-      <PageHeader
-        eyebrow="Visibility"
-        title="Prompt tracking"
-        description="Each row is a real question your audience asks AI. Click any row to see the full conversation, sources, and how you compare to competitors."
-      />
-
-      {/* Stats */}
-      <div className="grid grid-cols-4 gap-3 mb-6">
-        {[
-          { label: 'Active prompts', value: active, icon: Eye, color: 'text-avo-teal' },
-          { label: 'Total mentions', value: totalMentions, icon: Sparkles, color: 'text-pillar-manifest' },
-          { label: 'Avg share of voice', value: avgSov + '%', icon: BarChart3, color: 'text-gold-base' },
-          { label: 'Archived', value: prompts.length - active, icon: EyeOff, color: 'text-text-muted' },
-        ].map((s) => {
-          const Icon = s.icon;
-          return (
-            <Card key={s.label} className="!p-4">
-              <div className="flex items-center gap-2">
-                <Icon className={`w-4 h-4 ${s.color}`} />
-                <div className="mono-label">{s.label}</div>
-              </div>
-              <div className="font-display font-bold text-2xl text-text-bright mt-2">{s.value}</div>
-            </Card>
-          );
-        })}
-      </div>
-
-      {/* Filter + Add row */}
-      <div className="card-elevated !p-4 mb-6">
-        <div className="flex items-center gap-3 flex-wrap">
-          <div className="mono-label shrink-0">Focus</div>
-          <button
-            onClick={() => setFilterTopic('all')}
-            className={clsx(
-              'pill border transition-all',
-              filterTopic === 'all'
-                ? 'bg-avo-teal/15 text-avo-teal border-avo-teal/40'
-                : 'bg-navy-deep text-text-secondary border-navy-edge hover:border-avo-edge'
-            )}
-          >
-            All ({prompts.length})
-          </button>
-          {topics.map((t) => {
-            const count = prompts.filter((p) => p.topicId === t.id).length;
-            if (count === 0) return null;
-            return (
-              <button
-                key={t.id}
-                onClick={() => setFilterTopic(t.id)}
-                className={clsx(
-                  'pill border transition-all',
-                  filterTopic === t.id
-                    ? 'bg-avo-teal/15 text-avo-teal border-avo-teal/40'
-                    : 'bg-navy-deep text-text-secondary border-navy-edge hover:border-avo-edge'
-                )}
-              >
-                {t.name} ({count})
-              </button>
-            );
-          })}
-
-          <div className="h-5 w-px bg-navy-edge mx-1" />
-
-          <button
-            onClick={() => setFilterStatus('all')}
-            className={clsx(
-              'pill border transition-all',
-              filterStatus === 'all'
-                ? 'bg-navy-elevated text-text-bright border-navy-edge'
-                : 'bg-transparent text-text-muted border-transparent hover:text-text-secondary'
-            )}
-          >
-            All status
-          </button>
-          <button
-            onClick={() => setFilterStatus('active')}
-            className={clsx(
-              'pill border transition-all',
-              filterStatus === 'active'
-                ? 'bg-status-success/15 text-status-success border-status-success/40'
-                : 'bg-transparent text-text-muted border-transparent hover:text-status-success'
-            )}
-          >
-            Active
-          </button>
-          <button
-            onClick={() => setFilterStatus('archived')}
-            className={clsx(
-              'pill border transition-all',
-              filterStatus === 'archived'
-                ? 'bg-navy-elevated text-text-muted border-navy-edge'
-                : 'bg-transparent text-text-muted border-transparent'
-            )}
-          >
-            Archived
-          </button>
-
-          <div className="ml-auto flex items-center gap-2">
-            <button
-              onClick={() => setShowAddFocus(true)}
-              className="btn btn-ghost !text-xs"
-            >
-              <Plus className="w-3.5 h-3.5" /> New focus
-            </button>
-            <button onClick={() => setShowAdd(true)} className="btn btn-primary">
-              <Plus className="w-4 h-4" /> Add prompt
-            </button>
+    <div className="px-8 py-6 max-w-7xl mx-auto">
+      {/* Compact header — title + inline stats + actions */}
+      <div className="flex items-end justify-between gap-4 mb-4">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="mono-label">Visibility</div>
+            <span className="text-text-muted">·</span>
+            <span className="text-xs text-text-muted font-mono">
+              <span className="text-text-bright font-semibold">{active}</span> active
+              <span className="text-text-muted"> · </span>
+              <span className="text-text-bright font-semibold">{totalMentions}</span> mentions
+              <span className="text-text-muted"> · </span>
+              <span className="text-avo-teal font-semibold">{avgSov}%</span> avg SoV
+              {archived > 0 && (
+                <>
+                  <span className="text-text-muted"> · </span>
+                  <span className="text-text-muted">{archived} archived</span>
+                </>
+              )}
+            </span>
           </div>
+          <h1 className="font-display font-bold text-xl text-text-bright">Prompt tracking</h1>
+        </div>
+        <div className="flex items-center gap-2 shrink-0">
+          <button onClick={() => setShowAdd(true)} className="btn btn-primary !text-xs">
+            <Plus className="w-3.5 h-3.5" /> Add prompt
+          </button>
         </div>
       </div>
 
-      {/* Prompts grouped by focus */}
+      {/* Compact filter bar — single row, dropdowns only */}
+      <div className="flex items-center gap-2 mb-3 px-3 py-2 rounded-lg bg-navy-deep/40 border border-navy-edge/60">
+        <Filter className="w-3.5 h-3.5 text-text-muted ml-1" />
+
+        {/* Focus dropdown + inline "new focus" trigger */}
+        <Dropdown
+          align="left"
+          width={260}
+          value={filterTopic}
+          onSelect={setFilterTopic}
+          trigger={
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-navy-elevated/50 hover:bg-navy-elevated border border-navy-edge text-xs">
+              <Target className="w-3 h-3 text-text-muted" />
+              <span className="text-text-bright font-display font-semibold">{currentTopicLabel}</span>
+              <span className="text-text-muted font-mono">{prompts.filter((p) => filterTopic === 'all' || p.topicId === filterTopic).length}</span>
+              <ChevronDown className="w-3 h-3 text-text-muted" />
+            </div>
+          }
+          items={focusItems}
+        />
+
+        {/* New focus popover — inline, no modal */}
+        <Popover
+          align="left"
+          width={360}
+          trigger={
+            <button className="flex items-center gap-1 px-2 py-1 rounded-md text-xs text-text-muted hover:text-avo-teal hover:bg-avo-teal/8 transition-colors">
+              <Plus className="w-3 h-3" /> new focus
+            </button>
+          }
+        >
+          {(close) => (
+            <div className="p-3">
+              <div className="flex items-center gap-2 mb-2">
+                <Sparkles className="w-3.5 h-3.5 text-avo-teal" />
+                <div className="font-display font-semibold text-sm text-text-bright">New focus area</div>
+              </div>
+
+              {!generatedFocuses.length && !generatingFocus && (
+                <>
+                  <label className="mono-label mb-1.5 block">Focus name</label>
+                  <input
+                    value={newFocusName}
+                    onChange={(e) => setNewFocusName(e.target.value)}
+                    placeholder="e.g. Database performance"
+                    className="w-full bg-navy-deep border border-navy-edge rounded-md px-2.5 py-1.5 text-xs text-text-bright placeholder:text-text-muted focus:outline-none focus:border-avo-teal/50"
+                  />
+                  <div className="flex items-center gap-2 my-2">
+                    <div className="flex-1 h-px bg-navy-edge/60" />
+                    <span className="text-[10px] text-text-muted font-mono">OR</span>
+                    <div className="flex-1 h-px bg-navy-edge/60" />
+                  </div>
+                  <input
+                    value={newFocusSeed}
+                    onChange={(e) => setNewFocusSeed(e.target.value)}
+                    placeholder="Keyword seed for AI generation"
+                    className="w-full bg-navy-deep border border-navy-edge rounded-md px-2.5 py-1.5 text-xs text-text-bright placeholder:text-text-muted focus:outline-none focus:border-avo-teal/50"
+                  />
+                  <div className="flex items-center justify-end gap-2 mt-3">
+                    <button onClick={close} className="text-xs text-text-muted hover:text-text-bright px-2 py-1">Cancel</button>
+                    {newFocusSeed.trim() && (
+                      <button
+                        onClick={async () => {
+                          setGeneratingFocus(true);
+                          const r = await generateFocusSuggestions(newFocusSeed);
+                          setGeneratedFocuses(r);
+                          setGeneratingFocus(false);
+                        }}
+                        className="btn btn-secondary !text-xs"
+                      >
+                        <Sparkles className="w-3 h-3" /> Generate
+                      </button>
+                    )}
+                    <button
+                      onClick={() => {
+                        if (newFocusName.trim()) {
+                          addTopic(newFocusName.trim(), 'Custom focus');
+                          setNewFocusName('');
+                          setNewFocusSeed('');
+                          close();
+                        }
+                      }}
+                      disabled={!newFocusName.trim()}
+                      className="btn btn-primary !text-xs"
+                    >
+                      Add
+                    </button>
+                  </div>
+                </>
+              )}
+
+              {generatingFocus && (
+                <div className="flex items-center gap-2 py-3 text-xs text-text-secondary">
+                  <span className="w-2 h-2 rounded-full bg-avo-teal pulse-dot" />
+                  Generating focus ideas…
+                </div>
+              )}
+
+              {generatedFocuses.length > 0 && (
+                <>
+                  <div className="text-[10px] mono-label mb-1.5">Pick focus areas</div>
+                  <div className="space-y-1 max-h-48 overflow-y-auto">
+                    {generatedFocuses.map((f) => {
+                      const picked = pickedFocuses.has(f.id);
+                      return (
+                        <button
+                          key={f.id}
+                          onClick={() => {
+                            setPickedFocuses((prev) => {
+                              const next = new Set(prev);
+                              if (next.has(f.id)) next.delete(f.id);
+                              else next.add(f.id);
+                              return next;
+                            });
+                          }}
+                          className={clsx(
+                            'w-full flex items-center gap-2 px-2.5 py-1.5 rounded-md text-left text-xs border transition-colors',
+                            picked ? 'bg-avo-teal/10 border-avo-teal/30 text-text-bright' : 'bg-navy-deep border-navy-edge text-text-secondary hover:border-avo-edge'
+                          )}
+                        >
+                          <div className={clsx('w-3.5 h-3.5 rounded-sm shrink-0 flex items-center justify-center', picked ? 'bg-avo-teal text-navy-base' : 'bg-navy-elevated border border-navy-edge')}>
+                            {picked && <Check className="w-2.5 h-2.5" />}
+                          </div>
+                          <span className="flex-1">{f.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="flex items-center justify-end gap-2 mt-3">
+                    <button
+                      onClick={() => { setGeneratedFocuses([]); setPickedFocuses(new Set()); }}
+                      className="text-xs text-text-muted hover:text-text-bright px-2 py-1"
+                    >
+                      Back
+                    </button>
+                    <button
+                      onClick={() => {
+                        generatedFocuses.filter((f) => pickedFocuses.has(f.id)).forEach((f) => addTopic(f.label, f.description || 'AI-generated'));
+                        setGeneratedFocuses([]);
+                        setPickedFocuses(new Set());
+                        setNewFocusName('');
+                        setNewFocusSeed('');
+                        close();
+                      }}
+                      disabled={pickedFocuses.size === 0}
+                      className="btn btn-primary !text-xs"
+                    >
+                      Add {pickedFocuses.size}
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+        </Popover>
+
+        <div className="w-px h-5 bg-navy-edge/60 mx-1" />
+
+        {/* Status dropdown */}
+        <Dropdown
+          align="left"
+          width={180}
+          value={filterStatus}
+          onSelect={(v) => setFilterStatus(v as any)}
+          trigger={
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-navy-elevated/50 hover:bg-navy-elevated border border-navy-edge text-xs">
+              <span className={clsx(
+                'w-1.5 h-1.5 rounded-full',
+                filterStatus === 'active' ? 'bg-status-success' : filterStatus === 'archived' ? 'bg-text-muted' : 'bg-avo-teal'
+              )} />
+              <span className="text-text-bright font-display font-semibold capitalize">{filterStatus === 'all' ? 'All status' : filterStatus}</span>
+              <ChevronDown className="w-3 h-3 text-text-muted" />
+            </div>
+          }
+          items={[
+            { id: 'all', label: 'All status', icon: <span className="w-1.5 h-1.5 rounded-full bg-avo-teal" /> },
+            { id: 'active', label: 'Active', icon: <span className="w-1.5 h-1.5 rounded-full bg-status-success" /> },
+            { id: 'archived', label: 'Archived', icon: <span className="w-1.5 h-1.5 rounded-full bg-text-muted" /> },
+          ]}
+        />
+
+        {/* Sort dropdown */}
+        <Dropdown
+          align="left"
+          width={170}
+          value={sort}
+          onSelect={(v) => setSort(v as any)}
+          trigger={
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-navy-elevated/50 hover:bg-navy-elevated border border-navy-edge text-xs">
+              <ArrowUpDown className="w-3 h-3 text-text-muted" />
+              <span className="text-text-bright font-display font-semibold">
+                {sort === 'newest' ? 'Newest' : sort === 'sov' ? 'Highest SoV' : 'Most mentions'}
+              </span>
+              <ChevronDown className="w-3 h-3 text-text-muted" />
+            </div>
+          }
+          items={[
+            { id: 'newest', label: 'Newest' },
+            { id: 'sov', label: 'Highest SoV' },
+            { id: 'mentions', label: 'Most mentions' },
+          ]}
+        />
+
+        <div className="ml-auto text-[10px] text-text-muted font-mono">
+          {filtered.length} of {prompts.length} shown
+        </div>
+      </div>
+
+      {/* Prompts grouped by focus — compact 1-line rows */}
       {filtered.length === 0 ? (
-        <Card elevated className="text-center !py-12">
-          <Sparkles className="w-8 h-8 mx-auto text-avo-teal mb-3" />
-          <div className="font-display font-semibold text-text-bright">No prompts match this filter</div>
-          <p className="text-sm text-text-muted mt-1 mb-4">
-            Try a different focus area, or add a new prompt to start tracking.
-          </p>
-          <button onClick={() => setShowAdd(true)} className="btn btn-secondary">
-            <Plus className="w-4 h-4" /> Add prompt
+        <div className="card-elevated text-center !py-12">
+          <Sparkles className="w-7 h-7 mx-auto text-avo-teal mb-2" />
+          <div className="font-display font-semibold text-text-bright">No prompts match these filters</div>
+          <p className="text-sm text-text-muted mt-1 mb-4">Try changing the focus area or status filter.</p>
+          <button onClick={() => { setFilterTopic('all'); setFilterStatus('active'); }} className="btn btn-secondary !text-xs">
+            Reset filters
           </button>
-        </Card>
+        </div>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-2">
           {Array.from(grouped.entries()).map(([tid, items]) => {
             const topic = topics.find((t) => t.id === tid);
+            const isCollapsed = collapsed.has(tid);
             return (
-              <div key={tid}>
-                <div className="flex items-center gap-2 mb-3 px-1">
-                  <div className="w-1 h-4 rounded-full bg-gradient-to-b from-avo-teal to-pillar-manifest" />
-                  <h3 className="font-display font-semibold text-text-bright text-sm">
-                    {topic?.name || 'Uncategorized'}
-                  </h3>
-                  <span className="text-xs text-text-muted font-mono">· {items.length} prompt{items.length === 1 ? '' : 's'}</span>
-                </div>
-                <div className="grid lg:grid-cols-2 gap-3">
-                  {items.map((p) => {
-                    const totalM = p.mentions.ChatGPT + p.mentions.Gemini + p.mentions.Perplexity;
-                    const avgS = Math.round(((p.sov.ChatGPT + p.sov.Gemini + p.sov.Perplexity) / 3) * 100);
-                    return (
-                      <Link
-                        key={p.id}
-                        to={`/dashboard/visibility/${p.id}`}
-                        className="card !p-4 hover:border-avo-teal/40 hover:bg-navy-elevated/30 transition-all group block"
-                      >
-                        <div className="flex items-start justify-between gap-3 mb-3">
-                          <div className="text-sm text-text-bright leading-snug group-hover:text-avo-teal line-clamp-2">
-                            {p.text}
-                          </div>
-                          <ChevronRight className="w-4 h-4 text-text-muted group-hover:text-avo-teal shrink-0 mt-0.5" />
-                        </div>
+              <div key={tid} className="card !p-0 overflow-hidden">
+                {/* Group header — compact, click to collapse */}
+                <button
+                  onClick={() => toggleCollapse(tid)}
+                  className="w-full flex items-center gap-2 px-3 py-2 hover:bg-navy-elevated/30 transition-colors text-left"
+                >
+                  <ChevronDown className={clsx('w-3.5 h-3.5 text-text-muted transition-transform', isCollapsed && '-rotate-90')} />
+                  <div className="w-1 h-3.5 rounded-full bg-gradient-to-b from-avo-teal to-pillar-manifest" />
+                  <span className="font-display font-semibold text-text-bright text-sm">{topic?.name || 'Uncategorized'}</span>
+                  <span className="text-[10px] text-text-muted font-mono">{items.length}</span>
+                  <Popover
+                    align="right"
+                    width={160}
+                    trigger={
+                      <span className="ml-auto p-1 rounded text-text-muted hover:text-avo-teal hover:bg-avo-teal/8" onClick={(e) => e.stopPropagation()}>
+                        <MoreHorizontal className="w-3.5 h-3.5" />
+                      </span>
+                    }
+                  >
+                    {(close) => (
+                      <div className="py-1">
+                        <button
+                          onClick={() => { setFilterTopic(tid); close(); }}
+                          className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-text-secondary hover:bg-navy-elevated/50 hover:text-text-bright"
+                        >
+                          <Filter className="w-3 h-3" /> Filter to this
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (confirm(`Delete "${topic?.name}"? Prompts will move to Uncategorized.`)) {
+                              removeTopic(tid);
+                              close();
+                            }
+                          }}
+                          className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-vs-rose hover:bg-vs-rose/10"
+                        >
+                          <X className="w-3 h-3" /> Delete focus
+                        </button>
+                      </div>
+                    )}
+                  </Popover>
+                </button>
 
-                        <div className="flex items-center gap-3 flex-wrap">
-                          {/* LLM icons */}
-                          <div className="flex items-center gap-1.5">
+                {/* Prompts — 1-line compact rows */}
+                {!isCollapsed && (
+                  <div className="border-t border-navy-edge/40">
+                    {items.map((p, i) => {
+                      const avgS = Math.round(((p.sov.ChatGPT + p.sov.Gemini + p.sov.Perplexity) / 3) * 100);
+                      const totalM = p.mentions.ChatGPT + p.mentions.Gemini + p.mentions.Perplexity;
+                      return (
+                        <Link
+                          key={p.id}
+                          to={`/dashboard/visibility/${p.id}`}
+                          className={clsx(
+                            'flex items-center gap-3 px-3 py-1.5 hover:bg-navy-elevated/40 transition-colors group',
+                            i > 0 && 'border-t border-navy-edge/30'
+                          )}
+                        >
+                          {/* LLM icons inline */}
+                          <div className="flex items-center gap-0.5 shrink-0">
                             {LLMS.map((l) => (
                               <div
                                 key={l}
+                                title={`${l}: ${p.mentions[l]}`}
                                 className={clsx(
-                                  'w-7 h-7 rounded-md flex items-center justify-center border',
+                                  'w-5 h-5 rounded flex items-center justify-center',
                                   p.mentions[l] > 0
-                                    ? l === 'ChatGPT'
-                                      ? 'bg-avo-teal/15 text-avo-teal border-avo-teal/30'
-                                      : l === 'Gemini'
-                                        ? 'bg-gold-base/15 text-gold-base border-gold-base/30'
-                                        : 'bg-vs-rose/15 text-vs-rose border-vs-rose/30'
-                                    : 'bg-navy-deep text-text-disabled border-navy-edge'
+                                    ? l === 'ChatGPT' ? 'bg-avo-teal/15 text-avo-teal'
+                                      : l === 'Gemini' ? 'bg-gold-base/15 text-gold-base'
+                                      : 'bg-vs-rose/15 text-vs-rose'
+                                    : 'bg-navy-deep text-text-disabled opacity-40'
                                 )}
-                                title={`${l}: ${p.mentions[l]} mention${p.mentions[l] === 1 ? '' : 's'}`}
                               >
-                                <LLMIcon llm={l} size={14} />
+                                <LLMIcon llm={l} size={11} />
                               </div>
                             ))}
                           </div>
 
-                          <span className="text-xs text-text-muted font-mono ml-auto">
-                            {Math.round((p.sov.ChatGPT + p.sov.Gemini + p.sov.Perplexity) / 3 * 100)}%
+                          {/* Prompt text — 1 line truncate */}
+                          <span className="flex-1 min-w-0 text-sm text-text-bright truncate group-hover:text-avo-teal">
+                            {p.text}
                           </span>
-                        </div>
 
-                        <div className="mt-3 flex items-center gap-2">
-                          <div className="flex-1 h-1.5 rounded-full bg-navy-deep overflow-hidden">
-                            <div
-                              className="h-full rounded-full bg-gradient-to-r from-avo-teal to-pillar-manifest"
-                              style={{ width: `${avgS}%` }}
-                            />
+                          {/* SoV bar + % — compact */}
+                          <div className="hidden sm:flex items-center gap-2 w-40 shrink-0">
+                            <div className="flex-1 h-1 rounded-full bg-navy-deep overflow-hidden">
+                              <div
+                                className={clsx(
+                                  'h-full rounded-full',
+                                  avgS >= 70 ? 'bg-avo-teal' : avgS >= 40 ? 'bg-gold-base' : 'bg-vs-rose'
+                                )}
+                                style={{ width: `${avgS}%` }}
+                              />
+                            </div>
+                            <span className="text-[11px] font-mono font-semibold text-avo-teal w-8 text-right">{avgS}%</span>
                           </div>
-                          <span className="text-[10px] text-text-muted font-mono w-16 text-right">
+
+                          <span className="text-[10px] font-mono text-text-muted w-16 text-right shrink-0 hidden md:block">
                             {totalM} mention{totalM === 1 ? '' : 's'}
                           </span>
+
                           {p.status === 'archived' && (
                             <Pill tone="muted">archived</Pill>
                           )}
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
+
+                          <ChevronRight className="w-3.5 h-3.5 text-text-muted group-hover:text-avo-teal shrink-0" />
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             );
           })}
         </div>
       )}
 
-      {/* Add prompt modal */}
+      {/* Add prompt modal — kept (form is complex enough to need it) */}
       <AddModal
         open={showAdd}
         onClose={() => setShowAdd(false)}
         title="Add a prompt"
-        subtitle="Track a specific question your audience asks AI. Type it manually or let AI suggest variations."
+        subtitle="Track a specific question your audience asks AI."
         topicOptions={topics.map((t) => ({ id: t.id, name: t.name }))}
         topicRequired={true}
         manualLabel="Prompt text"
         manualPlaceholder="e.g. What is the best platform for managing remote engineering teams?"
         aiLabel="Generate with AI"
         aiSeedLabel="Keyword seed"
-        aiSeedPlaceholder="e.g. cost, serverless, startups (comma-separated)"
+        aiSeedPlaceholder="e.g. cost, serverless, startups"
         aiRunGenerator={generatePromptSuggestions}
         onSubmitManual={(text, topicId) => {
           if (!topicId) return;
-          const id = addPrompt(text, topicId);
-          return id;
+          addPrompt(text, topicId);
         }}
         onSubmitAI={(items, topicId) => {
           if (!topicId) return;
           addPrompts(items.map((i) => i.label), topicId);
         }}
-        aiButtonLabel="Generate prompt ideas"
-      />
-
-      {/* Add focus modal */}
-      <AddModal
-        open={showAddFocus}
-        onClose={() => setShowAddFocus(false)}
-        title="Add a focus area"
-        subtitle="Focus areas are themes your audience asks about. Each becomes a bucket for prompts."
-        manualLabel="Focus name"
-        manualPlaceholder="e.g. Database performance tuning"
-        aiLabel="Generate with AI"
-        aiSeedLabel="Keyword seed"
-        aiSeedPlaceholder="e.g. devops, monitoring, latency"
-        aiRunGenerator={async (seed): Promise<SuggestionItem[]> => {
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              const seedWords = seed.trim() || 'your product';
-              const candidates = [
-                `${seedWords[0].toUpperCase() + seedWords.slice(1)} for engineering teams`,
-                `Enterprise ${seedWords}`,
-                `${seedWords} best practices`,
-                `${seedWords} for startups`,
-              ];
-              resolve(candidates.map((label, i) => ({
-                id: 'fg' + Date.now() + '_' + i,
-                label,
-                description: 'AI-generated focus area',
-              })));
-            }, 700);
-          });
-        }}
-        onSubmitManual={(text) => {
-          addTopic(text, 'Custom focus area');
-        }}
-        onSubmitAI={(items) => {
-          for (const it of items) addTopic(it.label, it.description || 'AI-generated');
-        }}
-        aiButtonLabel="Generate focus ideas"
+        aiButtonLabel="Generate ideas"
       />
     </div>
   );
