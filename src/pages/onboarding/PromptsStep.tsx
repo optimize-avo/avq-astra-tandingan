@@ -58,8 +58,16 @@ export function PromptsStep() {
         </p>
       </div>
 
-      <div className="space-y-4">
-        {company.topics.map((topic) => (
+      {company.topics.length === 0 ? (
+        <div className="card-elevated text-center py-8">
+          <p className="text-text-secondary mb-4">No focus areas selected.</p>
+          <button onClick={() => nav('/onboarding/topics')} className="btn btn-secondary">
+            Go back to select focus areas
+          </button>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {company.topics.map((topic) => (
           <div key={topic.id + regenKey} className="card-elevated">
             <div className="flex items-center justify-between mb-3">
               <div>
