@@ -71,7 +71,7 @@ export function VisibilityDetailPage() {
   const [page, setPage] = useState(0);
   const PAGE_SIZE = 10;
 
-  const fullRanking = useMemo(() => {
+  const fullRanking = useMemo<{ name: string; score: number; you: boolean }[]>(() => {
     if (!prompt) return [];
     const base = [...prompt.ranking].sort((a, b) => b.score - a.score);
     const padding = ['Heroku', 'DigitalOcean', 'Linode', 'Hetzner', 'Cloudflare', 'Netlify', 'Vultr', 'Fastly', 'Akamai', 'GCP Cloud Run'];
