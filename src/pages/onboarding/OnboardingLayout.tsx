@@ -1,5 +1,5 @@
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
-import { Check, ArrowLeft, Globe2, Sparkles, Building2, Target, MessageSquare, FileText, CreditCard } from 'lucide-react';
+import { Check, ArrowLeft, Globe2, Sparkles, Building2, Target, MessageSquare, FileText, CreditCard, Zap } from 'lucide-react';
 import clsx from 'clsx';
 
 const STEPS = [
