@@ -25,7 +25,6 @@ const PROMPT_SUGGESTIONS: Record<string, string[]> = {
 export function PromptsStep() {
   const nav = useNavigate();
   const company = useApp((s) => s.company);
-  const prompts = useApp((s) => s.prompts);
   const addPrompt = useApp((s) => s.addPrompt);
   const [regenKey, setRegenKey] = useState(0);
   const [picked, setPicked] = useState<Set<string>>(new Set());
