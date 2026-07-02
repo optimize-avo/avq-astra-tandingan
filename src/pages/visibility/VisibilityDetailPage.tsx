@@ -410,44 +410,7 @@ export function VisibilityDetailPage() {
             </div>
           </Card>
 
-          {/* Prompt medium by region */}
-          <Card>
-            <div className="mono-label mb-3">Prompt medium by region</div>
-            <div className="space-y-2">
-              {prompt.medium.map((m) => (
-                <div key={m.region} className="flex items-center gap-3">
-                  <Globe className="w-3.5 h-3.5 text-text-muted shrink-0" />
-                  <div className="text-sm text-text-secondary flex-1">{m.region}</div>
-                  <div className="flex-1 max-w-[120px]">
-                    <div className="h-2 rounded-full bg-navy-deep overflow-hidden">
-                      <div
-                        className={clsx(
-                          'h-full rounded-full',
-                          m.level === 'high' ? 'bg-score-high' : m.level === 'medium' ? 'bg-score-mid' : 'bg-vs-rose'
-                        )}
-                        style={{ width: m.level === 'high' ? '85%' : m.level === 'medium' ? '55%' : '25%' }}
-                      />
-                    </div>
-                  </div>
-                  <div className="text-[10px] font-mono uppercase w-12 text-right text-text-muted">{m.level}</div>
-                </div>
-              ))}
-            </div>
-          </Card>
-
           {/* Mentioned competitors */}
-          <Card>
-            <div className="mono-label mb-3">Competitors mentioned</div>
-            {mentionedCompetitors.length === 0 ? (
-              <p className="text-sm text-text-muted">No competitors mentioned. Great position.</p>
-            ) : (
-              <div className="flex flex-wrap gap-2">
-                {mentionedCompetitors.map((c) => (
-                  <Pill key={c} tone="rose">{c}</Pill>
-                ))}
-              </div>
-            )}
-          </Card>
         </div>
       </div>
 
