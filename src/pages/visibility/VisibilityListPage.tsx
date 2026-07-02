@@ -303,6 +303,18 @@ export function VisibilityListPage() {
         />
       )}
 
+      {/* Sticky bottom add bar */}
+      {filtered.length > 0 && (
+        <div className="sticky bottom-0 mt-3 -mx-8 px-8 py-3 bg-navy-base/80 backdrop-blur border-t border-navy-edge/60 z-10">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <span className="text-xs text-text-muted font-mono">{filtered.length} prompt{filtered.length === 1 ? '' : 's'} in view</span>
+            <button onClick={() => setShowAdd(true)} className="btn btn-primary !text-xs">
+              <Plus className="w-3.5 h-3.5" /> Add prompt
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Add prompt modal */}
       <AddModal
         open={showAdd}
