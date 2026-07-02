@@ -9,6 +9,7 @@ import { Popover, Dropdown } from '@/components/Popover';
 import {
   Plus, Sparkles, ChevronRight, ChevronDown, Target, X, Check,
   ArrowUpDown, Tag, MoreHorizontal, Filter, List as ListIcon, Layers as LayersIcon,
+  Archive,
 } from 'lucide-react';
 import clsx from 'clsx';
 
