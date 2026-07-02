@@ -126,6 +126,18 @@ export function AddModal<T extends SuggestionItem>({
                 </button>
               )}
             </div>
+            <div className="mt-2 text-[11px] text-text-muted">
+              Don't see your focus area?{' '}
+              <button
+                onClick={() => {
+                  window.dispatchEvent(new CustomEvent('avq:open-new-focus'));
+                  onClose();
+                }}
+                className="text-avo-teal hover:text-pillar-manifest underline transition-colors"
+              >
+                Create a new one
+              </button>
+            </div>
           </div>
         )}
 
