@@ -333,7 +333,7 @@ function FlatTableView({
   return (
     <div className="card !p-0 overflow-hidden">
       {/* Column headers */}
-      <div className="grid grid-cols-[1fr_140px_120px_56px_56px_24px] gap-3 items-center px-3 py-2 bg-navy-deep/60 border-b border-navy-edge/60 text-[10px] uppercase tracking-wider font-mono text-text-muted">
+      <div className="grid grid-cols-[1fr_160px_120px_56px_56px_24px] gap-3 items-center px-3 py-2 bg-navy-deep/60 border-b border-navy-edge/60 text-[10px] uppercase tracking-wider font-mono text-text-muted">
         <div>Prompt</div>
         <div>Focus</div>
         <div>LLM presence</div>
