@@ -368,8 +368,8 @@ export function VisibilityDetailPage() {
           {/* Fanouts inline */}
           <Card>
             <div className="flex items-center justify-between mb-3">
-              <div className="mono-label">Prompt fanouts</div>
-              <div className="text-[11px] text-text-muted">Variants LLMs expand into</div>
+              <div className="mono-label">Prompt idea</div>
+              <div className="text-[11px] text-text-muted">Ideas you can expand into</div>
             </div>
             <div className="space-y-2">
               {prompt.fanouts.map((f, i) => (
