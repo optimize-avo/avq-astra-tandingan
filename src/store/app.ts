@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { CompanyProfile, Prompt, SEED_COMPANY, SEED_PROMPTS } from '@/data/dummy';
+import { CompanyProfile, Prompt, SEED_COMPANY, SEED_PROMPTS, Sentiment } from '@/data/dummy';
 
 interface AppState {
   hasOnboarded: boolean;
@@ -13,7 +13,8 @@ interface AppState {
   addTopic: (name: string, description: string) => void;
   toggleTopic: (id: string) => void;
   removeTopic: (id: string) => void;
-  addPrompt: (text: string, topicId: string) => void;
+  addPrompt: (text: string, topicId: string) => string;
+  addPrompts: (texts: string[], topicId: string) => void;
   togglePromptStatus: (id: string) => void;
 }
 
@@ -60,11 +61,12 @@ export const useApp = create<AppState>()(
           },
         })),
 
-      addPrompt: (text, topicId) =>
+      addPrompt: (text, topicId) => {
+        const id = 'p' + Date.now();
         set((s) => ({
           prompts: [
             {
-              id: 'p' + Date.now(),
+              id,
               text,
               topicId,
               createdAt: new Date().toISOString(),
@@ -80,7 +82,30 @@ export const useApp = create<AppState>()(
             },
             ...s.prompts,
           ],
-        })),
+        }));
+        return id;
+      },
+
+      addPrompts: (texts, topicId) =>
+        set((s) => {
+          const base = Date.now();
+          const newPrompts: Prompt[] = texts.map((text, i) => ({
+            id: 'p' + (base + i),
+            text,
+            topicId,
+            createdAt: new Date().toISOString(),
+            status: 'active',
+            mentions: { ChatGPT: 0, Gemini: 0, Perplexity: 0 },
+            sov: { ChatGPT: 0, Gemini: 0, Perplexity: 0 },
+            sentiment: { ChatGPT: 'neutral' as Sentiment, Gemini: 'neutral' as Sentiment, Perplexity: 'neutral' as Sentiment },
+            conversation: [],
+            sources: [],
+            ranking: [],
+            medium: [],
+            fanouts: [],
+          }));
+          return { prompts: [...newPrompts, ...s.prompts] };
+        }),
 
       togglePromptStatus: (id) =>
         set((s) => ({

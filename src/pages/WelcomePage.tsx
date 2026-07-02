@@ -43,7 +43,7 @@ export function WelcomePage() {
 
             <div className="flex flex-wrap items-center gap-3 mt-7">
               <button
-                onClick={() => navigate('/onboarding/language')}
+                onClick={() => navigate('/onboarding/start')}
                 className="btn btn-primary text-base !px-6 !py-3"
               >
                 Start demo

@@ -18,7 +18,6 @@ export function TopicsStep() {
   const company = useApp((s) => s.company);
   const add = useApp((s) => s.addTopic);
   const remove = useApp((s) => s.removeTopic);
-  const [newName, setNewName] = useState('');
   const [regenKey, setRegenKey] = useState(0);
 
   const selected = new Set(company.topics.map((t) => t.name));
@@ -26,16 +25,16 @@ export function TopicsStep() {
   return (
     <div className="space-y-6">
       <div>
-        <div className="mono-label text-avo-teal mb-1.5">Step 5 · Topics</div>
-        <h2 className="font-display font-bold text-2xl text-text-bright">Pick topics to monitor</h2>
+        <div className="mono-label text-avo-teal mb-1.5">Step 4 · Focus areas</div>
+        <h2 className="font-display font-bold text-2xl text-text-bright">What should we monitor?</h2>
         <p className="text-sm text-text-secondary mt-2 max-w-xl">
-          These are the themes people ask AI about. We'll generate prompts for each selected topic.
+          These are the themes your audience asks AI about. Each becomes a "focus" we'll generate prompts around. Pick 3-5 to start.
         </p>
       </div>
 
       <div className="card-elevated space-y-3">
         <div className="flex items-center justify-between">
-          <div className="mono-label">AI-generated topics</div>
+          <div className="mono-label">AI-suggested focus areas</div>
           <button
             onClick={() => setRegenKey((k) => k + 1)}
             className="btn btn-ghost !text-xs !py-1 !px-2"
@@ -43,6 +42,7 @@ export function TopicsStep() {
             <RefreshCw className="w-3 h-3" /> Regenerate
           </button>
         </div>
+
         <div className="grid sm:grid-cols-2 gap-2">
           {SUGGESTIONS.map((s) => {
             const isSelected = selected.has(s.name);
@@ -81,35 +81,21 @@ export function TopicsStep() {
           })}
         </div>
 
-        <div className="flex items-center gap-2 pt-2 border-t border-navy-edge/40">
-          <Sparkles className="w-3.5 h-3.5 text-gold-base" />
-          <input
-            value={newName}
-            onChange={(e) => setNewName(e.target.value)}
-            placeholder="Add custom topic (e.g. API rate limiting)"
-            className="flex-1 bg-transparent border-b border-navy-edge focus:border-avo-teal py-1.5 text-sm text-text-bright placeholder:text-text-muted focus:outline-none"
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && newName.trim()) {
-                add(newName.trim(), 'Custom topic');
-                setNewName('');
-              }
-            }}
-          />
+        <div className="border-t border-navy-edge/40 pt-3">
           <button
             onClick={() => {
-              if (newName.trim()) {
-                add(newName.trim(), 'Custom topic');
-                setNewName('');
-              }
+              const name = prompt('Focus area name');
+              if (name?.trim()) add(name.trim(), 'Custom focus');
             }}
-            className="btn btn-secondary !text-xs !py-1.5"
+            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg border border-dashed border-navy-edge hover:border-avo-teal/40 text-text-secondary hover:text-avo-teal text-sm font-display font-semibold transition-all"
           >
-            <Plus className="w-3 h-3" /> Add
+            <Plus className="w-4 h-4" /> Add custom focus area
           </button>
         </div>
 
-        <div className="text-xs text-text-muted pt-1">
-          {company.topics.length} topic{company.topics.length === 1 ? '' : 's'} selected
+        <div className="text-xs text-text-muted pt-1 flex items-center gap-2">
+          <Sparkles className="w-3.5 h-3.5 text-gold-base" />
+          {company.topics.length} focus area{company.topics.length === 1 ? '' : 's'} selected
         </div>
       </div>
 
@@ -120,7 +106,7 @@ export function TopicsStep() {
           disabled={company.topics.length === 0}
           className="btn btn-primary"
         >
-          Generate prompts →
+          Continue →
         </button>
       </div>
     </div>

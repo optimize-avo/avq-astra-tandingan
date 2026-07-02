@@ -3,8 +3,7 @@ import { useApp } from '@/store/app';
 import { AppShell } from '@/components/AppShell';
 import { WelcomePage } from '@/pages/WelcomePage';
 import { OnboardingLayout } from '@/pages/onboarding/OnboardingLayout';
-import { LanguageStep } from '@/pages/onboarding/LanguageStep';
-import { DomainStep } from '@/pages/onboarding/DomainStep';
+import { StartStep } from '@/pages/onboarding/StartStep';
 import { AnalyzingStep } from '@/pages/onboarding/AnalyzingStep';
 import { CompanyStep } from '@/pages/onboarding/CompanyStep';
 import { TopicsStep } from '@/pages/onboarding/TopicsStep';
@@ -25,9 +24,8 @@ export default function App() {
       <Route path="/" element={<WelcomePage />} />
 
       <Route path="/onboarding" element={<OnboardingLayout />}>
-        <Route index element={<Navigate to="language" replace />} />
-        <Route path="language" element={<LanguageStep />} />
-        <Route path="domain" element={<DomainStep />} />
+        <Route index element={<Navigate to="start" replace />} />
+        <Route path="start" element={<StartStep />} />
         <Route path="analyzing" element={<AnalyzingStep />} />
         <Route path="company" element={<CompanyStep />} />
         <Route path="topics" element={<TopicsStep />} />
