@@ -8,6 +8,7 @@ interface AppState {
   prompts: Prompt[];
 
   completeOnboarding: () => void;
+  loadSeed: () => void;
   resetOnboarding: () => void;
   resetAll: () => void;
   updateCompany: (patch: Partial<CompanyProfile>) => void;
