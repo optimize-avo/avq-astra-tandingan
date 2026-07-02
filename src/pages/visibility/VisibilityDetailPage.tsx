@@ -239,74 +239,98 @@ export function VisibilityDetailPage() {
               <div className="text-[11px] text-text-muted">Where you rank against competitors</div>
             </div>
             <div className="divide-y divide-navy-edge/40">
-              {[...prompt.ranking]
-                .sort((a, b) => b.score - a.score)
-                .map((r, idx) => {
-                  const rank = idx + 1;
-                  const pct = Math.round(r.score * 100);
-                  return (
+              {visibleRanking.map((r, idx) => {
+                const rank = page * PAGE_SIZE + idx + 1;
+                const pct = Math.round(r.score * 100);
+                return (
+                  <div
+                    key={r.name}
+                    className={clsx(
+                      'flex items-center gap-3 py-2 px-2 -mx-2 rounded-md',
+                      r.you && 'bg-avo-teal/5 border border-avo-teal/30'
+                    )}
+                  >
+                    {/* Rank */}
                     <div
-                      key={r.name}
                       className={clsx(
-                        'flex items-center gap-3 py-2 px-2 -mx-2 rounded-md',
-                        r.you && 'bg-avo-teal/5 border border-avo-teal/30'
+                        'w-7 h-7 rounded-md flex items-center justify-center font-display font-bold text-sm shrink-0',
+                        rank === 1 ? 'bg-gold-base/15 text-gold-base border border-gold-base/30'
+                          : rank === 2 ? 'bg-slate-200/10 text-slate-300 border border-slate-300/20'
+                            : rank === 3 ? 'bg-amber-700/15 text-amber-600 border border-amber-700/30'
+                              : 'bg-navy-deep text-text-muted border border-navy-edge'
                       )}
                     >
-                      {/* Rank */}
-                      <div
-                        className={clsx(
-                          'w-7 h-7 rounded-md flex items-center justify-center font-display font-bold text-sm shrink-0',
-                          rank === 1 ? 'bg-gold-base/15 text-gold-base border border-gold-base/30'
-                            : rank === 2 ? 'bg-slate-200/10 text-slate-300 border border-slate-300/20'
-                              : rank === 3 ? 'bg-amber-700/15 text-amber-600 border border-amber-700/30'
-                                : 'bg-navy-deep text-text-muted border border-navy-edge'
-                        )}
-                      >
-                        {rank}
-                      </div>
+                      {rank}
+                    </div>
 
-                      {/* Brand initial avatar */}
-                      <div
-                        className={clsx(
-                          'w-7 h-7 rounded-full flex items-center justify-center font-display font-bold text-xs shrink-0',
-                          r.you ? 'bg-avo-teal text-navy-base' : 'bg-navy-elevated text-text-secondary border border-navy-edge'
-                        )}
-                      >
-                        {r.name.charAt(0)}
-                      </div>
+                    {/* Brand initial avatar */}
+                    <div
+                      className={clsx(
+                        'w-7 h-7 rounded-full flex items-center justify-center font-display font-bold text-xs shrink-0',
+                        r.you ? 'bg-avo-teal text-navy-base' : 'bg-navy-elevated text-text-secondary border border-navy-edge'
+                      )}
+                    >
+                      {r.name.charAt(0)}
+                    </div>
 
-                      {/* Name + badge */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className={clsx('text-sm font-display font-semibold truncate', r.you ? 'text-avo-teal' : 'text-text-bright')}>
-                            {r.name}
-                          </span>
-                          {r.you && <Pill tone="teal">you</Pill>}
-                          {rank === 1 && <Pill tone="gold">#1</Pill>}
-                        </div>
-                      </div>
-
-                      {/* Bar */}
-                      <div className="hidden sm:block w-32 shrink-0">
-                        <div className="h-1.5 rounded-full bg-navy-deep overflow-hidden">
-                          <div
-                            className={clsx(
-                              'h-full rounded-full',
-                              r.you ? 'bg-avo-teal' : rank === 1 ? 'bg-gold-base' : 'bg-navy-edge'
-                            )}
-                            style={{ width: `${Math.max(pct, 2)}%` }}
-                          />
-                        </div>
-                      </div>
-
-                      {/* Percent */}
-                      <div className="font-display font-bold text-sm text-text-bright w-12 text-right tabular-nums">
-                        {pct}<span className="text-text-muted text-xs">%</span>
+                    {/* Name + badge */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className={clsx('text-sm font-display font-semibold truncate', r.you ? 'text-avo-teal' : 'text-text-bright')}>
+                          {r.name}
+                        </span>
+                        {r.you && <Pill tone="teal">you</Pill>}
+                        {rank === 1 && <Pill tone="gold">#1</Pill>}
                       </div>
                     </div>
-                  );
-                })}
+
+                    {/* Bar */}
+                    <div className="hidden sm:block w-32 shrink-0">
+                      <div className="h-1.5 rounded-full bg-navy-deep overflow-hidden">
+                        <div
+                          className={clsx(
+                            'h-full rounded-full',
+                            r.you ? 'bg-avo-teal' : rank === 1 ? 'bg-gold-base' : 'bg-navy-edge'
+                          )}
+                          style={{ width: `${Math.max(pct, 2)}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Percent */}
+                    <div className="font-display font-bold text-sm text-text-bright w-12 text-right tabular-nums">
+                      {pct}<span className="text-text-muted text-xs">%</span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between mt-3 pt-3 border-t border-navy-edge/40">
+                <span className="text-[10px] text-text-muted font-mono">
+                  Showing {page * PAGE_SIZE + 1}–{Math.min((page + 1) * PAGE_SIZE, fullRanking.length)} of {fullRanking.length}
+                </span>
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => setPage((p) => Math.max(0, p - 1))}
+                    disabled={page === 0}
+                    className="btn btn-ghost !text-xs !px-2 disabled:opacity-30"
+                  >
+                    <ChevronLeft className="w-3 h-3" /> Prev
+                  </button>
+                  <span className="text-[10px] font-mono text-text-muted px-2">
+                    {page + 1} / {totalPages}
+                  </span>
+                  <button
+                    onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                    disabled={page >= totalPages - 1}
+                    className="btn btn-ghost !text-xs !px-2 disabled:opacity-30"
+                  >
+                    Next <ChevronRight className="w-3 h-3" />
+                  </button>
+                </div>
+              </div>
+            )}
           </Card>
 
           {/* Sources inline */}
