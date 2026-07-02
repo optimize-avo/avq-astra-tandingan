@@ -30,7 +30,6 @@ const PLANS = [
 
 export function PaymentStep() {
   const nav = useNavigate();
-  const complete = useApp((s) => s.completeOnboarding);
 
   return (
     <div className="space-y-6">
