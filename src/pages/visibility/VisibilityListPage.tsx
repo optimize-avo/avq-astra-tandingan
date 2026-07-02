@@ -539,21 +539,15 @@ function GroupedView({
                         {p.text}
                       </span>
 
-                      <div className="hidden sm:flex items-center gap-2 w-40 shrink-0">
-                        <div className="flex-1 h-1 rounded-full bg-navy-deep overflow-hidden">
-                          <div
-                            className={clsx(
-                              'h-full rounded-full',
-                              avgS >= 70 ? 'bg-avo-teal' : avgS >= 40 ? 'bg-gold-base' : 'bg-vs-rose'
-                            )}
-                            style={{ width: `${avgS}%` }}
-                          />
-                        </div>
-                        <span className="text-[11px] font-mono font-semibold text-avo-teal w-8 text-right">{avgS}%</span>
-                      </div>
+                      <span className={clsx(
+                        'text-[11px] font-mono font-semibold tabular-nums w-12 text-right shrink-0 hidden sm:block',
+                        avgS >= 70 ? 'text-avo-teal' : avgS >= 40 ? 'text-gold-base' : 'text-vs-rose'
+                      )}>
+                        {avgS}<span className="text-text-muted">%</span>
+                      </span>
 
-                      <span className="text-[10px] font-mono text-text-muted w-16 text-right shrink-0 hidden md:block">
-                        {totalM} mention{totalM === 1 ? '' : 's'}
+                      <span className="text-[10px] font-mono text-text-muted w-12 text-right shrink-0 hidden md:block">
+                        {totalM}<span className="text-text-disabled">/3</span>
                       </span>
 
                       {p.status === 'archived' && <Pill tone="muted">archived</Pill>}
