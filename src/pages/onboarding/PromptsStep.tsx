@@ -123,8 +123,7 @@ export function PromptsStep() {
               </button>
             </div>
           </div>
-        </>
-      )}
+        
 
       <div className="flex justify-between pt-4">
         <button onClick={() => nav('/onboarding/topics')} className="btn btn-ghost">← Back</button>
