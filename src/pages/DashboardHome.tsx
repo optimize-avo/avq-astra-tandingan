@@ -17,24 +17,28 @@ const TREND_30 = Array.from({ length: 30 }).map((_, i) => {
 });
 
 export function DashboardHome() {
-  const prompts = useCurrentPrompts();
-  const company = useApp((s) => s.company);
-  const brands = useApp((s) => s.brands);
-  const currentBrandId = useApp((s) => s.currentBrandId);
+  const prompts = useCurrentPrompts() ?? [];
+  const company = useApp((s) => s.company) ?? { name: '...', domain: '', competitors: [] };
+  const brands = useApp((s) => s.brands) ?? [];
+  const currentBrandId = useApp((s) => s.currentBrandId) ?? '';
   const switchBrand = useApp((s) => s.switchBrand);
   const addBrand = useApp((s) => s.addBrand);
 
   const [showTrend, setShowTrend] = useState(false);
   const [showAddBrand, setShowAddBrand] = useState(false);
 
+  const safeScore = (p: typeof prompts[0], key: string) =>
+    (p.visibilityScore as Record<string, number>)?.[key] ?? 0;
+
   const totalMentions = prompts.reduce(
-    (s, p) => s + p.mentions.ChatGPT + p.mentions.Gemini + p.mentions.Perplexity,
-    0
+    (s, p) => s + ((p.mentions as Record<string, number>)?.[key] ?? 0) +
+      ((p.mentions as Record<string, number>)?.[key] ?? 0) +
+      ((p.mentions as Record<string, number>)?.[key] ?? 0), 0
   );
   const avgScore = prompts.length
     ? Math.round(
         (prompts.reduce(
-          (s, p) => s + (p.visibilityScore.ChatGPT + p.visibilityScore.Gemini + p.visibilityScore.Perplexity) / 3,
+          (s, p) => s + (safeScore(p, 'ChatGPT') + safeScore(p, 'Gemini') + safeScore(p, 'Perplexity')) / 3,
           0
         ) /
           prompts.length) *
