@@ -1,34 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '@/store/app';
 import { Plus, RefreshCw, Sparkles, Check } from 'lucide-react';
 import clsx from 'clsx';
-import { SEED_COMPANY } from '@/data/dummy';
 
-const SUGGESTIONS = [
-  { name: 'Jasa Desain Logo', description: 'Logo design, brand identity, dan visual branding untuk bisnis.' },
-  { name: 'Konten & Branding', description: 'Social media design, branding visual, dan materi marketing.' },
-  { name: 'Website & Programming', description: 'Web development, UI/UX design, dan aplikasi digital.' },
-  { name: 'Copywriting & Content', description: 'Penulisan konten website, blog, dan materi promosi.' },
-  { name: 'Video & Animasi', description: 'Video editing, motion graphic, dan animasi untuk media sosial.' },
-  { name: 'Admin & Virtual Assistant', description: 'Data entry, research, dan tugas administratif.' },
+// Always show these 3 Sribu topics — demo mode, ignore user picks
+const DEMO_TOPICS = [
+  { id: 't1', name: 'Jasa Desain Logo', description: 'Logo design, brand identity, dan visual branding untuk bisnis.' },
+  { id: 't2', name: 'Konten & Branding', description: 'Social media design, branding visual, dan materi marketing.' },
+  { id: 't3', name: 'Website & Programming', description: 'Web development, UI/UX design, dan aplikasi digital.' },
 ];
 
 export function TopicsStep() {
   const nav = useNavigate();
-  const company = useApp((s) => s.company);
-  const add = useApp((s) => s.addTopic);
-  const remove = useApp((s) => s.removeTopic);
   const [regenKey, setRegenKey] = useState(0);
-
-  // Pre-select all 3 topics from SEED_COMPANY so step shows selections on load
-  useEffect(() => {
-    if (company.topics.length === 0) {
-      SEED_COMPANY.topics.forEach((t) => add(t.name, t.description));
-    }
-  }, []); // run once on mount
-
-  const selected = new Set(company.topics.map((t) => t.name));
+  const [selected, setSelected] = useState<Set<string>>(
+    new Set(DEMO_TOPICS.map((t) => t.name))
+  );
 
   return (
     <div className="space-y-6">
