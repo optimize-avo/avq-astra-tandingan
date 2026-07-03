@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, X, Pencil } from 'lucide-react';
+import { SEED_COMPANY } from '@/data/dummy';
 
 export function CompanyStep() {
   const nav = useNavigate();
-  const [name, setName] = useState('');
-  const [overview, setOverview] = useState('');
-  const [diffs, setDiffs] = useState<string[]>([]);
-  const [comps, setComps] = useState<{ id: string; name: string; domain: string }[]>([]);
+  const [name, setName] = useState(SEED_COMPANY.name);
+  const [overview, setOverview] = useState(SEED_COMPANY.overview);
+  const [diffs, setDiffs] = useState<string[]>([...SEED_COMPANY.differentiators]);
+  const [comps, setComps] = useState<{ id: string; name: string; domain: string }[]>([...SEED_COMPANY.competitors]);
   const [newDiff, setNewDiff] = useState('');
   const [newComp, setNewComp] = useState('');
 
