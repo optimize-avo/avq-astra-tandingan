@@ -288,14 +288,14 @@ function TrendPopup({ onClose }: { onClose: () => void }) {
   const [customFrom, setCustomFrom] = useState('');
   const [customTo, setCustomTo] = useState('');
 
-  // Esc to close
+  // Esc to close — use ref so we don't re-run when onClose identity changes
+  const closeRef = useRef(onClose);
+  closeRef.current = onClose;
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [onClose]);
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') closeRef.current(); };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, []);
 
   const data =
     range === '7d' ? TREND_30.slice(-7) : range === '30d' ? TREND_30 : TREND_30;
