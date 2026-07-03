@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '@/store/app';
 import { RefreshCw, Sparkles, Check } from 'lucide-react';
 import clsx from 'clsx';
 import { useState, useMemo } from 'react';
