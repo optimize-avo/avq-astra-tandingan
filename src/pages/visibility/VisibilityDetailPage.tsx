@@ -72,7 +72,14 @@ export function VisibilityDetailPage() {
   const prompt = prompts.find((p) => p.id === id);
   const [showConv, setShowConv] = useState(false);
   const [page, setPage] = useState(0);
+  const [rerunning, setRerunning] = useState(false);
   const PAGE_SIZE = 10;
+
+  useEffect(() => {
+    if (!rerunning) return;
+    const t = setTimeout(() => setRerunning(false), 2500);
+    return () => clearTimeout(t);
+  }, [rerunning]);
 
   const fullRanking = useMemo<{ name: string; score: number; you: boolean }[]>(() => {
     if (!prompt) return [];
