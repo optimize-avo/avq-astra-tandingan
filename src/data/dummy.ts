@@ -187,6 +187,16 @@ export const SEED_PROMPTS: Prompt[] = [
       'Promo desain logo di marketplace freelancer Indonesia',
       'Berapa lama pengerjaan desain logo di Sribu?',
     ],
+    history: [
+      { date: '2025-05-10', score: 0.55 },
+      { date: '2025-05-17', score: 0.60 },
+      { date: '2025-05-24', score: 0.58 },
+      { date: '2025-05-31', score: 0.65 },
+      { date: '2025-06-07', score: 0.70 },
+      { date: '2025-06-14', score: 0.75 },
+      { date: '2025-06-21', score: 0.77 },
+      { date: '2025-06-28', score: 0.78 },
+    ],
   },
   {
     id: 'p3',
