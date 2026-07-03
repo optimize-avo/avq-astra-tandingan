@@ -40,6 +40,13 @@ export interface Prompt {
   medium: { region: string; level: 'low' | 'medium' | 'high' }[];
   // Prompt fanouts — variants LLMs tend to expand into
   fanouts: string[];
+  // Weekly visibility history snapshots
+  history: HistoryEntry[];
+}
+
+export interface HistoryEntry {
+  date: string; // ISO date string
+  score: number; // 0..1
 }
 
 export interface ConversationTurn {
