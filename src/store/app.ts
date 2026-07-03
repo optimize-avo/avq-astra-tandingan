@@ -44,7 +44,16 @@ export const useApp = create<AppState>()(
 
       completeOnboarding: () => set({ hasOnboarded: true }),
       loadSeed: () => set({ company: SEED_COMPANY, prompts: SEED_PROMPTS }),
-      resetOnboarding: () => set({ hasOnboarded: false }),
+      resetOnboarding: () => set({
+        hasOnboarded: false,
+        prompts: [],
+        company: {
+          ...SEED_COMPANY,
+          topics: [],
+          differentiators: [],
+          competitors: [],
+        },
+      }),
       resetAll: () => set({ hasOnboarded: false, company: SEED_COMPANY, prompts: SEED_PROMPTS }),
 
       updateCompany: (patch) => set((s) => ({ company: { ...s.company, ...patch } })),
