@@ -117,7 +117,7 @@ export function VisibilityDetailPage() {
 
       {/* Hero — prominent Visibility Score */}
       <Card elevated className="mb-6 overflow-hidden">
-        <div className="flex items-stretch gap-6">
+        <div className="flex items-stretch gap-3">
           {/* Left: prompt context */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-3">
