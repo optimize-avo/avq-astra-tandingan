@@ -1,16 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '@/store/app';
 import { Plus, RefreshCw, Sparkles, Check } from 'lucide-react';
 import clsx from 'clsx';
+import { SEED_COMPANY } from '@/data/dummy';
 
 const SUGGESTIONS = [
-  { name: 'Cloud Cost Optimization', description: 'Reducing cloud spend through automated rightsizing and scheduling.' },
-  { name: 'Serverless Deployment', description: 'Deploying and scaling distributed apps without managing infrastructure.' },
-  { name: 'Observability & Monitoring', description: 'Tracing, metrics, and logs for modern cloud-native apps.' },
-  { name: 'Database Performance', description: 'Tuning query latency and throughput in production.' },
-  { name: 'CI/CD Pipelines', description: 'Automated build, test, and deploy workflows.' },
-  { name: 'Container Orchestration', description: 'Running workloads reliably across clusters.' },
+  { name: 'Design Subscription', description: 'Monthly/yearly design subscription plans and pricing.' },
+  { name: 'Logo & Brand Identity', description: 'Logo design, brand guidelines, visual identity.' },
+  { name: 'Social Media Design', description: 'Instagram, TikTok, Facebook content design.' },
+  { name: 'Website & UI/UX Design', description: 'Website layout, user interface, and experience design.' },
+  { name: 'Print & Merchandise', description: 'Brochure, packaging, name card, and merchandise design.' },
+  { name: 'Illustration & Character', description: 'Custom illustration and mascot character design.' },
 ];
 
 export function TopicsStep() {
