@@ -32,10 +32,30 @@ export function PerplexityIcon({ className, size = 14 }: { className?: string; s
   );
 }
 
+export function DeepseekIcon({ className, size = 14 }: { className?: string; size?: number }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} className={className} fill="currentColor" aria-label="Deepseek">
+      <circle cx="12" cy="12" r="10" fill="#1E6FFF" />
+      <text x="12" y="16" textAnchor="middle" fontSize="10" fill="white" fontWeight="bold">DS</text>
+    </svg>
+  );
+}
+
+export function ClaudeIcon({ className, size = 14 }: { className?: string; size?: number }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} className={className} fill="currentColor" aria-label="Claude">
+      <circle cx="12" cy="12" r="10" fill="#CC785C" />
+      <text x="12" y="16" textAnchor="middle" fontSize="10" fill="white" fontWeight="bold">Cl</text>
+    </svg>
+  );
+}
+
 export const LLM_ICONS = {
   ChatGPT: ChatGPTIcon,
   Gemini: GeminiIcon,
   Perplexity: PerplexityIcon,
+  Deepseek: DeepseekIcon,
+  Claude: ClaudeIcon,
 } as const;
 
 import type { LLM } from '@/data/dummy';
