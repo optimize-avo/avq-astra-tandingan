@@ -160,7 +160,7 @@ export function VisibilityDetailPage() {
           </div>
 
           {/* Right: circular gauge + score */}
-          <div className="shrink-0 flex flex-col items-center justify-center pl-6 border-l border-navy-edge/50" style={{ minWidth: 220 }}>
+          <div className="shrink-0 flex flex-col items-center justify-center pl-6 border-l border-navy-edge/50" style={{ minWidth: 180 }}>
             <div className="mono-label mb-2">Visibility Score</div>
             <VisibilityGauge value={avgScore} />
             <div className="flex items-center gap-1.5 mt-2 text-xs">
