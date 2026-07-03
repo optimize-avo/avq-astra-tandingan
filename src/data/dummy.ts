@@ -137,6 +137,16 @@ export const SEED_PROMPTS: Prompt[] = [
       'Cara pilih freelancer desain yang bagus di platform online',
       'Platform freelancer termurah untuk desain logo di Indonesia',
     ],
+    history: [
+      { date: '2025-05-10', score: 0.45 },
+      { date: '2025-05-17', score: 0.52 },
+      { date: '2025-05-24', score: 0.58 },
+      { date: '2025-05-31', score: 0.55 },
+      { date: '2025-06-07', score: 0.68 },
+      { date: '2025-06-14', score: 0.72 },
+      { date: '2025-06-21', score: 0.75 },
+      { date: '2025-06-28', score: 0.80 },
+    ],
   },
   {
     id: 'p2',

@@ -337,6 +337,91 @@ export function VisibilityListPage() {
         onSubmitAI={(items, topicId) => { if (topicId) addPrompts(items.map((i) => i.label), topicId); }}
         aiButtonLabel="Generate ideas"
       />
+
+      {/* Rerun visibility modal */}
+      {showRerun && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-base/85 backdrop-blur-sm" onClick={() => { if (!rerunProgress) setShowRerun(false); }}>
+          <div className="card-elevated w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <div className="font-display font-semibold text-text-bright">Rerun visibility</div>
+                <div className="text-xs text-text-muted mt-0.5">Select prompts and LLMs to scan</div>
+              </div>
+              {!rerunProgress && (
+                <button onClick={() => setShowRerun(false)} className="text-text-muted hover:text-text-bright">
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+
+            {rerunProgress ? (
+              <div className="py-4 text-center">
+                <div className="w-10 h-10 rounded-full border-2 border-avo-teal/20 border-t-avo-teal animate-spin mx-auto mb-3" />
+                <div className="text-sm text-text-bright font-display">{rerunProgress}</div>
+                <div className="text-xs text-text-muted mt-1">This usually takes under a minute</div>
+              </div>
+            ) : (
+              <>
+                {/* Prompts selection */}
+                <div className="mb-3">
+                  <div className="text-[10px] mono-label text-text-muted mb-2">Prompts ({sorted.length})</div>
+                  <div className="space-y-1 max-h-40 overflow-y-auto">
+                    {sorted.map((p) => (
+                      <label key={p.id} className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-navy-elevated/30 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          defaultChecked
+                          className="w-3.5 h-3.5 rounded border-navy-edge accent-avo-teal"
+                          id={`rerun-p-${p.id}`}
+                        />
+                        <span className="text-xs text-text-secondary truncate">{p.text}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* LLMs selection */}
+                <div className="mb-4">
+                  <div className="text-[10px] mono-label text-text-muted mb-2">LLMs (3)</div>
+                  <div className="flex items-center gap-2">
+                    {LLMS.map((l) => (
+                      <label key={l} className="flex items-center gap-1.5 px-2 py-1 rounded hover:bg-navy-elevated/30 cursor-pointer">
+                        <input type="checkbox" defaultChecked className="w-3.5 h-3.5 rounded border-navy-edge accent-avo-teal" />
+                        <LLMIcon llm={l} size={12} />
+                        <span className="text-xs text-text-secondary">{l}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 text-xs text-text-muted mb-4 p-2 rounded bg-navy-deep/40">
+                  <Zap className="w-3.5 h-3.5 text-gold-base shrink-0" />
+                  <span>Estimasi: {sorted.length * 3} credits · {sorted.length} prompt × 3 LLMs</span>
+                </div>
+
+                <button
+                  onClick={() => {
+                    const steps = ['Scanning ChatGPT…', 'Scanning Gemini…', 'Scanning Perplexity…', 'Compiling results…'];
+                    let i = 0;
+                    setRerunProgress(steps[i]);
+                    const iv = setInterval(() => {
+                      i++;
+                      if (i < steps.length) setRerunProgress(steps[i]);
+                      else {
+                        clearInterval(iv);
+                        setTimeout(() => { setRerunProgress(null); setShowRerun(false); }, 800);
+                      }
+                    }, 700);
+                  }}
+                  className="btn btn-primary w-full"
+                >
+                  <Sparkles className="w-3.5 h-3.5" /> Run visibility scan
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
