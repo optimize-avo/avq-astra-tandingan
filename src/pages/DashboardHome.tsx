@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useApp, useCurrentPrompts } from '@/store/app';
-import { PageHeader, Card, Pill } from '@/components/ui';
+import { PageHeader, Card } from '@/components/ui';
 import { Popover } from '@/components/Popover';
 import { Eye, ArrowRight, Building2, ChevronDown, Plus, X, TrendingUp } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
