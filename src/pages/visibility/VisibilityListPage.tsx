@@ -70,6 +70,16 @@ export function VisibilityListPage() {
   const [rerunProgress, setRerunProgress] = useState<string | null>(null);
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
 
+  const [weekData, setWeekData] = useState([
+    { week: 'W-7', score: 28 },
+    { week: 'W-6', score: 32 },
+    { week: 'W-5', score: 29 },
+    { week: 'W-4', score: 35 },
+    { week: 'W-3', score: 38 },
+    { week: 'W-2', score: 36 },
+    { week: 'W-1', score: 41 },
+  ]);
+
   // New focus popover state
   const [newFocusName, setNewFocusName] = useState('');
   const [newFocusSeed, setNewFocusSeed] = useState('');
