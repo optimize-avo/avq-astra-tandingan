@@ -340,9 +340,9 @@ export const SEED_PROMPTS: Prompt[] = [
     topicId: 't3',
     createdAt: now(),
     status: 'archived',
-    mentions: { ChatGPT: 0, Gemini: 0, Perplexity: 0 },
-    visibilityScore: { ChatGPT: 0, Gemini: 0, Perplexity: 0 },
-    sentiment: { ChatGPT: 'neutral', Gemini: 'neutral', Perplexity: 'neutral' },
+    mentions: { ChatGPT: 0, Gemini: 0, Perplexity: 0, Deepseek: 0, Claude: 0 },
+    visibilityScore: { ChatGPT: 0, Gemini: 0, Perplexity: 0, Deepseek: 0, Claude: 0 },
+    sentiment: { ChatGPT: 'neutral', Gemini: 'neutral', Perplexity: 'neutral', Deepseek: 'neutral', Claude: 'neutral' },
     conversation: [
       { role: 'user', content: 'Berapa biaya pembuatan website company profile di Sribu?' },
       {
