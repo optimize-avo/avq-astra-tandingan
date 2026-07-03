@@ -164,6 +164,14 @@ export function VisibilityListPage() {
             <span className="text-xs text-text-muted font-mono ml-2">avg score</span>
           </div>
         </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowRerun(true)}
+            className="btn btn-secondary !text-xs"
+          >
+            <RefreshCw className="w-3.5 h-3.5" /> Rerun
+          </button>
+        </div>
       </div>
 
       {/* Filter bar */}
