@@ -177,10 +177,10 @@ export const useApp = create<AppState>()(
         // Normalize old schema (sov → visibilityScore) so users with stale localStorage don't crash
         let prompts = (persisted.prompts || []).map((p: any) => ({
           ...p,
-          visibilityScore:
-            p.visibilityScore ||
-            p.sov ||
-            { ChatGPT: 0, Gemini: 0, Perplexity: 0 },
+          visibilityScore: {
+            ChatGPT: 0, Gemini: 0, Perplexity: 0, Deepseek: 0, Claude: 0,
+            ...(p.visibilityScore || p.sov || {}),
+          },
           ranking: (p.ranking || []).map((r: any) => ({
             name: r.name,
             score: typeof r.score === 'number' ? r.score : typeof r.sov === 'number' ? r.sov : 0,
