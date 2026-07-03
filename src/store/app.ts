@@ -151,6 +151,7 @@ export const useApp = create<AppState>()(
         const id = 'brand_' + Date.now();
         set((s) => {
           const newBrand: CompanyProfile = {
+            id,
             name: input.name,
             domain: input.domain,
             language: input.language,
