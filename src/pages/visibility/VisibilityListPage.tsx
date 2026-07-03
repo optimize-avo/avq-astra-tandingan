@@ -376,9 +376,8 @@ function FlatTableView({
             {/* Focus label */}
             <div className="min-w-0">
               {topic ? (
-                <span className="inline-flex items-center gap-1 text-[11px] text-text-secondary truncate min-w-0">
-                  <span className="w-1 h-3 rounded-full bg-gradient-to-b from-avo-teal to-pillar-manifest shrink-0" />
-                  <span className="truncate">{topic.name}</span>
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-avo-teal/10 border border-avo-teal/25 text-avo-teal text-[11px] font-display font-semibold truncate max-w-[160px]">
+                  {topic.name}
                 </span>
               ) : (
                 <span className="text-[11px] text-text-muted">—</span>
