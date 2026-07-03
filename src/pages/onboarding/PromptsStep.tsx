@@ -34,7 +34,6 @@ const DEMO_TOPICS = [
 
 export function PromptsStep() {
   const nav = useNavigate();
-  const addPrompt = useApp((s) => s.addPrompt);
   const [regenKey, setRegenKey] = useState(0);
   const [picked, setPicked] = useState<Set<string>>(new Set());
 
