@@ -15,6 +15,7 @@ const LLM_DESC: Record<LLM, string> = {
 export function TrackStep() {
   const nav = useNavigate();
   const complete = useApp((s) => s.completeOnboarding);
+  const loadSeed = useApp((s) => s.loadSeed);
   const prompts = useApp((s) => s.prompts);
 
   const [selected, setSelected] = useState<Set<LLM>>(new Set(LLMS));
