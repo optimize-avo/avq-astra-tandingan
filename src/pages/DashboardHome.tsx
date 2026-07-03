@@ -152,7 +152,7 @@ export function DashboardHome() {
                 .slice(0, 4)
                 .map((p) => {
                   const score = Math.round(
-                    ((p.visibilityScore.ChatGPT + p.visibilityScore.Gemini + p.visibilityScore.Perplexity) / 3) * 100
+                    ((safeScore(p, 'ChatGPT') + safeScore(p, 'Gemini') + safeScore(p, 'Perplexity')) / 3) * 100
                   );
                   return (
                     <Link
