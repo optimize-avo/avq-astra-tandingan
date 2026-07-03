@@ -8,7 +8,6 @@ import { AnalyzingStep } from '@/pages/onboarding/AnalyzingStep';
 import { CompanyStep } from '@/pages/onboarding/CompanyStep';
 import { TopicsStep } from '@/pages/onboarding/TopicsStep';
 import { PromptsStep } from '@/pages/onboarding/PromptsStep';
-import { WritingSampleStep } from '@/pages/onboarding/WritingSampleStep';
 import { PaymentStep } from '@/pages/onboarding/PaymentStep';
 import { TrackStep } from '@/pages/onboarding/TrackStep';
 import { DashboardHome } from '@/pages/DashboardHome';
@@ -31,7 +30,6 @@ export default function App() {
         <Route path="company" element={<CompanyStep />} />
         <Route path="topics" element={<TopicsStep />} />
         <Route path="prompts" element={<PromptsStep />} />
-        <Route path="writing-sample" element={<WritingSampleStep />} />
         <Route path="payment" element={<PaymentStep />} />
         <Route path="track" element={<TrackStep />} />
       </Route>
