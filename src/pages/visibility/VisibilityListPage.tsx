@@ -54,7 +54,7 @@ function generateFocusSuggestions(seed: string): Promise<SuggestionItem[]> {
 type SortKey = 'newest' | 'score' | 'mentions';
 
 export function VisibilityListPage() {
-  const prompts = useApp((s) => s.prompts);
+  const prompts = useCurrentPrompts();
   const addPrompt = useApp((s) => s.addPrompt);
   const addPrompts = useApp((s) => s.addPrompts);
   const addTopic = useApp((s) => s.addTopic);

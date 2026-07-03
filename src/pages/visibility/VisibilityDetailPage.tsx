@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
-import { useApp } from '@/store/app';
+import { useApp, useCurrentPrompts } from '@/store/app';
 import { PageHeader, Card, Pill } from '@/components/ui';
 import { LLMS, LLM } from '@/data/dummy';
 import { ArrowLeft, MessageSquare, FileText, Archive, ArchiveRestore, Sparkles, ExternalLink, X, Target, TrendingUp, TrendingDown, Minus, Plus, ChevronLeft, ChevronRight, MoreHorizontal, RefreshCw } from 'lucide-react';
