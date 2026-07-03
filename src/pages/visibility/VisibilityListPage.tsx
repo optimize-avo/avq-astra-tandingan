@@ -384,16 +384,24 @@ export function VisibilityListPage() {
               <>
                 {/* Prompts selection */}
                 <div className="mb-3">
-                  <div className="text-[10px] mono-label text-text-muted mb-2">Prompts ({sorted.length})</div>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="text-[10px] mono-label text-text-muted">Prompts ({sorted.length})</div>
+                    <div className="flex gap-2">
+                      <button onClick={() => {
+                        const checkboxes = document.querySelectorAll('[data-rerun-prompt]');
+                        checkboxes.forEach((cb) => ((cb as HTMLInputElement).checked = true));
+                      }} className="text-[10px] text-avo-teal hover:underline">Select all</button>
+                      <span className="text-[10px] text-text-muted">/</span>
+                      <button onClick={() => {
+                        const checkboxes = document.querySelectorAll('[data-rerun-prompt]');
+                        checkboxes.forEach((cb) => ((cb as HTMLInputElement).checked = false));
+                      }} className="text-[10px] text-avo-teal hover:underline">Deselect</button>
+                    </div>
+                  </div>
                   <div className="space-y-1 max-h-40 overflow-y-auto">
                     {sorted.map((p) => (
                       <label key={p.id} className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-navy-elevated/30 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          defaultChecked
-                          className="w-3.5 h-3.5 rounded border-navy-edge accent-avo-teal"
-                          id={`rerun-p-${p.id}`}
-                        />
+                        <input type="checkbox" data-rerun-prompt defaultChecked className="w-3.5 h-3.5 rounded border-navy-edge accent-avo-teal" />
                         <span className="text-xs text-text-secondary truncate">{p.text}</span>
                       </label>
                     ))}
