@@ -68,58 +68,49 @@ export function PromptsStep() {
         </p>
       </div>
 
-      {company.topics.length === 0 ? (
-        <div className="card-elevated text-center py-8">
-          <p className="text-text-secondary mb-4">No focus areas selected.</p>
-          <button onClick={() => nav('/onboarding/topics')} className="btn btn-secondary">
-            Go back to select focus areas
-          </button>
-        </div>
-      ) : (
-        <>
-          <div className="space-y-4">
-            {company.topics.map((topic, ti) => (
-              <div key={topic.id + regenKey} className="card-elevated">
-                <div className="flex items-center justify-between mb-3">
-                  <div>
-                    <div className="font-display font-semibold text-text-bright">{topic.name}</div>
-                    <div className="text-xs text-text-muted">{topic.description}</div>
-                  </div>
-                  <span className="pill bg-pillar-manifest/15 text-pillar-manifest border border-pillar-manifest/30">
-                    {PROMPT_SUGGESTIONS[topic.id]?.length || 0} suggestions
-                  </span>
-                </div>
-                <div className="space-y-2">
-                  {(PROMPT_SUGGESTIONS[topic.id] || []).map((text, pi) => {
-                    const key = getKey(ti, pi);
-                    const pickedState = isPicked(key);
-                    return (
-                      <button
-                        key={key}
-                        onClick={() => toggle(ti, pi)}
-                        className={clsx(
-                          'w-full flex items-start gap-3 p-3 rounded-lg text-left transition-all border',
-                          pickedState
-                            ? 'bg-avo-teal/8 border-avo-teal/30'
-                            : 'bg-navy-deep/40 border-navy-edge hover:border-avo-edge'
-                        )}
-                      >
-                        <div
-                          className={clsx(
-                            'w-5 h-5 rounded-md shrink-0 mt-0.5 flex items-center justify-center',
-                            pickedState ? 'bg-avo-teal text-navy-base' : 'bg-navy-elevated border border-navy-edge'
-                          )}
-                        >
-                          {pickedState && <Check className="w-3 h-3" />}
-                        </div>
-                        <span className="text-sm text-text-bright flex-1">{text}</span>
-                      </button>
-                    );
-                  })}
-                </div>
+      <div className="space-y-4">
+        {DEMO_TOPICS.map((topic, ti) => (
+          <div key={topic.id + regenKey} className="card-elevated">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <div className="font-display font-semibold text-text-bright">{topic.name}</div>
+                <div className="text-xs text-text-muted">{topic.description}</div>
               </div>
-            ))}
+              <span className="pill bg-pillar-manifest/15 text-pillar-manifest border border-pillar-manifest/30">
+                {PROMPT_SUGGESTIONS[topic.id]?.length || 0} suggestions
+              </span>
+            </div>
+            <div className="space-y-2">
+              {(PROMPT_SUGGESTIONS[topic.id] || []).map((text, pi) => {
+                const key = getKey(ti, pi);
+                const pickedState = isPicked(key);
+                return (
+                  <button
+                    key={key}
+                    onClick={() => toggle(ti, pi)}
+                    className={clsx(
+                      'w-full flex items-start gap-3 p-3 rounded-lg text-left transition-all border',
+                      pickedState
+                        ? 'bg-avo-teal/8 border-avo-teal/30'
+                        : 'bg-navy-deep/40 border-navy-edge hover:border-avo-edge'
+                    )}
+                  >
+                    <div
+                      className={clsx(
+                        'w-5 h-5 rounded-md shrink-0 mt-0.5 flex items-center justify-center',
+                        pickedState ? 'bg-avo-teal text-navy-base' : 'bg-navy-elevated border border-navy-edge'
+                      )}
+                    >
+                      {pickedState && <Check className="w-3 h-3" />}
+                    </div>
+                    <span className="text-sm text-text-bright flex-1">{text}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
+        ))}
+      </div>
 
           <div className="card bg-gradient-to-br from-avo-teal/8 to-pillar-manifest/5 border-avo-teal/20">
             <div className="flex items-center gap-3">
