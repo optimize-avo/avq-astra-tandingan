@@ -323,6 +323,16 @@ export const SEED_PROMPTS: Prompt[] = [
       'Budget desain konten social media per bulan untuk brand baru',
       'Freelancer desain Instagram specialize Muslim fashion Indonesia',
     ],
+    history: [
+      { date: '2025-05-10', score: 0.10 },
+      { date: '2025-05-17', score: 0.12 },
+      { date: '2025-05-24', score: 0.15 },
+      { date: '2025-05-31', score: 0.18 },
+      { date: '2025-06-07', score: 0.20 },
+      { date: '2025-06-14', score: 0.20 },
+      { date: '2025-06-21', score: 0.21 },
+      { date: '2025-06-28', score: 0.21 },
+    ],
   },
   {
     id: 'p6',
