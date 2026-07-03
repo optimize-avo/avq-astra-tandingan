@@ -202,6 +202,12 @@ export function VisibilityDetailPage() {
             <Link to="/dashboard/content" className="btn btn-secondary !text-xs">
               <Sparkles className="w-3.5 h-3.5" /> Create content from this prompt
             </Link>
+            <button
+              onClick={() => setRerunning(true)}
+              className="btn btn-secondary !text-xs"
+            >
+              <RefreshCw className="w-3.5 h-3.5" /> Rerun
+            </button>
           </div>
 
           <Popover
