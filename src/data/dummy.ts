@@ -57,6 +57,7 @@ export interface ConversationTurn {
 }
 
 export interface CompanyProfile {
+  id: string;
   name: string;
   domain: string;
   language: 'English' | 'Indonesian';
