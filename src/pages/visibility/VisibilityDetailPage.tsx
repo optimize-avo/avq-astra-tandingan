@@ -239,6 +239,44 @@ export function VisibilityDetailPage() {
             )}
           </Popover>
         </div>
+
+        <div className="mt-4 pt-4 border-t border-navy-edge/50">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <div className="mono-label">Visibility trend</div>
+              <div className="flex bg-navy-deep border border-navy-edge rounded p-0.5">
+                {(['7d', '30d', '90d'] as const).map((r) => (
+                  <button
+                    key={r}
+                    onClick={() => setTrendRange(r)}
+                    className={clsx(
+                      'px-2 py-0.5 rounded text-[10px] font-display font-semibold transition-colors',
+                      trendRange === r ? 'bg-avo-teal text-navy-base' : 'text-text-muted hover:text-text-bright'
+                    )}
+                  >
+                    {r}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="text-[11px] text-text-muted">{prompt.history.length} data points</div>
+          </div>
+          <div style={{ width: '100%', height: 120 }}>
+            <ResponsiveContainer>
+              <LineChart data={prompt.history} margin={{ top: 4, right: 8, left: -16, bottom: 0 }}>
+                <XAxis dataKey="date" tick={{ fontSize: 9, fill: '#64748B' }} tickLine={false} axisLine={false} tickFormatter={(v: string) => v.slice(5)} />
+                <YAxis tick={{ fontSize: 9, fill: '#64748B' }} tickLine={false} axisLine={false} domain={[0, 1]} tickFormatter={(v: number) => `${Math.round(v * 100)}%`} width={40} />
+                <Tooltip
+                  contentStyle={{ background: '#0F1E32', border: '1px solid #1F2D44', borderRadius: 8, fontSize: 11 }}
+                  labelStyle={{ color: '#94A3B8' }}
+                  itemStyle={{ color: '#00C2B8' }}
+                  formatter={(v: number) => [`${Math.round(v * 100)}%`, 'Score']}
+                />
+                <Line type="monotone" dataKey="score" stroke="#00C2B8" strokeWidth={2} dot={false} activeDot={{ r: 4, fill: '#00C2B8' }} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
         </Card>
       </div>
 
