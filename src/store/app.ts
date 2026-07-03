@@ -207,8 +207,13 @@ export const useApp = create<AppState>()(
   )
 );
 
-// ponytail: filter() returns a new array each call → rerenders on every store change.
-// Fine for demo; if perf matters, memoize with shallow + useMemo or restructure.
+// Memoize: only recomputes when prompts or currentBrandId actually change.
+// Without this, .filter() returns a new array reference every render → Zustand re-renders.
 export function useCurrentPrompts() {
-  return useApp((s) => s.prompts.filter((p) => p.brandId === s.currentBrandId));
+  const prompts = useApp((s) => s.prompts);
+  const currentBrandId = useApp((s) => s.currentBrandId);
+  return useMemo(
+    () => prompts.filter((p) => p.brandId === currentBrandId),
+    [prompts, currentBrandId]
+  );
 }
