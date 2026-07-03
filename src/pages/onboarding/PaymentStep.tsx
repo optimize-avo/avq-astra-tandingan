@@ -86,7 +86,7 @@ export function PaymentStep() {
       </div>
 
       <div className="flex justify-between pt-4">
-        <button onClick={() => nav('/onboarding/writing-sample')} className="btn btn-ghost">← Back</button>
+        <button onClick={() => nav('/onboarding/prompts')} className="btn btn-ghost">← Back</button>
         <button
           onClick={() => nav('/onboarding/track')}
           className="btn btn-primary"
