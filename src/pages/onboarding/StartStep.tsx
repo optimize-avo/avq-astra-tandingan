@@ -14,7 +14,7 @@ const LANGS = [
 export function StartStep() {
   const nav = useNavigate();
   const update = useApp((s) => s.updateCompany);
-  const [domain, setDomain] = useState('sribu.com');
+  const [domain, setDomain] = useState('');
   const [language, setLanguage] = useState<'English' | 'Indonesian' | 'Japanese' | 'Korean'>('English');
 
   return (
