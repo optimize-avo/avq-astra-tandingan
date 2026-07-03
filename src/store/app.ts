@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { shallow } from 'zustand/shallow';
 import { CompanyProfile, Prompt, SEED_COMPANY, SEED_PROMPTS, Sentiment } from '@/data/dummy';
 
 interface AppState {
