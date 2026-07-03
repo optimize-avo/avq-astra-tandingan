@@ -364,5 +364,15 @@ export const SEED_PROMPTS: Prompt[] = [
       'Website company profile murah tapi profesional Indonesia',
       'Berapa lama pembuatan website 5 halaman via freelancer?',
     ],
+    history: [
+      { date: '2025-05-10', score: 0.05 },
+      { date: '2025-05-17', score: 0.05 },
+      { date: '2025-05-24', score: 0.04 },
+      { date: '2025-05-31', score: 0.04 },
+      { date: '2025-06-07', score: 0.03 },
+      { date: '2025-06-14', score: 0.03 },
+      { date: '2025-06-21', score: 0.03 },
+      { date: '2025-06-28', score: 0.03 },
+    ],
   },
 ];
