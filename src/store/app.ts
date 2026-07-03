@@ -33,6 +33,7 @@ const emptyPrompt = (text: string, topicId: string, id: string): Prompt => ({
   ranking: [],
   medium: [],
   fanouts: [],
+  history: [],
 });
 
 export const useApp = create<AppState>()(
