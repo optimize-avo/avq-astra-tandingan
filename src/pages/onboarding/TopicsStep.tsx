@@ -6,12 +6,12 @@ import clsx from 'clsx';
 import { SEED_COMPANY } from '@/data/dummy';
 
 const SUGGESTIONS = [
-  { name: 'Design Subscription', description: 'Monthly/yearly design subscription plans and pricing.' },
-  { name: 'Logo & Brand Identity', description: 'Logo design, brand guidelines, visual identity.' },
-  { name: 'Social Media Design', description: 'Instagram, TikTok, Facebook content design.' },
-  { name: 'Website & UI/UX Design', description: 'Website layout, user interface, and experience design.' },
-  { name: 'Print & Merchandise', description: 'Brochure, packaging, name card, and merchandise design.' },
-  { name: 'Illustration & Character', description: 'Custom illustration and mascot character design.' },
+  { name: 'Jasa Desain Logo', description: 'Logo design, brand identity, dan visual branding untuk bisnis.' },
+  { name: 'Konten & Branding', description: 'Social media design, branding visual, dan materi marketing.' },
+  { name: 'Website & Programming', description: 'Web development, UI/UX design, dan aplikasi digital.' },
+  { name: 'Copywriting & Content', description: 'Penulisan konten website, blog, dan materi promosi.' },
+  { name: 'Video & Animasi', description: 'Video editing, motion graphic, dan animasi untuk media sosial.' },
+  { name: 'Admin & Virtual Assistant', description: 'Data entry, research, dan tugas administratif.' },
 ];
 
 export function TopicsStep() {
