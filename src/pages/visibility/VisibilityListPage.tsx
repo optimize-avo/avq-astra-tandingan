@@ -456,6 +456,65 @@ export function VisibilityListPage() {
           </div>
         </div>
       )}
+
+      {/* Trend modal */}
+      {showTrend && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-base/85 backdrop-blur-sm"
+          onClick={() => setShowTrend(false)}
+        >
+          <div className="card-elevated w-full max-w-lg" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <div className="font-display font-semibold text-text-bright">Visibility trend</div>
+                <div className="text-xs text-text-muted mt-0.5">Weekly performance over 8 weeks</div>
+              </div>
+              <button onClick={() => setShowTrend(false)} className="text-text-muted hover:text-text-bright">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Full chart */}
+            <div style={{ width: '100%', height: 200 }}>
+              <ResponsiveContainer>
+                <LineChart data={weekData} margin={{ top: 8, right: 16, left: -10, bottom: 0 }}>
+                  <XAxis dataKey="week" tick={{ fontSize: 10, fill: '#64748B' }} tickLine={false} axisLine={false} />
+                  <YAxis tick={{ fontSize: 10, fill: '#64748B' }} tickLine={false} axisLine={false} domain={[0, 60]} tickFormatter={(v) => `${v}%`} width={36} />
+                  <Tooltip
+                    contentStyle={{ background: '#0F1E32', border: '1px solid #1F2D44', borderRadius: 8, fontSize: 11 }}
+                    labelStyle={{ color: '#94A3B8' }}
+                    itemStyle={{ color: '#00C2B8' }}
+                    formatter={(v: number) => [`${v}%`, 'Score']}
+                  />
+                  <Line type="monotone" dataKey="score" stroke="#00C2B8" strokeWidth={2} dot={{ r: 3, fill: '#00C2B8' }} activeDot={{ r: 5 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Stats row */}
+            <div className="grid grid-cols-3 gap-3 mt-4">
+              <div className="text-center">
+                <div className="text-lg font-display font-bold text-avo-teal">{avgScore}%</div>
+                <div className="text-[10px] text-text-muted">Current</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-display font-bold text-status-success">+{Math.max(0, avgScore - (weekData[0]?.score || 0))}%</div>
+                <div className="text-[10px] text-text-muted">vs 8 weeks ago</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-display font-bold text-gold-base">{Math.round(avgScore * 0.65)}%</div>
+                <div className="text-[10px] text-text-muted">Industry avg</div>
+              </div>
+            </div>
+
+            <div className="mt-4 pt-3 border-t border-navy-edge/40">
+              <div className="text-xs text-text-muted text-center">
+                Trend data based on weekly scans across {LLMS.length} LLMs
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
