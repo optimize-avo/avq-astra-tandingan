@@ -25,19 +25,25 @@ const PROMPT_SUGGESTIONS: Record<string, string[]> = {
 // topicIndex (0-based) + promptIndex (0-based) → stable key e.g. "0-1"
 const getKey = (ti: number, pi: number) => `${ti}-${pi}`;
 
+// Fixed demo topics — always these 3, ignore user picks
+const DEMO_TOPICS = [
+  { id: 't1', name: 'Jasa Desain Logo', description: 'Logo design, brand identity, dan visual branding untuk bisnis.' },
+  { id: 't2', name: 'Konten & Branding', description: 'Social media design, branding visual, dan materi marketing.' },
+  { id: 't3', name: 'Website & Programming', description: 'Web development, UI/UX design, dan aplikasi digital.' },
+];
+
 export function PromptsStep() {
   const nav = useNavigate();
-  const company = useApp((s) => s.company);
   const addPrompt = useApp((s) => s.addPrompt);
   const [regenKey, setRegenKey] = useState(0);
   const [picked, setPicked] = useState<Set<string>>(new Set());
 
-  // Pre-select ALL prompts across all topics (not just first per topic)
+  // Pre-select ALL prompts across the 3 fixed demo topics
   const initialPicks = useMemo(() => {
-    return company.topics.map((_, ti) =>
+    return DEMO_TOPICS.map((_, ti) =>
       (PROMPT_SUGGESTIONS[`t${ti + 1}`] || []).map((_, pi) => getKey(ti, pi))
     ).flat();
-  }, [company.topics]);
+  }, []);
 
   const isPicked = (key: string) =>
     picked.has(key) || (!picked.size && initialPicks.includes(key));
