@@ -361,7 +361,7 @@ function FlatTableView({
             key={p.id}
             to={`/dashboard/visibility/${p.id}`}
             className={clsx(
-              'grid grid-cols-[1fr_160px_120px_56px_56px_24px] gap-3 items-center px-3 py-2 hover:bg-navy-elevated/40 transition-colors group',
+              'grid grid-cols-[minmax(0,1.5fr)_180px_120px_56px_56px_24px] gap-3 items-center px-3 py-2 hover:bg-navy-elevated/40 transition-colors group',
               i > 0 && 'border-t border-navy-edge/30'
             )}
           >
