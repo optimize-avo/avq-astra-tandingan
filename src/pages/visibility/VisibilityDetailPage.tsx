@@ -66,7 +66,7 @@ function VisibilityGauge({ value, size = 140 }: { value: number; size?: number }
 
 export function VisibilityDetailPage() {
   const { id } = useParams();
-  const prompts = useApp((s) => s.prompts);
+  const prompts = useCurrentPrompts();
   const topics = useApp((s) => s.company.topics);
   const toggle = useApp((s) => s.togglePromptStatus);
   const prompt = prompts.find((p) => p.id === id);
