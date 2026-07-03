@@ -128,20 +128,10 @@ export function PromptsStep() {
       <div className="flex justify-between pt-4">
         <button onClick={() => nav('/onboarding/topics')} className="btn btn-ghost">← Back</button>
         <button
-          onClick={() => {
-            // Add the picked prompts (if no picks changed, use initial picks)
-            const picks = picked.size ? picked : new Set(initialPicks);
-            picks.forEach((key) => {
-              const [ti, pi] = key.split('-').map(Number);
-              const topicId = `t${ti + 1}`;
-              const text = PROMPT_SUGGESTIONS[topicId]?.[pi];
-              if (text) addPrompt(text, topicId);
-            });
-            nav('/onboarding/payment');
-          }}
+          onClick={() => nav('/onboarding/payment')}
           className="btn btn-primary"
         >
-          Save {(picked.size || initialPicks.length)} prompts →
+          Continue →
         </button>
       </div>
     </div>
