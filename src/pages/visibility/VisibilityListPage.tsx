@@ -388,29 +388,43 @@ export function VisibilityListPage() {
               </div>
             ) : (
               <>
-                {/* Prompts selection */}
-                <div className="mb-3">
+                {/* Prompts grouped by focus */}
+                <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
-                    <div className="text-[10px] mono-label text-text-muted">Prompts ({sorted.length})</div>
+                    <div className="text-[10px] mono-label text-text-muted">Select by focus</div>
                     <div className="flex gap-2">
                       <button onClick={() => {
-                        const checkboxes = document.querySelectorAll('[data-rerun-prompt]');
-                        checkboxes.forEach((cb) => ((cb as HTMLInputElement).checked = true));
+                        document.querySelectorAll('[data-rerun-prompt]').forEach((cb) => ((cb as HTMLInputElement).checked = true));
                       }} className="text-[10px] text-avo-teal hover:underline">Select all</button>
-                      <span className="text-[10px] text-text-muted">/</span>
+                      <span className="text-[10px] text-text-muted">·</span>
                       <button onClick={() => {
-                        const checkboxes = document.querySelectorAll('[data-rerun-prompt]');
-                        checkboxes.forEach((cb) => ((cb as HTMLInputElement).checked = false));
+                        document.querySelectorAll('[data-rerun-prompt]').forEach((cb) => ((cb as HTMLInputElement).checked = false));
                       }} className="text-[10px] text-avo-teal hover:underline">Deselect</button>
                     </div>
                   </div>
-                  <div className="space-y-1 max-h-40 overflow-y-auto">
-                    {sorted.map((p) => (
-                      <label key={p.id} className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-navy-elevated/30 cursor-pointer">
-                        <input type="checkbox" data-rerun-prompt defaultChecked className="w-3.5 h-3.5 rounded border-navy-edge accent-avo-teal" />
-                        <span className="text-xs text-text-secondary truncate">{p.text}</span>
-                      </label>
-                    ))}
+
+                  <div className="space-y-2 max-h-60 overflow-y-auto">
+                    {topics.map((topic) => {
+                      const topicPrompts = sorted.filter((p) => p.topicId === topic.id);
+                      if (!topicPrompts.length) return null;
+                      return (
+                        <div key={topic.id} className="rounded-lg border border-navy-edge overflow-hidden">
+                          <div className="flex items-center gap-2 px-3 py-2 bg-navy-deep/60">
+                            <span className="w-1.5 h-3 rounded-full bg-gradient-to-b from-avo-teal to-pillar-manifest shrink-0" />
+                            <span className="text-xs font-display font-semibold text-text-bright flex-1">{topic.name}</span>
+                            <span className="text-[10px] text-text-muted font-mono">{topicPrompts.length}</span>
+                          </div>
+                          <div className="divide-y divide-navy-edge/20">
+                            {topicPrompts.map((p) => (
+                              <label key={p.id} className="flex items-center gap-2 px-3 py-2 hover:bg-navy-elevated/20 cursor-pointer">
+                                <input type="checkbox" data-rerun-prompt defaultChecked className="w-3.5 h-3.5 rounded border-navy-edge accent-avo-teal" />
+                                <span className="text-xs text-text-secondary truncate">{p.text}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
