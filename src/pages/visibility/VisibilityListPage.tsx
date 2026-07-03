@@ -170,9 +170,18 @@ export function VisibilityListPage() {
             <div className="mono-label">Visibility</div>
           </div>
           <h1 className="font-display font-bold text-xl text-text-bright">Prompt tracking</h1>
-          <div className="mt-2">
-            <span className="text-2xl font-display font-bold text-avo-teal tabular-nums">{avgScore}%</span>
-            <span className="text-xs text-text-muted font-mono ml-2">avg score</span>
+          <div className="mt-2 flex items-center gap-3">
+            <div>
+              <span className="text-2xl font-display font-bold text-avo-teal tabular-nums">{avgScore}%</span>
+              <span className="text-xs text-text-muted font-mono ml-2">avg score</span>
+            </div>
+            <div className="hidden sm:block" style={{ width: 80, height: 36 }}>
+              <ResponsiveContainer>
+                <LineChart data={weekData} margin={{ top: 2, right: 2, left: -20, bottom: 2 }}>
+                  <Line type="monotone" dataKey="score" stroke="#00C2B8" strokeWidth={1.5} dot={false} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
         <div className="flex items-center gap-2">
