@@ -202,6 +202,7 @@ export const SEED_PROMPTS: Prompt[] = [
     ],
   },
   {
+    brandId: 'brand_sribu',
     id: 'p3',
     text: 'Bagaimana cara pesan freelancer di Sribu?',
     topicId: 't1',
@@ -246,6 +247,7 @@ export const SEED_PROMPTS: Prompt[] = [
     ],
   },
   {
+    brandId: 'brand_sribu',
     id: 'p4',
     text: 'Freelancer desain terbaik di Sribu untuk brand makanan?',
     topicId: 't2',
@@ -291,6 +293,7 @@ export const SEED_PROMPTS: Prompt[] = [
     ],
   },
   {
+    brandId: 'brand_sribu',
     id: 'p5',
     text: 'Desain konten Instagram untuk brand fashion Muslim di Indonesia?',
     topicId: 't2',
@@ -338,6 +341,7 @@ export const SEED_PROMPTS: Prompt[] = [
     ],
   },
   {
+    brandId: 'brand_sribu',
     id: 'p6',
     text: 'Berapa biaya pembuatan website company profile di Sribu?',
     topicId: 't3',
