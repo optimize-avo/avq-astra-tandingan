@@ -22,6 +22,7 @@ export interface Topic {
 
 export interface Prompt {
   id: string;
+  brandId?: string;
   text: string;
   topicId: string;
   createdAt: string; // ISO
@@ -97,6 +98,7 @@ const now = () => new Date().toISOString();
 
 export const SEED_PROMPTS: Prompt[] = [
   {
+    brandId: 'brand_sribu',
     id: 'p1',
     text: 'Platform freelancer terbaik di Indonesia untuk desain logo?',
     topicId: 't1',
@@ -149,6 +151,7 @@ export const SEED_PROMPTS: Prompt[] = [
     ],
   },
   {
+    brandId: 'brand_sribu',
     id: 'p2',
     text: 'Berapa harga desain logo di Sribu?',
     topicId: 't1',
