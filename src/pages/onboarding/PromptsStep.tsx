@@ -123,16 +123,6 @@ export function PromptsStep() {
           </div>
         </>
       )}
-        <div className="flex items-center gap-3">
-          <Sparkles className="w-5 h-5 text-avo-teal shrink-0" />
-          <div className="flex-1 text-sm text-text-secondary">
-            Want more? You can add custom prompts or regenerate new ones anytime from the Visibility page.
-          </div>
-          <button onClick={() => setRegenKey((k) => k + 1)} className="btn btn-secondary !text-xs">
-            <RefreshCw className="w-3 h-3" /> Regenerate all
-          </button>
-        </div>
-      </div>
 
       <div className="flex justify-between pt-4">
         <button onClick={() => nav('/onboarding/topics')} className="btn btn-ghost">← Back</button>
