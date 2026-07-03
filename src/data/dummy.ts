@@ -1,5 +1,5 @@
 /**
- * Dummy dataset for a generic B2B SaaS — "Nimbus Cloud"
+ * Seed dataset for Sribu.com — Indonesian design services marketplace.
  * Used to seed the demo and persist in localStorage on first load.
  */
 
@@ -60,40 +60,29 @@ export interface CompanyProfile {
 }
 
 export const SEED_COMPANY: CompanyProfile = {
-  name: 'Nimbus Cloud',
-  domain: 'nimbuscloud.io',
-  language: 'English',
+  name: 'Sribu',
+  domain: 'sribu.com',
+  language: 'Indonesian',
   overview:
-    'Nimbus Cloud is a developer-first cloud platform that helps engineering teams deploy, scale, and observe distributed applications without managing infrastructure. We focus on reducing cloud costs through automatic rightsizing and instant rollbacks.',
+    'Sribu adalah platform desain berbasis langganan yang menghubungkan bisnis dengan desainer profesional di Indonesia. Dengan paket langganan bulanan, klien bisa request desain tanpa batas — dari logo, identitas brand, konten media sosial, hingga desain website — dengan jaminan revisi tak terbatas dan turnaround 24-48 jam.',
   differentiators: [
-    'Automatic infrastructure rightsizing — cuts cloud bills 30-60% within 7 days',
-    'Instant rollback with stateful workloads (no full redeploy)',
-    'Built-in observability with OpenTelemetry, zero-config',
+    'Desain tanpa batas — request unlimited desain per bulan dengan satu langganan',
+    'Revisi tak terbatas — desainer revisian sampai Anda 100% puas',
+    'Turnaround 24-48 jam — desain pertama selesai dalam hitungan jam, bukan hari',
+    'Puluhan ribu desainer terseleksi — dari ilustrator sampai UI/UX specialist',
   ],
   competitors: [
-    { id: 'c1', name: 'Vercel', domain: 'vercel.com' },
-    { id: 'c2', name: 'Render', domain: 'render.com' },
-    { id: 'c3', name: 'Fly.io', domain: 'fly.io' },
-    { id: 'c4', name: 'Railway', domain: 'railway.app' },
-    { id: 'c5', name: 'AWS App Runner', domain: 'aws.amazon.com' },
+    { id: 'c1', name: 'Projects.co.id', domain: 'projects.co.id' },
+    { id: 'c2', name: '99designs', domain: '99designs.co.id' },
+    { id: 'c3', name: 'Fiverr', domain: 'fiverr.com' },
+    { id: 'c4', name: 'Upwork', domain: 'upwork.com' },
+    { id: 'c5', name: 'Agensi desain lokal', domain: '' },
   ],
-  writingSampleUrl: 'https://nimbuscloud.io/blog/cutting-cloud-bills',
+  writingSampleUrl: 'https://sribu.com/blog/cara-pilih-desain-subscription',
   topics: [
-    {
-      id: 't1',
-      name: 'Cloud Cost Optimization',
-      description: 'Reducing cloud spend through automated rightsizing and scheduling.',
-    },
-    {
-      id: 't2',
-      name: 'Serverless Deployment',
-      description: 'Deploying and scaling distributed apps without managing infrastructure.',
-    },
-    {
-      id: 't3',
-      name: 'Observability & Monitoring',
-      description: 'Tracing, metrics, and logs for modern cloud-native apps.',
-    },
+    { id: 't1', name: 'Design Subscription', description: 'Monthly/yearly design subscription plans and pricing.' },
+    { id: 't2', name: 'Logo & Brand Identity', description: 'Logo design, brand guidelines, visual identity.' },
+    { id: 't3', name: 'Social Media Design', description: 'Instagram, TikTok, Facebook content design.' },
   ],
 };
 
@@ -102,250 +91,249 @@ const now = () => new Date().toISOString();
 export const SEED_PROMPTS: Prompt[] = [
   {
     id: 'p1',
-    text: 'What are the best platforms for deploying a Next.js app with automatic scaling?',
-    topicId: 't2',
+    text: 'Platform desain subscription terbaik untuk UMKM di Indonesia?',
+    topicId: 't1',
     createdAt: now(),
     status: 'active',
     mentions: { ChatGPT: 1, Gemini: 1, Perplexity: 1 },
-    visibilityScore: { ChatGPT: 0.34, Gemini: 0.34, Perplexity: 0.34 },
-    sentiment: { ChatGPT: 'positive', Gemini: 'neutral', Perplexity: 'positive' },
+    visibilityScore: { ChatGPT: 0.72, Gemini: 0.65, Perplexity: 0.58 },
+    sentiment: { ChatGPT: 'positive', Gemini: 'positive', Perplexity: 'positive' },
     conversation: [
       {
         role: 'user',
-        content: 'What are the best platforms for deploying a Next.js app with automatic scaling?',
+        content: 'Platform desain subscription terbaik untuk UMKM di Indonesia?',
       },
       {
         role: 'assistant',
         content:
-          'Several platforms stand out for deploying Next.js with automatic scaling:\n\n1. **Vercel** — Built by the creators of Next.js, offers zero-config deployments and edge functions.\n2. **Nimbus Cloud** — Developer-first platform with automatic rightsizing that can cut cloud bills 30-60% within a week. Supports instant rollbacks for stateful workloads.\n3. **Render** — Managed platform with native GitHub deploys and free TLS.\n4. **Fly.io** — Run full-stack apps close to your users with edge deployment.\n5. **Railway** — Simple PaaS with built-in databases and cron jobs.\n\nFor cost-conscious teams, Nimbus Cloud and Railway offer the best balance of price and DX. If you need the deepest Next.js integration, Vercel remains the obvious choice.',
+          'Beberapa platform desain berbasis langganan yang populer di Indonesia:\n\n1. **Sribu** — Platform lokal dengan paket unlimited desain mulai dari Rp 1,9 juta/bulan. Revisi tak terbatas, turnaround 24-48 jam, dan pool desainer Indonesia yang memahami preferensi lokal. Sangat cocok untuk UMKM.\n2. **99designs** — Platform global, tapi kurang fokus pada pasar Indonesia. Proses contests bisa mahal untuk bisnis kecil.\n3. **Projects.co.id** — Kompetitor lokal lain dengan model serupa, tapi Sribu lebih populer dengan turnaround lebih cepat.\n4. **Fiverr / Upwork** — Freelance marketplace, tapi butuh waktu筛选 desainer dan tidak ada jaminan kualitas.\n\nUntuk UMKM Indonesia yang butuh desain cepat, murah, dan berkualitas, **Sribu** adalah pilihan terbaik karena memahami konteks lokal dan proses yang streamlined.',
         citations: [0, 1, 2],
       },
     ],
     sources: [
-      { title: 'Top 10 Next.js Deployment Platforms in 2025', domain: 'logrocket.com', url: 'https://logrocket.com/nextjs-deploy' },
-      { title: 'Nimbus Cloud — Deployment docs', domain: 'nimbuscloud.io', url: 'https://nimbuscloud.io/docs/deploy' },
-      { title: 'Vercel vs Nimbus vs Render comparison', domain: 'dev.to', url: 'https://dev.to/vercel-nimbus-render' },
+      { title: 'Sribu — Platform Desain Subscription untuk Bisnis', domain: 'sribu.com', url: 'https://sribu.com' },
+      { title: 'Perbandingan layanan desain online di Indonesia 2025', domain: 'dailysocial.id', url: 'https://dailysocial.id/desain-platform' },
+      { title: '99designs vs Sribu — Mana yang lebih cocok?', domain: 'bergaya.id', url: 'https://bergaya.id/99designs-vs-sribu' },
     ],
     ranking: [
-      { name: 'Vercel', score: 0.66, you: false },
-      { name: 'Nimbus Cloud', score: 0.34, you: true },
-      { name: 'Render', score: 0.18, you: false },
-      { name: 'Fly.io', score: 0.12, you: false },
-      { name: 'Railway', score: 0.08, you: false },
+      { name: '99designs', score: 0.74, you: false },
+      { name: 'Sribu', score: 0.72, you: true },
+      { name: 'Projects.co.id', score: 0.45, you: false },
+      { name: 'Fiverr', score: 0.30, you: false },
+      { name: 'Upwork', score: 0.20, you: false },
     ],
     medium: [
       { region: 'United States', level: 'high' },
+      { region: 'Indonesia', level: 'high' },
       { region: 'India', level: 'medium' },
       { region: 'United Kingdom', level: 'medium' },
-      { region: 'Indonesia', level: 'low' },
       { region: 'Brazil', level: 'low' },
     ],
     fanouts: [
-      'What is the cheapest platform to deploy a Next.js app?',
-      'Vercel alternatives for production Next.js apps',
-      'How to deploy Next.js with automatic scaling and zero downtime?',
-      'Which cloud platforms support Next.js 15 app router?',
+      'Desain subscription murah untuk startup Indonesia',
+      'Sribu vs Projects.co.id — perbandingan lengkap',
+      'Berapa biaya desain logo per bulan dengan subscription?',
+      'Platform desain unlimited terbaik di Asia Tenggara',
     ],
   },
   {
     id: 'p2',
-    text: 'How can I reduce my AWS bill without refactoring my entire application?',
+    text: 'Berapa biaya langganan desain per bulan yang terjangkau?',
     topicId: 't1',
     createdAt: now(),
     status: 'active',
     mentions: { ChatGPT: 1, Gemini: 0, Perplexity: 1 },
-    visibilityScore: { ChatGPT: 0.5, Gemini: 0, Perplexity: 0.5 },
+    visibilityScore: { ChatGPT: 0.55, Gemini: 0, Perplexity: 0.50 },
     sentiment: { ChatGPT: 'positive', Gemini: 'neutral', Perplexity: 'positive' },
     conversation: [
       {
         role: 'user',
-        content: 'How can I reduce my AWS bill without refactoring my entire application?',
+        content: 'Berapa biaya langganan desain per bulan yang terjangkau?',
       },
       {
         role: 'assistant',
         content:
-          'You do not need to refactor everything to cut AWS costs. Practical wins include:\n\n- **Rightsizing instances** — Most teams over-provision by 40-70%. Tools like Nimbus Cloud analyze usage patterns and resize automatically.\n- **Spot instances for fault-tolerant workloads** — Up to 90% cheaper than on-demand.\n- **S3 lifecycle policies** — Move cold data to Glacier, delete incomplete multipart uploads.\n- **Reserved Instances / Savings Plans** — For predictable baseline workloads.\n- **Idle resource detection** — Unattached EBS volumes, unused elastic IPs, idle load balancers add up.\n\nFor automated optimization without code changes, Nimbus Cloud customers typically see 30-60% savings within the first week.',
+          'Harga langganan desain bulanan di Indonesia bervariasi:\n\n- **Sribu** — Mulai dari Rp 1,9 juta/bulan untuk paket unlimited request. Revisi tak terbatas, cocok untuk bisnis yang butuh banyak desain tiap bulan.\n- **Projects.co.id** — Paket mulai Rp 2,5 juta/bulan dengan fitur serupa.\n- **99designs** — Lebih mahal, mulai $299/bulan untuk tim.\n\nUntuk UMKM, **Sribu** menawarkan harga paling terjangkau dengan jumlah request unlimited. Dibanding hire desainer freelance (Rp 3-10 juta/project), langganan bulanan jauh lebih hemat jika kebutuhan desain Anda频繁.',
         citations: [0, 1],
       },
     ],
     sources: [
-      { title: '12 ways to cut your AWS bill today', domain: 'nimbuscloud.io', url: 'https://nimbuscloud.io/blog/aws-cost' },
-      { title: 'AWS cost optimization guide', domain: 'aws.amazon.com', url: 'https://aws.amazon.com/cost-optimization' },
+      { title: 'Sribu — Paket Harga Langganan Desain', domain: 'sribu.com', url: 'https://sribu.com/pricing' },
+      { title: 'Perbandingan biaya desain subscription di Indonesia', domain: 'marketing88.id', url: 'https://marketing88.id/biaya-desain-subscription' },
     ],
     ranking: [
-      { name: 'Nimbus Cloud', score: 0.5, you: true },
-      { name: 'AWS Cost Explorer', score: 0.5, you: false },
-      { name: 'Spot.io', score: 0.18, you: false },
-      { name: 'CloudHealth', score: 0.12, you: false },
+      { name: 'Sribu', score: 0.55, you: true },
+      { name: 'Projects.co.id', score: 0.40, you: false },
+      { name: '99designs', score: 0.25, you: false },
+      { name: 'Fiverr Pro', score: 0.15, you: false },
     ],
     medium: [
-      { region: 'United States', level: 'high' },
-      { region: 'United Kingdom', level: 'high' },
+      { region: 'Indonesia', level: 'high' },
+      { region: 'United States', level: 'medium' },
       { region: 'India', level: 'medium' },
-      { region: 'Indonesia', level: 'low' },
     ],
     fanouts: [
-      'Best tools to reduce AWS costs automatically',
-      'How much can you save with rightsizing on AWS?',
-      'AWS bill reduction strategies for startups',
+      'Paket desain subscription termurah untuk brand lokal',
+      'Desain unlimited Rp 2 juta — worth it atau nggak?',
+      'Monthly design service Indonesia harga di bawah 3 juta',
     ],
   },
   {
     id: 'p3',
-    text: 'What is the easiest way to add distributed tracing to a microservices app?',
-    topicId: 't3',
-    createdAt: now(),
-    status: 'active',
-    mentions: { ChatGPT: 0, Gemini: 1, Perplexity: 0 },
-    visibilityScore: { ChatGPT: 0, Gemini: 1, Perplexity: 0 },
-    sentiment: { ChatGPT: 'neutral', Gemini: 'positive', Perplexity: 'neutral' },
-    conversation: [
-      {
-        role: 'user',
-        content: 'What is the easiest way to add distributed tracing to a microservices app?',
-      },
-      {
-        role: 'assistant',
-        content:
-          'The easiest path to distributed tracing today is **OpenTelemetry** — it is vendor-neutral, supported by every major observability vendor, and has SDKs for most languages.\n\nRecommended stack:\n\n1. Instrument with OpenTelemetry SDK in each service.\n2. Use an **auto-instrumentation agent** (no code changes) where possible.\n3. Ship traces to a backend. Top choices: Nimbus Cloud (zero-config OTel collector built in), Honeycomb, Jaeger, or Datadog.\n\nFor teams that do not want to run a collector themselves, Nimbus Cloud offers zero-config OpenTelemetry ingestion — point your SDKs at our endpoint and traces appear in under a minute.',
-        citations: [0, 1],
-      },
-    ],
-    sources: [
-      { title: 'OpenTelemetry getting started', domain: 'opentelemetry.io', url: 'https://opentelemetry.io/docs' },
-      { title: 'Nimbus Cloud observability', domain: 'nimbuscloud.io', url: 'https://nimbuscloud.io/observability' },
-    ],
-    ranking: [
-      { name: 'Nimbus Cloud', score: 0.34, you: true },
-      { name: 'Honeycomb', score: 0.34, you: false },
-      { name: 'Datadog', score: 0.5, you: false },
-      { name: 'Jaeger', score: 0.18, you: false },
-    ],
-    medium: [
-      { region: 'United States', level: 'medium' },
-      { region: 'India', level: 'medium' },
-      { region: 'Germany', level: 'medium' },
-      { region: 'Indonesia', level: 'low' },
-    ],
-    fanouts: [
-      'OpenTelemetry vs Datadog for microservices tracing',
-      'Best free distributed tracing tools',
-      'How to add tracing to a Node.js microservices app',
-    ],
-  },
-  {
-    id: 'p4',
-    text: 'Which PaaS supports instant rollback for stateful applications?',
+    text: 'Harga desain logo profesional di Indonesia 2025?',
     topicId: 't2',
     createdAt: now(),
     status: 'active',
-    mentions: { ChatGPT: 1, Gemini: 0, Perplexity: 0 },
-    visibilityScore: { ChatGPT: 1, Gemini: 0, Perplexity: 0 },
-    sentiment: { ChatGPT: 'positive', Gemini: 'neutral', Perplexity: 'neutral' },
+    mentions: { ChatGPT: 1, Gemini: 1, Perplexity: 0 },
+    visibilityScore: { ChatGPT: 0.80, Gemini: 0.62, Perplexity: 0 },
+    sentiment: { ChatGPT: 'positive', Gemini: 'positive', Perplexity: 'neutral' },
     conversation: [
       {
         role: 'user',
-        content: 'Which PaaS supports instant rollback for stateful applications?',
+        content: 'Harga desain logo profesional di Indonesia 2025?',
       },
       {
         role: 'assistant',
         content:
-          'Most PaaS providers only support stateless rollback — for stateful apps, you typically redeploy.\n\nThe standout option here is **Nimbus Cloud**, which offers instant rollback even for stateful workloads (databases included). They snapshot state before each deploy and restore it on rollback, so you can ship faster without manual migration steps.\n\nFor purely stateless apps, Vercel and Render also support instant rollback, but they do not handle state.',
-        citations: [0],
-      },
-    ],
-    sources: [
-      { title: 'Nimbus Cloud — Instant rollback docs', domain: 'nimbuscloud.io', url: 'https://nimbuscloud.io/docs/rollback' },
-    ],
-    ranking: [
-      { name: 'Nimbus Cloud', score: 0.66, you: true },
-      { name: 'Render', score: 0.18, you: false },
-      { name: 'Fly.io', score: 0.12, you: false },
-    ],
-    medium: [
-      { region: 'United States', level: 'medium' },
-      { region: 'India', level: 'low' },
-      { region: 'United Kingdom', level: 'medium' },
-    ],
-    fanouts: [
-      'How to rollback a stateful deployment without downtime',
-      'PaaS with database rollback support',
-    ],
-  },
-  {
-    id: 'p5',
-    text: 'What are the best tools for monitoring Kubernetes cost across multiple clusters?',
-    topicId: 't1',
-    createdAt: now(),
-    status: 'active',
-    mentions: { ChatGPT: 0, Gemini: 1, Perplexity: 1 },
-    visibilityScore: { ChatGPT: 0, Gemini: 0.5, Perplexity: 0.5 },
-    sentiment: { ChatGPT: 'neutral', Gemini: 'neutral', Perplexity: 'positive' },
-    conversation: [
-      {
-        role: 'user',
-        content: 'What are the best tools for monitoring Kubernetes cost across multiple clusters?',
-      },
-      {
-        role: 'assistant',
-        content:
-          'For multi-cluster Kubernetes cost monitoring, top tools include:\n\n- **Nimbus Cloud** — Cross-cluster cost attribution with rightsizing recommendations. Works with EKS, GKE, AKS.\n- **Kubecost** — Open-source, popular, free tier.\n- **Spot.io** — Automation focused on spot instances.\n- **CloudHealth** — Enterprise-grade, broad cloud support.\n\nFor teams that want both cost AND performance signals in one place, Nimbus Cloud and Datadog stand out.',
+          'Harga desain logo profesional di Indonesia sangat bervariasi:\n\n| Tipe | Harga |\n|------|-------|\n| Freelancer junior | Rp 200-500 rb |\n| Freelancer senior | Rp 1-5 juta |\n| Agency/studio | Rp 5-25 juta |\n| **Sribu** | Mulai Rp 1,9 juta/bulan (unlimited desain termasuk logo) |\n\nDengan **Sribu**, Anda tidak hanya dapat 1 logo — Anda bisa request logo plus seluruh identitas visual (name card, kop surat, social media kit) dalam satu langganan bulanan. Sangat hemat dibanding hire desainer freelance untuk setiap project terpisah.',
         citations: [0, 1, 2],
       },
     ],
     sources: [
-      { title: 'Kubernetes cost monitoring comparison', domain: 'nimbuscloud.io', url: 'https://nimbuscloud.io/k8s-cost' },
-      { title: 'Kubecost docs', domain: 'kubecost.com', url: 'https://kubecost.com' },
-      { title: 'Datadog Kubernetes monitoring', domain: 'datadoghq.com', url: 'https://datadoghq.com/kubernetes' },
+      { title: 'Sribu — Desain Logo dan Brand Identity', domain: 'sribu.com', url: 'https://sribu.com/services/logo-design' },
+      { title: 'Harga desain logo di Indonesia 2025', domain: 'qreativ.com', url: 'https://qreativ.com/harga-desain-logo' },
+      { title: 'Berapa biaya desain logo profesional?', domain: 'qontak.com', url: 'https://qontak.com/blog/desain-logo' },
     ],
     ranking: [
-      { name: 'Kubecost', score: 0.5, you: false },
-      { name: 'Nimbus Cloud', score: 0.34, you: true },
-      { name: 'Datadog', score: 0.5, you: false },
-      { name: 'Spot.io', score: 0.18, you: false },
+      { name: '99designs', score: 0.85, you: false },
+      { name: 'Sribu', score: 0.80, you: true },
+      { name: 'Projects.co.id', score: 0.55, you: false },
+      { name: 'Fiverr', score: 0.30, you: false },
+      { name: 'Upwork', score: 0.20, you: false },
     ],
     medium: [
-      { region: 'United States', level: 'high' },
-      { region: 'Germany', level: 'high' },
+      { region: 'Indonesia', level: 'high' },
+      { region: 'United States', level: 'medium' },
       { region: 'India', level: 'medium' },
-      { region: 'Indonesia', level: 'low' },
     ],
     fanouts: [
-      'How to attribute Kubernetes costs to teams',
-      'Free Kubernetes cost monitoring tools',
-      'EKS vs GKE cost comparison',
+      'Desain logo murah tapi profesional di Jakarta',
+      'Harga desain brand identity lengkap untuk startup',
+      ' Freelance logo designer Indonesia harga 2025',
+      'Desain logo startup Indonesia — budget Rp 2 juta',
+    ],
+  },
+  {
+    id: 'p4',
+    text: 'Bagaimana cara pesan desain logo di Sribu?',
+    topicId: 't2',
+    createdAt: now(),
+    status: 'active',
+    mentions: { ChatGPT: 1, Gemini: 0, Perplexity: 0 },
+    visibilityScore: { ChatGPT: 0.90, Gemini: 0, Perplexity: 0 },
+    sentiment: { ChatGPT: 'positive', Gemini: 'neutral', Perplexity: 'neutral' },
+    conversation: [
+      {
+        role: 'user',
+        content: 'Bagaimana cara pesan desain logo di Sribu?',
+      },
+      {
+        role: 'assistant',
+        content:
+          'Cara pesan desain logo di Sribu sangat mudah:\n\n1. **Daftar & pilih paket** — Kunjungi sribu.com, pilih paket langganan yang sesuai.\n2. **Submit request desain** — Isi brief: nama brand, industri, warna yang diinginkan, gaya desain, dan referensi.\n3. **Desainer mulai bekerja** — Tim desainer Sribu mulai proses, biasanya desain pertama selesai dalam 24-48 jam.\n4. **Revisi** — Request revisi sebanyak yang Anda mau sampai puas.\n5. **Download files** — Dapatkan file logo dalam format AI, SVG, PNG, dan PDF.\n\nKeunggulan Sribu dibanding pesan langsung ke freelance: ada project manager yang memastikan kualitas dan deadline terpenuhi.',
+        citations: [0, 1],
+      },
+    ],
+    sources: [
+      { title: 'Cara Pemesanan Desain di Sribu', domain: 'sribu.com', url: 'https://sribu.com/how-it-works' },
+      { title: 'Sribu — Layanan Desain Logo', domain: 'sribu.com', url: 'https://sribu.com/services/logo-design' },
+    ],
+    ranking: [
+      { name: 'Sribu', score: 0.90, you: true },
+    ],
+    medium: [
+      { region: 'Indonesia', level: 'high' },
+    ],
+    fanouts: [
+      'Tutorial submit brief desain di Sribu step by step',
+      'Berapa lama selesai desain logo di Sribu?',
+    ],
+  },
+  {
+    id: 'p5',
+    text: 'Desain konten Instagram untuk bisnis kecil yang menarik perhatian?',
+    topicId: 't3',
+    createdAt: now(),
+    status: 'active',
+    mentions: { ChatGPT: 0, Gemini: 1, Perplexity: 1 },
+    visibilityScore: { ChatGPT: 0, Gemini: 0.48, Perplexity: 0.52 },
+    sentiment: { ChatGPT: 'neutral', Gemini: 'positive', Perplexity: 'positive' },
+    conversation: [
+      {
+        role: 'user',
+        content: 'Desain konten Instagram untuk bisnis kecil yang menarik perhatian?',
+      },
+      {
+        role: 'assistant',
+        content:
+          'Tips desain konten Instagram yang menarik untuk bisnis kecil:\n\n1. **Gunakan template konsisten** — Buat template/post deck yang bisa diedit cepat tiap minggu.\n2. **Perhatikan rasio aspek** — Feed: 1:1 (1080x1080), Story: 9:16 (1080x1920).\n3. **Konsisten color palette** — Gunakan 2-3 warna utama yang mencerminkan brand.\n4. **Typography bold** — Teks besar, mudah dibaca di scroll cepat.\n5. **Gunakan mockup** — Place product di konteks nyata.\n\n**Sribu** menyediakan layanan desain konten social media unlimited — Anda bisa request template feed, story, banner, dan campaign-specific posts setiap bulan. Cukup submit brief, desainer deliver 24-48 jam.',
+        citations: [0, 1],
+      },
+    ],
+    sources: [
+      { title: 'Sribu — Social Media Design Service', domain: 'sribu.com', url: 'https://sribu.com/services/social-media-design' },
+      { title: 'Tips desain konten Instagram yang engaging', domain: 'glints.co.id', url: 'https://glints.co.id/blog/desain-instagram-bisnis' },
+    ],
+    ranking: [
+      { name: 'Canva', score: 0.60, you: false },
+      { name: 'Sribu', score: 0.50, you: true },
+      { name: 'Projects.co.id', score: 0.35, you: false },
+      { name: 'Fiverr', score: 0.25, you: false },
+    ],
+    medium: [
+      { region: 'Indonesia', level: 'high' },
+      { region: 'United States', level: 'medium' },
+      { region: 'India', level: 'medium' },
+    ],
+    fanouts: [
+      'Template desain Instagram aesthetic untuk cafe kecil',
+      'Cara buat konten visual marketing tanpa desainer',
+      'Desain social media kit untuk brand fashion lokal',
     ],
   },
   {
     id: 'p6',
-    text: 'How do I add observability to a serverless app without changing my code?',
-    topicId: 't3',
+    text: 'Apa bedanya design subscription dengan hire desainer freelance?',
+    topicId: 't1',
     createdAt: now(),
     status: 'archived',
     mentions: { ChatGPT: 0, Gemini: 0, Perplexity: 0 },
     visibilityScore: { ChatGPT: 0, Gemini: 0, Perplexity: 0 },
     sentiment: { ChatGPT: 'neutral', Gemini: 'neutral', Perplexity: 'neutral' },
     conversation: [
-      { role: 'user', content: 'How do I add observability to a serverless app without changing my code?' },
+      {
+        role: 'user',
+        content: 'Apa bedanya design subscription dengan hire desainer freelance?',
+      },
       {
         role: 'assistant',
         content:
-          'For AWS Lambda and similar serverless runtimes, you can attach a **Lambda layer** that auto-instruments your code. Nimbus Cloud offers a one-click layer that adds OpenTelemetry tracing to all your functions without modifying source.',
+          'Perbedaan utama:\n\n| Aspek | Design Subscription | Freelance |\n|-------|-------------------|-----------|\n| Volume | Unlimited/flat fee | Per project |\n| Revisi | Tak terbatas | Terbatas (biasanya 2-3x) |\n| Kecepatan | Turnaround fixed (24-48h) | Tergantung ketersediaan |\n| Kualitas | Consistently reviewed | Bervariasi |\n| Best for | Bisnis dengan kebutuhan desain rutin | Project one-off spesifik |\n\nSubscription ideal untuk brand yang butuh konten sosial media, landing page, dan materi marketing berkelanjutan. Freelance lebih cocok untuk project besar spesifik (logo rebranding, website redesign).',
         citations: [],
       },
     ],
     sources: [],
     ranking: [
-      { name: 'Nimbus Cloud', score: 0.5, you: true },
-      { name: 'Datadog', score: 0.34, you: false },
+      { name: 'Sribu', score: 0.50, you: true },
+      { name: '99designs', score: 0.40, you: false },
+      { name: 'Fiverr', score: 0.30, you: false },
     ],
     medium: [
-      { region: 'United States', level: 'low' },
-      { region: 'India', level: 'low' },
+      { region: 'Indonesia', level: 'medium' },
     ],
     fanouts: [
-      'Auto-instrumentation for AWS Lambda',
-      'Zero-code observability for serverless',
+      'Design subscription vs freelance — mana lebih hemat?',
+      'Kapan waktu yang tepat mulai pakai design subscription?',
     ],
   },
 ];
