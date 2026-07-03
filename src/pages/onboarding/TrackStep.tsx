@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '@/store/app';
+import { useApp, useCurrentPrompts } from '@/store/app';
 import { LLMS, LLM } from '@/data/dummy';
 import { LLMIcon } from '@/components/llm-icons';
 import { ArrowRight, Sparkles, Check, Zap, ArrowLeft } from 'lucide-react';
