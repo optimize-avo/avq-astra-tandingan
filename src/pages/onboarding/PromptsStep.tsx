@@ -6,31 +6,31 @@ import { useState, useMemo } from 'react';
 
 const PROMPT_SUGGESTIONS: Record<string, string[]> = {
   t1: [
-    'Platform desain subscription terbaik untuk UMKM di Indonesia?',
-    'Berapa biaya langganan desain per bulan yang terjangkau?',
-    'Apa bedanya design subscription dengan hire desainer freelance?',
+    'Platform freelancer terbaik di Indonesia untuk desain logo?',
+    'Berapa harga desain logo di Sribu?',
+    'Bagaimana cara pesan freelancer di Sribu?',
   ],
   t2: [
-    'Harga desain logo profesional di Indonesia 2025?',
-    'Bagaimana cara pesan desain logo di Sribu?',
-    'Brand identity lengkap mencakup apa saja?',
-  ],
-  t3: [
-    'Desain konten Instagram untuk bisnis kecil yang menarik perhatian?',
-    'Ukuran desain poster untuk media sosial yang paling populer?',
+    'Freelancer desain terbaik di Sribu untuk brand makanan?',
+    'Desain konten Instagram untuk brand fashion Muslim di Indonesia?',
     'Template desain social media yang bisa diedit sendiri?',
   ],
-  t4: [
-    'Berapa biaya desain website profesional di Indonesia?',
+  t3: [
+    'Berapa biaya pembuatan website company profile di Sribu?',
     'UI design vs UX design — apa bedanya?',
+    'Jasa pembuatan aplikasi mobile via freelancer Indonesia?',
+  ],
+  t4: [
+    'Berapa biaya jasa copywriting website di Indonesia?',
+    'Content writer freelance Indonesia yang bagus — dimana cari?',
   ],
   t5: [
-    'Harga desain packaging produk cosmetic di Indonesia?',
-    'Desain name card perusahaan apa saja yang perlu ada?',
+    'Jasa pembuatan video animasi untuk TikTok di Indonesia?',
+    'Freelancer video editor untuk YouTube — budget berapa?',
   ],
   t6: [
-    'Illustration style mana yang cocok untuk brand anak-anak?',
-    'Mascot character design untuk brand makanan — ide kreatif?',
+    'Virtual assistant Indonesia untuk tugas administratif online?',
+    'Freelancer data entry yang bisa dipercaya di Indonesia?',
   ],
 };
 
