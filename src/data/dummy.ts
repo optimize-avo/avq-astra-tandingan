@@ -248,9 +248,9 @@ export const SEED_PROMPTS: Prompt[] = [
     topicId: 't2',
     createdAt: now(),
     status: 'active',
-    mentions: { ChatGPT: 0, Gemini: 1, Perplexity: 1 },
-    visibilityScore: { ChatGPT: 0, Gemini: 0.55, Perplexity: 0.48 },
-    sentiment: { ChatGPT: 'neutral', Gemini: 'positive', Perplexity: 'positive' },
+    mentions: { ChatGPT: 0, Gemini: 1, Perplexity: 1, Deepseek: 1, Claude: 0 },
+    visibilityScore: { ChatGPT: 0, Gemini: 0.55, Perplexity: 0.48, Deepseek: 0.70, Claude: 0 },
+    sentiment: { ChatGPT: 'neutral', Gemini: 'positive', Perplexity: 'positive', Deepseek: 'positive', Claude: 'neutral' },
     conversation: [
       { role: 'user', content: 'Freelancer desain terbaik di Sribu untuk brand makanan?' },
       {
