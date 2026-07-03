@@ -2,25 +2,40 @@ import { useNavigate } from 'react-router-dom';
 import { useApp } from '@/store/app';
 import { RefreshCw, Sparkles, Check } from 'lucide-react';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 const PROMPT_SUGGESTIONS: Record<string, string[]> = {
   t1: [
-    'How can I reduce my AWS bill without refactoring my entire application?',
-    'What are the best tools for monitoring Kubernetes cost across multiple clusters?',
-    'Which cloud cost optimization platforms support automatic rightsizing?',
+    'Platform desain subscription terbaik untuk UMKM di Indonesia?',
+    'Berapa biaya langganan desain per bulan yang terjangkau?',
+    'Apa bedanya design subscription dengan hire desainer freelance?',
   ],
   t2: [
-    'What are the best platforms for deploying a Next.js app with automatic scaling?',
-    'Which PaaS supports instant rollback for stateful applications?',
-    'How do I deploy a microservices app with zero downtime?',
+    'Harga desain logo profesional di Indonesia 2025?',
+    'Bagaimana cara pesan desain logo di Sribu?',
+    'Brand identity lengkap mencakup apa saja?',
   ],
   t3: [
-    'What is the easiest way to add distributed tracing to a microservices app?',
-    'How do I add observability to a serverless app without changing my code?',
-    'Best OpenTelemetry backends for production tracing',
+    'Desain konten Instagram untuk bisnis kecil yang menarik perhatian?',
+    'Ukuran desain poster untuk media sosial yang paling populer?',
+    'Template desain social media yang bisa diedit sendiri?',
+  ],
+  t4: [
+    'Berapa biaya desain website profesional di Indonesia?',
+    'UI design vs UX design — apa bedanya?',
+  ],
+  t5: [
+    'Harga desain packaging produk cosmetic di Indonesia?',
+    'Desain name card perusahaan apa saja yang perlu ada?',
+  ],
+  t6: [
+    'Illustration style mana yang cocok untuk brand anak-anak?',
+    'Mascot character design untuk brand makanan — ide kreatif?',
   ],
 };
+
+// topicIndex (0-based) + promptIndex (0-based) → stable key e.g. "0-1"
+const getKey = (ti: number, pi: number) => `${ti}-${pi}`;
 
 export function PromptsStep() {
   const nav = useNavigate();
@@ -29,19 +44,20 @@ export function PromptsStep() {
   const [regenKey, setRegenKey] = useState(0);
   const [picked, setPicked] = useState<Set<string>>(new Set());
 
-  const seededPicks = Object.values(PROMPT_SUGGESTIONS).flat();
-  // pre-select first suggestion per topic for a clean default
-  const initialPicks = company.topics
-    .map((t) => PROMPT_SUGGESTIONS[t.id]?.[0])
-    .filter(Boolean) as string[];
+  // Pre-select ALL prompts across all topics (not just first per topic)
+  const initialPicks = useMemo(() => {
+    return company.topics.map((_, ti) =>
+      (PROMPT_SUGGESTIONS[`t${ti + 1}`] || []).map((_, pi) => getKey(ti, pi))
+    ).flat();
+  }, [company.topics]);
 
-  const isPicked = (text: string) =>
-    picked.has(text) || (!picked.size && initialPicks.includes(text));
+  const isPicked = (key: string) =>
+    picked.has(key) || (!picked.size && initialPicks.includes(key));
 
-  const toggle = (topicId: string, text: string) => {
-    const key = topicId + '::' + text;
+  const toggle = (ti: number, pi: number) => {
+    const key = getKey(ti, pi);
     setPicked((prev) => {
-      const next = new Set(prev.size ? prev : initialPicks.map((t) => topicIdForText(t) + '::' + t));
+      const next = new Set(prev.size ? prev : initialPicks);
       if (next.has(key)) next.delete(key);
       else next.add(key);
       return next;
@@ -68,7 +84,7 @@ export function PromptsStep() {
       ) : (
         <>
           <div className="space-y-4">
-            {company.topics.map((topic) => (
+            {company.topics.map((topic, ti) => (
               <div key={topic.id + regenKey} className="card-elevated">
                 <div className="flex items-center justify-between mb-3">
                   <div>
@@ -80,12 +96,13 @@ export function PromptsStep() {
                   </span>
                 </div>
                 <div className="space-y-2">
-                  {(PROMPT_SUGGESTIONS[topic.id] || []).map((text) => {
-                    const pickedState = isPicked(text);
+                  {(PROMPT_SUGGESTIONS[topic.id] || []).map((text, pi) => {
+                    const key = getKey(ti, pi);
+                    const pickedState = isPicked(key);
                     return (
                       <button
-                        key={text}
-                        onClick={() => toggle(topic.id, text)}
+                        key={key}
+                        onClick={() => toggle(ti, pi)}
                         className={clsx(
                           'w-full flex items-start gap-3 p-3 rounded-lg text-left transition-all border',
                           pickedState
@@ -129,30 +146,20 @@ export function PromptsStep() {
         <button
           onClick={() => {
             // Add the picked prompts (if no picks changed, use initial picks)
-            const picks = picked.size
-              ? picked
-              : new Set(initialPicks.map((t) => topicIdForText(t) + '::' + t));
-
-            const toAdd = Array.from(picks).map((k) => {
-              const [tid, ...rest] = k.split('::');
-              return { tid, text: rest.join('::') };
+            const picks = picked.size ? picked : new Set(initialPicks);
+            picks.forEach((key) => {
+              const [ti, pi] = key.split('-').map(Number);
+              const topicId = `t${ti + 1}`;
+              const text = PROMPT_SUGGESTIONS[topicId]?.[pi];
+              if (text) addPrompt(text, topicId);
             });
-
-            toAdd.forEach(({ tid, text }) => addPrompt(text, tid));
-            nav('/onboarding/writing-sample');
+            nav('/onboarding/payment');
           }}
           className="btn btn-primary"
         >
-          Save {picked.size || initialPicks.length} prompts →
+          Save {(picked.size || initialPicks.length)} prompts →
         </button>
       </div>
     </div>
   );
-}
-
-function topicIdForText(text: string): string {
-  for (const [tid, arr] of Object.entries(PROMPT_SUGGESTIONS)) {
-    if (arr.includes(text)) return tid;
-  }
-  return 't1';
 }
