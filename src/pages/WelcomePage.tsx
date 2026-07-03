@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { useApp } from '@/store/app';
 import { Sparkles, Eye, ShieldCheck, FileText, ArrowRight, BarChart3, Globe2, Zap } from 'lucide-react';
 
 export function WelcomePage() {
