@@ -276,6 +276,16 @@ export const SEED_PROMPTS: Prompt[] = [
       'Branding resto baru — berapa budget yang perlu disiapkan?',
       'Desain logo cafe Jakarta via online freelancer',
     ],
+    history: [
+      { date: '2025-05-10', score: 0.20 },
+      { date: '2025-05-17', score: 0.22 },
+      { date: '2025-05-24', score: 0.25 },
+      { date: '2025-05-31', score: 0.28 },
+      { date: '2025-06-07', score: 0.30 },
+      { date: '2025-06-14', score: 0.32 },
+      { date: '2025-06-21', score: 0.33 },
+      { date: '2025-06-28', score: 0.34 },
+    ],
   },
   {
     id: 'p5',
