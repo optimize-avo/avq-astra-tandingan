@@ -84,5 +84,6 @@ export default function App() {
         element={<Navigate to={hasOnboarded ? '/dashboard/visibility' : '/'} replace />}
       />
     </Routes>
+    </ErrorBoundary>
   );
 }
