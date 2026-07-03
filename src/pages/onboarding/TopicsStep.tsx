@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Plus, RefreshCw, Sparkles, Check } from 'lucide-react';
 import clsx from 'clsx';
 
-// Always show these 3 Sribu topics — demo mode, ignore user picks
+// Fixed Sribu topics — always show these 3, demo mode
 const DEMO_TOPICS = [
   { id: 't1', name: 'Jasa Desain Logo', description: 'Logo design, brand identity, dan visual branding untuk bisnis.' },
   { id: 't2', name: 'Konten & Branding', description: 'Social media design, branding visual, dan materi marketing.' },
@@ -16,6 +16,15 @@ export function TopicsStep() {
   const [selected, setSelected] = useState<Set<string>>(
     new Set(DEMO_TOPICS.map((t) => t.name))
   );
+
+  const toggle = (name: string) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(name)) next.delete(name);
+      else next.add(name);
+      return next;
+    });
+  };
 
   return (
     <div className="space-y-6">
