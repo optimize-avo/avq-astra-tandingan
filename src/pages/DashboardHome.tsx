@@ -443,13 +443,14 @@ function AddBrandModal({
   const [domain, setDomain] = useState('');
   const [language, setLanguage] = useState<'English' | 'Indonesian'>('English');
 
+  // Esc to close — use ref so we don't re-run when onClose identity changes
+  const closeRef = useRef(onClose);
+  closeRef.current = onClose;
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [onClose]);
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') closeRef.current(); };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, []);
 
   const canSubmit = name.trim().length > 0 && domain.trim().length > 0;
 
