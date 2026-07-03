@@ -128,7 +128,7 @@ export function VisibilityDetailPage() {
               )}
               <Pill tone={prompt.status === 'active' ? 'success' : 'muted'}>{prompt.status}</Pill>
             </div>
-            <h1 className="font-display font-bold text-2xl text-text-bright leading-snug mb-4">
+            <h1 className="font-display font-bold text-xl text-text-bright leading-snug mb-2">
               "{prompt.text}"
             </h1>
 
