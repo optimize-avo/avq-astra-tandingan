@@ -163,7 +163,7 @@ export function VisibilityDetailPage() {
           <div className="shrink-0 flex flex-col items-center justify-center pl-6 border-l border-navy-edge/50" style={{ minWidth: 180 }}>
             <div className="mono-label mb-2">Visibility Score</div>
             <VisibilityGauge value={avgScore} />
-            <div className="flex items-center gap-1.5 mt-2 text-xs">
+            <div className="flex items-center gap-1 mt-2 text-xs">
               {scoreDelta > 0 ? (
                 <Pill tone="success"><TrendingUp className="w-3 h-3" /> +{scoreDelta}%</Pill>
               ) : scoreDelta < 0 ? (
@@ -177,7 +177,7 @@ export function VisibilityDetailPage() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between mt-5 pt-5 border-t border-navy-edge/50">
+        <div className="flex items-center justify-between mt-3 pt-3 border-t border-navy-edge/50">
           <div className="flex items-center gap-2">
             <button onClick={() => setShowConv(true)} className="btn btn-primary !text-xs">
               <MessageSquare className="w-3.5 h-3.5" /> See conversation
