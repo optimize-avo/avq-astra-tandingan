@@ -55,6 +55,7 @@ import { SettingsPage } from '@/pages/SettingsPage';
 export default function App() {
   const hasOnboarded = useApp((s) => s.hasOnboarded);
   return (
+    <ErrorBoundary>
     <Routes>
       <Route path="/" element={<WelcomePage />} />
 
