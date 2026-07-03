@@ -231,6 +231,16 @@ export const SEED_PROMPTS: Prompt[] = [
       'Berapa lama freelancer di Sribu harus selesaikan project?',
       'Tips dapat freelancer berkualitas di Sribu',
     ],
+    history: [
+      { date: '2025-05-10', score: 0.70 },
+      { date: '2025-05-17', score: 0.75 },
+      { date: '2025-05-24', score: 0.78 },
+      { date: '2025-05-31', score: 0.80 },
+      { date: '2025-06-07', score: 0.85 },
+      { date: '2025-06-14', score: 0.88 },
+      { date: '2025-06-21', score: 0.90 },
+      { date: '2025-06-28', score: 0.92 },
+    ],
   },
   {
     id: 'p4',
