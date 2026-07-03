@@ -106,7 +106,7 @@ export function DashboardHome() {
             <div style={{ width: '100%', height: 260 }}>
               <ResponsiveContainer>
                 <LineChart data={trend} margin={{ left: 0, right: 8, top: 8, bottom: 0 }}>
-                  <XAxis dataKey="d" tick={{ fill: '#64748b', fontSize: 10 }} axisLine={{ stroke: '#334766' }} tickLine={false} />
+                  <XAxis dataKey="date" tick={{ fill: '#64748b', fontSize: 10 }} axisLine={{ stroke: '#334766' }} tickLine={false} tickFormatter={(v: string) => v} />
                   <YAxis
                     tick={{ fill: '#64748b', fontSize: 10 }}
                     axisLine={false}
