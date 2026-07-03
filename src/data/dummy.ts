@@ -102,9 +102,9 @@ export const SEED_PROMPTS: Prompt[] = [
     topicId: 't1',
     createdAt: now(),
     status: 'active',
-    mentions: { ChatGPT: 1, Gemini: 1, Perplexity: 1 },
-    visibilityScore: { ChatGPT: 0.80, Gemini: 0.72, Perplexity: 0.65 },
-    sentiment: { ChatGPT: 'positive', Gemini: 'positive', Perplexity: 'positive' },
+    mentions: { ChatGPT: 1, Gemini: 1, Perplexity: 1, Deepseek: 1, Claude: 1 },
+    visibilityScore: { ChatGPT: 0.80, Gemini: 0.72, Perplexity: 0.65, Deepseek: 0.55, Claude: 0.62 },
+    sentiment: { ChatGPT: 'positive', Gemini: 'positive', Perplexity: 'positive', Deepseek: 'positive', Claude: 'positive' },
     conversation: [
       { role: 'user', content: 'Platform freelancer terbaik di Indonesia untuk desain logo?' },
       {
