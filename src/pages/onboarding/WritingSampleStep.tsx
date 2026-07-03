@@ -5,9 +5,8 @@ import { FileText, SkipForward } from 'lucide-react';
 
 export function WritingSampleStep() {
   const nav = useNavigate();
-  const url = useApp((s) => s.company.writingSampleUrl) || '';
   const update = useApp((s) => s.updateCompany);
-  const [val, setVal] = useState(url);
+  const [val, setVal] = useState('');
 
   return (
     <div className="space-y-6">
