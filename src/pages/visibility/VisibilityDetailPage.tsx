@@ -125,7 +125,15 @@ export function VisibilityDetailPage() {
       </Link>
 
       {/* Hero — prominent Visibility Score */}
-      <Card elevated className="mb-6 overflow-hidden">
+      <Card elevated className="mb-6 overflow-hidden" style={{ position: 'relative' }}>
+        {rerunning && (
+          <div className="absolute inset-0 bg-navy-base/70 backdrop-blur-sm flex items-center justify-center rounded-lg z-10">
+            <div className="text-center">
+              <div className="w-8 h-8 rounded-full border-2 border-avo-teal/20 border-t-avo-teal animate-spin mx-auto mb-2" />
+              <div className="text-xs text-text-bright font-display">Rerunning visibility scan…</div>
+            </div>
+          </div>
+        )}
         <div className="flex items-stretch gap-3">
           {/* Left: prompt context */}
           <div className="flex-1 min-w-0">
