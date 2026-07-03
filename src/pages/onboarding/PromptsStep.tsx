@@ -20,18 +20,6 @@ const PROMPT_SUGGESTIONS: Record<string, string[]> = {
     'UI design vs UX design — apa bedanya?',
     'Jasa pembuatan aplikasi mobile via freelancer Indonesia?',
   ],
-  t4: [
-    'Berapa biaya jasa copywriting website di Indonesia?',
-    'Content writer freelance Indonesia yang bagus — dimana cari?',
-  ],
-  t5: [
-    'Jasa pembuatan video animasi untuk TikTok di Indonesia?',
-    'Freelancer video editor untuk YouTube — budget berapa?',
-  ],
-  t6: [
-    'Virtual assistant Indonesia untuk tugas administratif online?',
-    'Freelancer data entry yang bisa dipercaya di Indonesia?',
-  ],
 };
 
 // topicIndex (0-based) + promptIndex (0-based) → stable key e.g. "0-1"
