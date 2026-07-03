@@ -69,6 +69,7 @@ export interface CompanyProfile {
 }
 
 export const SEED_COMPANY: CompanyProfile = {
+  id: 'brand_sribu',
   name: 'Sribu',
   domain: 'sribu.com',
   language: 'Indonesian',
