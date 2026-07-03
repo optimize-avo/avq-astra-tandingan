@@ -1,7 +1,42 @@
+import { Component, ReactNode } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useApp } from '@/store/app';
 import { AppShell } from '@/components/AppShell';
 import { WelcomePage } from '@/pages/WelcomePage';
+
+class ErrorBoundary extends Component<{ children: ReactNode }> {
+  state = { hasError: false, error: null as Error | null };
+  static getDerivedStateFromError(e: Error) {
+    return { hasError: true, error: e };
+  }
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
+    console.error('[App ErrorBoundary]', error, info.componentStack);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-navy-deep flex items-center justify-center p-8">
+          <div className="max-w-xl w-full card-elevated p-6">
+            <h1 className="font-display font-bold text-xl text-status-rose mb-2">App crashed</h1>
+            <pre className="text-xs text-text-muted bg-navy-base p-3 rounded overflow-auto max-h-48">
+              {this.state.error?.message}\n{this.state.error?.stack}
+            </pre>
+            <button
+              className="btn btn-ghost mt-4"
+              onClick={() => {
+                localStorage.removeItem('avq-astra-demo');
+                window.location.reload();
+              }}
+            >
+              Clear localStorage &amp; reload
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 import { OnboardingLayout } from '@/pages/onboarding/OnboardingLayout';
 import { StartStep } from '@/pages/onboarding/StartStep';
 import { AnalyzingStep } from '@/pages/onboarding/AnalyzingStep';
