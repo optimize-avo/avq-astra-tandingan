@@ -70,6 +70,14 @@ export function VisibilityListPage() {
   const [rerunProgress, setRerunProgress] = useState<string | null>(null);
   const [showTrend, setShowTrend] = useState(false);
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
+  const [rerunOpenSections, setRerunOpenSections] = useState<Set<string>>(new Set());
+
+  const toggleRerunSection = (id: string) =>
+    setRerunOpenSections((s) => {
+      const n = new Set(s);
+      n.has(id) ? n.delete(id) : n.add(id);
+      return n;
+    });
 
   const [weekData, setWeekData] = useState([
     { week: 'W-7', score: 28 },
