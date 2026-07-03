@@ -10,6 +10,8 @@ const LLM_DESC: Record<LLM, string> = {
   ChatGPT: 'OpenAI flagship',
   Gemini: 'Google AI',
   Perplexity: 'Answer engine',
+  Deepseek: 'Chinese AI lab',
+  Claude: 'Anthropic assistant',
 };
 
 export function TrackStep() {
