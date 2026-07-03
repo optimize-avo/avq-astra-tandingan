@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useApp, useCurrentPrompts } from '@/store/app';
 import { PageHeader, Card } from '@/components/ui';
