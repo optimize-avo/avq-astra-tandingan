@@ -1,5 +1,5 @@
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
-import { Check, ArrowLeft, Globe2, Sparkles, Building2, Target, MessageSquare, FileText, CreditCard, Zap } from 'lucide-react';
+import { Check, ArrowLeft, Globe2, Sparkles, Building2, Target, MessageSquare, CreditCard, Zap } from 'lucide-react';
 import clsx from 'clsx';
 
 const STEPS = [
@@ -8,9 +8,8 @@ const STEPS = [
   { to: 'company', label: 'Brand', icon: Building2 },
   { to: 'topics', label: 'Focus areas', icon: Target },
   { to: 'prompts', label: 'Prompts', icon: MessageSquare },
-  { to: 'writing-sample', label: 'Voice', icon: FileText },
   { to: 'payment', label: 'Plan', icon: CreditCard },
-  { to: 'track', label: 'Track', icon: Zap },  // NEW
+  { to: 'track', label: 'Track', icon: Zap },
 ];
 
 export function OnboardingLayout() {
