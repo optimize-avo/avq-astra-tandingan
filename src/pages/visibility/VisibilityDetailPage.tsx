@@ -23,8 +23,6 @@ const LLM_COLOR: Record<LLM, string> = {
   Claude: '#CC785C',
 };
 
-const HISTORY_COLOR = '#00C2B8';
-
 function VisibilityGauge({ value, size = 140 }: { value: number; size?: number }) {
   const radius = size / 2 - 12;
   const circumference = 2 * Math.PI * radius;
