@@ -176,13 +176,18 @@ export function VisibilityListPage() {
               <span className="text-2xl font-display font-bold text-avo-teal tabular-nums">{avgScore}%</span>
               <span className="text-xs text-text-muted font-mono ml-2">avg score</span>
             </div>
-            <div className="hidden sm:block" style={{ width: 80, height: 36 }}>
-              <ResponsiveContainer>
-                <LineChart data={weekData} margin={{ top: 2, right: 2, left: -20, bottom: 2 }}>
-                  <Line type="monotone" dataKey="score" stroke="#00C2B8" strokeWidth={1.5} dot={false} />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
+            <button
+              onClick={() => setShowTrend(true)}
+              className="hidden sm:flex items-center gap-2 hover:opacity-80 transition-opacity"
+            >
+              <div style={{ width: 80, height: 36 }}>
+                <ResponsiveContainer>
+                  <LineChart data={weekData} margin={{ top: 2, right: 2, left: -20, bottom: 2 }}>
+                    <Line type="monotone" dataKey="score" stroke="#00C2B8" strokeWidth={1.5} dot={false} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </button>
           </div>
         </div>
         <div className="flex items-center gap-2">
