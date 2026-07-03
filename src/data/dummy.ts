@@ -293,9 +293,9 @@ export const SEED_PROMPTS: Prompt[] = [
     topicId: 't2',
     createdAt: now(),
     status: 'active',
-    mentions: { ChatGPT: 0, Gemini: 1, Perplexity: 0 },
-    visibilityScore: { ChatGPT: 0, Gemini: 0.62, Perplexity: 0 },
-    sentiment: { ChatGPT: 'neutral', Gemini: 'positive', Perplexity: 'neutral' },
+    mentions: { ChatGPT: 0, Gemini: 1, Perplexity: 0, Deepseek: 0, Claude: 1 },
+    visibilityScore: { ChatGPT: 0, Gemini: 0.62, Perplexity: 0, Deepseek: 0, Claude: 0.55 },
+    sentiment: { ChatGPT: 'neutral', Gemini: 'positive', Perplexity: 'neutral', Deepseek: 'neutral', Claude: 'positive' },
     conversation: [
       { role: 'user', content: 'Desain konten Instagram untuk brand fashion Muslim di Indonesia?' },
       {
