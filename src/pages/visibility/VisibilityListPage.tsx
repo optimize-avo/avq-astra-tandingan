@@ -12,7 +12,7 @@ import {
   Archive, RefreshCw, Zap,
 } from 'lucide-react';
 import clsx from 'clsx';
-import { LineChart, Line, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
 
 const PROMPT_GENERATOR_POOL = [
   'What is the best {seed} for small teams?',
