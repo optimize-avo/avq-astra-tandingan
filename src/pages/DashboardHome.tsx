@@ -31,9 +31,11 @@ export function DashboardHome() {
     (p.visibilityScore as Record<string, number>)?.[key] ?? 0;
 
   const totalMentions = prompts.reduce(
-    (s, p) => s + ((p.mentions as Record<string, number>)?.[key] ?? 0) +
-      ((p.mentions as Record<string, number>)?.[key] ?? 0) +
-      ((p.mentions as Record<string, number>)?.[key] ?? 0), 0
+    (s, p) => {
+      const m = (p.mentions as Record<string, number>) ?? {};
+      return s + (m['ChatGPT'] ?? 0) + (m['Gemini'] ?? 0) + (m['Perplexity'] ?? 0);
+    },
+    0
   );
   const avgScore = prompts.length
     ? Math.round(
