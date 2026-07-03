@@ -73,7 +73,10 @@ export function VisibilityDetailPage() {
   const [showConv, setShowConv] = useState(false);
   const [page, setPage] = useState(0);
   const [rerunning, setRerunning] = useState(false);
-  const [trendRange, setTrendRange] = useState<'7d' | '30d' | '90d'>('30d');
+  type TrendRange = '7d' | '30d' | '90d' | 'custom';
+  const [trendRange, setTrendRange] = useState<TrendRange>('30d');
+  const [customFrom, setCustomFrom] = useState('');
+  const [customTo, setCustomTo] = useState('');
   const PAGE_SIZE = 10;
 
   useEffect(() => {
