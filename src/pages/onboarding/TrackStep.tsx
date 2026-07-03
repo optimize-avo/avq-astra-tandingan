@@ -18,7 +18,7 @@ export function TrackStep() {
   const nav = useNavigate();
   const complete = useApp((s) => s.completeOnboarding);
   const loadSeed = useApp((s) => s.loadSeed);
-  const prompts = useApp((s) => s.prompts);
+  const prompts = useCurrentPrompts();
 
   const [selected, setSelected] = useState<Set<LLM>>(new Set(LLMS));
   const [running, setRunning] = useState(false);
