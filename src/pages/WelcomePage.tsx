@@ -4,6 +4,7 @@ import { Sparkles, Eye, ShieldCheck, FileText, ArrowRight, BarChart3, Globe2, Za
 
 export function WelcomePage() {
   const navigate = useNavigate();
+  const reset = useApp((s) => s.resetOnboarding);
   return (
     <div className="min-h-screen flex flex-col">
       {/* Top nav */}
