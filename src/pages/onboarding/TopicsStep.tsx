@@ -21,6 +21,13 @@ export function TopicsStep() {
   const remove = useApp((s) => s.removeTopic);
   const [regenKey, setRegenKey] = useState(0);
 
+  // Pre-select all 3 topics from SEED_COMPANY so step shows selections on load
+  useEffect(() => {
+    if (company.topics.length === 0) {
+      SEED_COMPANY.topics.forEach((t) => add(t.name, t.description));
+    }
+  }, []); // run once on mount
+
   const selected = new Set(company.topics.map((t) => t.name));
 
   return (
