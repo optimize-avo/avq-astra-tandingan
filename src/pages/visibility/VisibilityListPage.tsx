@@ -65,6 +65,8 @@ export function VisibilityListPage() {
   const [sort, setSort] = useState<SortKey>('newest');
   const [view, setView] = useState<'all' | 'byFocus'>('all');
   const [showAdd, setShowAdd] = useState(false);
+  const [showRerun, setShowRerun] = useState(false);
+  const [rerunProgress, setRerunProgress] = useState<string | null>(null);
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
 
   // New focus popover state
