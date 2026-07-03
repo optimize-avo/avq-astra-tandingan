@@ -154,9 +154,9 @@ export const SEED_PROMPTS: Prompt[] = [
     topicId: 't1',
     createdAt: now(),
     status: 'active',
-    mentions: { ChatGPT: 1, Gemini: 1, Perplexity: 1 },
-    visibilityScore: { ChatGPT: 0.85, Gemini: 0.78, Perplexity: 0.70 },
-    sentiment: { ChatGPT: 'positive', Gemini: 'positive', Perplexity: 'positive' },
+    mentions: { ChatGPT: 1, Gemini: 1, Perplexity: 1, Deepseek: 0, Claude: 1 },
+    visibilityScore: { ChatGPT: 0.85, Gemini: 0.78, Perplexity: 0.70, Deepseek: 0, Claude: 0.45 },
+    sentiment: { ChatGPT: 'positive', Gemini: 'positive', Perplexity: 'positive', Deepseek: 'neutral', Claude: 'positive' },
     conversation: [
       { role: 'user', content: 'Berapa harga desain logo di Sribu?' },
       {
