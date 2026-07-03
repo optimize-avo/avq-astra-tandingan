@@ -430,13 +430,13 @@ export function VisibilityListPage() {
 
                 {/* LLMs selection */}
                 <div className="mb-4">
-                  <div className="text-[10px] mono-label text-text-muted mb-2">LLMs (3)</div>
-                  <div className="flex items-center gap-2">
+                  <div className="text-[10px] mono-label text-text-muted mb-2">LLMs ({LLMS.length})</div>
+                  <div className="flex flex-wrap gap-2">
                     {LLMS.map((l) => (
-                      <label key={l} className="flex items-center gap-1.5 px-2 py-1 rounded hover:bg-navy-elevated/30 cursor-pointer">
-                        <input type="checkbox" defaultChecked className="w-3.5 h-3.5 rounded border-navy-edge accent-avo-teal" />
-                        <LLMIcon llm={l} size={12} />
-                        <span className="text-xs text-text-secondary">{l}</span>
+                      <label key={l} className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-navy-edge hover:border-avo-teal/40 cursor-pointer transition-colors bg-navy-deep/40">
+                        <input type="checkbox" defaultChecked className="w-3 h-3 rounded accent-avo-teal" />
+                        <LLMIcon llm={l} size={13} />
+                        <span className="text-[11px] text-text-secondary font-display">{l}</span>
                       </label>
                     ))}
                   </div>
@@ -444,7 +444,7 @@ export function VisibilityListPage() {
 
                 <div className="flex items-center gap-2 text-xs text-text-muted mb-4 p-2 rounded bg-navy-deep/40">
                   <Zap className="w-3.5 h-3.5 text-gold-base shrink-0" />
-                  <span>Estimasi: {sorted.length * 3} credits · {sorted.length} prompt × 3 LLMs</span>
+                  <span>Estimasi: <span className="text-text-bright font-semibold">{sorted.length * LLMS.length * 2}</span> credits · <span className="text-text-bright font-semibold">{sorted.length}</span> prompt × <span className="text-text-bright font-semibold">{LLMS.length}</span> LLMs × 2</span>
                 </div>
 
                 <button
