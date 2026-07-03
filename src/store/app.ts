@@ -210,6 +210,3 @@ export const useApp = create<AppState>()(
 export function useCurrentPrompts() {
   return useApp((s) => s.prompts.filter((p) => p.brandId === s.currentBrandId));
 }
-
-// Reserved for future use; suppresses noUnusedLocals warning.
-void useMemo;
