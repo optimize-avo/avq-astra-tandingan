@@ -48,19 +48,12 @@ export function TopicsStep() {
         </div>
 
         <div className="grid sm:grid-cols-2 gap-2">
-          {SUGGESTIONS.map((s) => {
+          {DEMO_TOPICS.map((s) => {
             const isSelected = selected.has(s.name);
             return (
               <button
                 key={s.name + regenKey}
-                onClick={() => {
-                  if (isSelected) {
-                    const t = company.topics.find((x) => x.name === s.name);
-                    if (t) remove(t.id);
-                  } else {
-                    add(s.name, s.description);
-                  }
-                }}
+                onClick={() => toggle(s.name)}
                 className={clsx(
                   'flex items-start gap-3 p-3 rounded-lg text-left transition-all border',
                   isSelected
@@ -85,21 +78,9 @@ export function TopicsStep() {
           })}
         </div>
 
-        <div className="border-t border-navy-edge/40 pt-3">
-          <button
-            onClick={() => {
-              const name = prompt('Focus area name');
-              if (name?.trim()) add(name.trim(), 'Custom focus');
-            }}
-            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg border border-dashed border-navy-edge hover:border-avo-teal/40 text-text-secondary hover:text-avo-teal text-sm font-display font-semibold transition-all"
-          >
-            <Plus className="w-4 h-4" /> Add custom focus area
-          </button>
-        </div>
-
         <div className="text-xs text-text-muted pt-1 flex items-center gap-2">
           <Sparkles className="w-3.5 h-3.5 text-gold-base" />
-          {company.topics.length} focus area{company.topics.length === 1 ? '' : 's'} selected
+          {selected.size} focus area{selected.size === 1 ? '' : 's'} selected
         </div>
       </div>
 
@@ -107,7 +88,6 @@ export function TopicsStep() {
         <button onClick={() => nav('/onboarding/company')} className="btn btn-ghost">← Back</button>
         <button
           onClick={() => nav('/onboarding/prompts')}
-          disabled={company.topics.length === 0}
           className="btn btn-primary"
         >
           Continue →
