@@ -3,8 +3,8 @@
  * Used to seed the demo and persist in localStorage on first load.
  */
 
-export type LLM = 'ChatGPT' | 'Gemini' | 'Perplexity';
-export const LLMS: LLM[] = ['ChatGPT', 'Gemini', 'Perplexity'];
+export type LLM = 'ChatGPT' | 'Gemini' | 'Perplexity' | 'Deepseek' | 'Claude';
+export const LLMS: LLM[] = ['ChatGPT', 'Gemini', 'Perplexity', 'Deepseek', 'Claude'];
 
 export type Sentiment = 'positive' | 'neutral' | 'negative';
 
