@@ -64,25 +64,25 @@ export const SEED_COMPANY: CompanyProfile = {
   domain: 'sribu.com',
   language: 'Indonesian',
   overview:
-    'Sribu adalah platform desain berbasis langganan yang menghubungkan bisnis dengan desainer profesional di Indonesia. Dengan paket langganan bulanan, klien bisa request desain tanpa batas — dari logo, identitas brand, konten media sosial, hingga desain website — dengan jaminan revisi tak terbatas dan turnaround 24-48 jam.',
+    'Sribu adalah marketplace freelancer terbesar di Indonesia yang menghubungkan klien dengan puluhan ribu freelancer profesional. Dari desain logo, branding, konten sosial media, sampai pembuatan website — semua bisa dipesan langsung. Klien posting project, freelancer bidding, dan pembayaran dijamin lewat sistem escrow.',
   differentiators: [
-    'Desain tanpa batas — request unlimited desain per bulan dengan satu langganan',
-    'Revisi tak terbatas — desainer revisian sampai Anda 100% puas',
-    'Turnaround 24-48 jam — desain pertama selesai dalam hitungan jam, bukan hari',
-    'Puluhan ribu desainer terseleksi — dari ilustrator sampai UI/UX specialist',
+    'Marketplace freelancer terbesar di Indonesia — puluhan ribu freelancer terseleksi',
+    'Pembayaran aman via escrow — uang baru released setelah hasil diterima',
+    'Revisi tak terbatas — freelancer wajib revisi sampai klien puas',
+    'Garansi uang kembali — jika hasil tidak sesuai brief setelah revisi',
   ],
   competitors: [
     { id: 'c1', name: 'Projects.co.id', domain: 'projects.co.id' },
-    { id: 'c2', name: '99designs', domain: '99designs.co.id' },
+    { id: 'c2', name: 'Fastwork', domain: 'fastwork.id' },
     { id: 'c3', name: 'Fiverr', domain: 'fiverr.com' },
     { id: 'c4', name: 'Upwork', domain: 'upwork.com' },
-    { id: 'c5', name: 'Agensi desain lokal', domain: '' },
+    { id: 'c5', name: 'Seva', domain: 'seva.co.id' },
   ],
-  writingSampleUrl: 'https://sribu.com/blog/cara-pilih-desain-subscription',
+  writingSampleUrl: 'https://sribu.com/blog/cara-pesan-freelancer',
   topics: [
-    { id: 't1', name: 'Design Subscription', description: 'Monthly/yearly design subscription plans and pricing.' },
-    { id: 't2', name: 'Logo & Brand Identity', description: 'Logo design, brand guidelines, visual identity.' },
-    { id: 't3', name: 'Social Media Design', description: 'Instagram, TikTok, Facebook content design.' },
+    { id: 't1', name: 'Jasa Desain Logo', description: 'Logo design, brand identity, dan visual branding.' },
+    { id: 't2', name: 'Konten & Branding', description: 'Social media design, branding, dan materi marketing.' },
+    { id: 't3', name: 'Website & Programming', description: 'Web development, UI/UX, dan aplikasi.' },
   ],
 };
 
