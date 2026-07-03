@@ -68,6 +68,7 @@ export function VisibilityListPage() {
   const [showAdd, setShowAdd] = useState(false);
   const [showRerun, setShowRerun] = useState(false);
   const [rerunProgress, setRerunProgress] = useState<string | null>(null);
+  const [showTrend, setShowTrend] = useState(false);
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
 
   const [weekData, setWeekData] = useState([
