@@ -238,7 +238,8 @@ export function VisibilityDetailPage() {
             )}
           </Popover>
         </div>
-      </Card>
+        </Card>
+      </div>
 
       {/* All sections inline — no more tabs */}
       <div className="grid lg:grid-cols-[1.4fr_1fr] gap-4">
