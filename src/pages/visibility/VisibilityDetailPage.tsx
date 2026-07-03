@@ -21,6 +21,8 @@ const LLM_COLOR: Record<LLM, string> = {
   Perplexity: '#FF6A5E',
 };
 
+const HISTORY_COLOR = '#00C2B8';
+
 function VisibilityGauge({ value, size = 140 }: { value: number; size?: number }) {
   const radius = size / 2 - 12;
   const circumference = 2 * Math.PI * radius;
