@@ -19,6 +19,8 @@ const LLM_COLOR: Record<LLM, string> = {
   ChatGPT: '#00C2B8',
   Gemini: '#F8B400',
   Perplexity: '#FF6A5E',
+  Deepseek: '#1E6FFF',
+  Claude: '#CC785C',
 };
 
 const HISTORY_COLOR = '#00C2B8';
