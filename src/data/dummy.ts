@@ -204,9 +204,9 @@ export const SEED_PROMPTS: Prompt[] = [
     topicId: 't1',
     createdAt: now(),
     status: 'active',
-    mentions: { ChatGPT: 1, Gemini: 0, Perplexity: 0 },
-    visibilityScore: { ChatGPT: 0.92, Gemini: 0, Perplexity: 0 },
-    sentiment: { ChatGPT: 'positive', Gemini: 'neutral', Perplexity: 'neutral' },
+    mentions: { ChatGPT: 1, Gemini: 0, Perplexity: 0, Deepseek: 1, Claude: 0 },
+    visibilityScore: { ChatGPT: 0.92, Gemini: 0, Perplexity: 0, Deepseek: 0.58, Claude: 0 },
+    sentiment: { ChatGPT: 'positive', Gemini: 'neutral', Perplexity: 'neutral', Deepseek: 'positive', Claude: 'neutral' },
     conversation: [
       { role: 'user', content: 'Bagaimana cara pesan freelancer di Sribu?' },
       {
