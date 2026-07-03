@@ -424,28 +424,6 @@ export function VisibilityDetailPage() {
             )}
           </Card>
 
-          {/* Visibility trend */}
-          <Card>
-            <div className="flex items-center justify-between mb-3">
-              <div className="mono-label">Visibility trend</div>
-              <div className="text-[11px] text-text-muted">Last 8 weeks</div>
-            </div>
-            <div style={{ width: '100%', height: 120 }}>
-              <ResponsiveContainer>
-                <LineChart data={prompt.history.map((h) => ({ ...h, date: h.date.slice(5) }))} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
-                  <XAxis dataKey="date" tick={{ fontSize: 9, fill: '#64748B' }} tickLine={false} axisLine={false} />
-                  <YAxis tick={{ fontSize: 9, fill: '#64748B' }} tickLine={false} axisLine={false} domain={[0, 1]} tickFormatter={(v) => `${Math.round(v * 100)}%`} width={36} />
-                  <Tooltip
-                    contentStyle={{ background: '#0F1E32', border: '1px solid #1F2D44', borderRadius: 8, fontSize: 11 }}
-                    labelStyle={{ color: '#94A3B8' }}
-                    itemStyle={{ color: '#00C2B8' }}
-                    formatter={(v: number) => [`${Math.round(v * 100)}%`, 'Score']}
-                  />
-                  <Line type="monotone" dataKey="score" stroke={HISTORY_COLOR} strokeWidth={2} dot={false} activeDot={{ r: 4, fill: HISTORY_COLOR }} />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </Card>
         </div>
 
         {/* Right column */}
