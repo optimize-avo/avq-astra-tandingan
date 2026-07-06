@@ -313,7 +313,7 @@ function TrendPopup({ onClose }: { onClose: () => void }) {
       onClick={onClose}
     >
       <div
-        className="glass-strong rounded-xl border border-navy-edge shadow-2xl w-full max-w-3xl fade-up"
+        className="glass-strong rounded-xl border border-navy-edge shadow-2xl w-full max-w-5xl fade-up"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
