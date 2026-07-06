@@ -61,11 +61,17 @@ export function DashboardHome() {
       />
 
       {/* KPI cards */}
-      <div className="grid grid-cols-4 gap-3 mb-6">
+      <div className="grid grid-cols-4 gap-3 mb-6 items-stretch">
         <Card>
-          <div className="mono-label">Overall Visibility Score</div>
-          <div className="font-display font-bold text-3xl text-avo-teal mt-1">{avgScore}%</div>
-          <div className="text-[10px] text-status-success mt-1 font-mono">+4.2% vs last week</div>
+          <div className="font-display font-bold text-6xl text-avo-teal leading-none tabular-nums">{avgScore}%</div>
+          <div className="mono-label mt-2">Visibility score</div>
+          <button
+            type="button"
+            onClick={() => setShowTrend(true)}
+            className="mt-1 inline-flex items-center gap-1 text-[10px] text-avo-teal hover:underline font-mono uppercase tracking-wider"
+          >
+            See trend <ArrowRight className="w-3 h-3" />
+          </button>
         </Card>
         <Card>
           <div className="mono-label">Total mentions</div>
