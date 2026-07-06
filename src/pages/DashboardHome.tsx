@@ -374,7 +374,7 @@ function TrendPopup({ onClose }: { onClose: () => void }) {
 
         {/* Chart */}
         <div className="p-6 pt-4">
-          <div style={{ width: '100%', height: 280 }}>
+          <div style={{ width: '100%', height: 420 }}>
             <ResponsiveContainer>
               <LineChart data={data} margin={{ left: 0, right: 8, top: 8, bottom: 0 }}>
                 <XAxis
