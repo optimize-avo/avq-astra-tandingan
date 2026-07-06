@@ -178,7 +178,6 @@ export function VisibilityListPage() {
           <div className="flex items-center gap-2 mb-1">
             <div className="mono-label">Visibility</div>
           </div>
-          <h1 className="font-display font-bold text-xl text-text-bright">Prompt tracking</h1>
           <div className="mt-2 flex items-center gap-3">
             <div>
               <span className="text-2xl font-display font-bold text-avo-teal tabular-nums">{avgScore}%</span>
